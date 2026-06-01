@@ -324,6 +324,25 @@
   .sk-cta.lg{height:36px;padding:0 16px;font-size:12px}
   .sk-cta.sm{height:24px;padding:0 10px;font-size:10px;border-radius:999px}
   .sk-divider{height:1px;background:var(--line)}
+  /* simplified block: only conveys module boundary + relative footprint */
+  .sk-block{
+    position:relative;
+    border:1px dashed rgba(255,255,255,.1);
+    border-radius:var(--radius-content);
+    background:linear-gradient(180deg,rgba(255,255,255,.03),rgba(255,255,255,.015));
+  }
+  .sk-block.brand{
+    background:linear-gradient(180deg,rgba(254,44,85,.08),rgba(254,44,85,.025));
+    border-color:rgba(254,44,85,.25);
+  }
+  .sk-block .tag{
+    position:absolute;left:10px;top:50%;transform:translateY(-50%);
+    font-family:var(--font-mono);font-size:9.5px;
+    color:rgba(255,255,255,.55);letter-spacing:.08em;text-transform:uppercase;
+    pointer-events:none;
+  }
+  .sk-block.brand .tag{color:#ff7894}
+  .sk-block .tag.tl{top:8px;transform:none}
   /* shared identity unit: keeps Header consistent across all 4 strategies */
   .sk-identity{display:flex;gap:10px;align-items:center}
   .sk-identity .sk-thumb{width:44px;height:44px}
@@ -981,94 +1000,11 @@
           <div class="scroll">
 
             <!-- ============ STRATEGY 1 SKELETON · OTA whole-card form ============ -->
-            <div class="sk-card">
-
-              <!-- HEADER · identity (shared across all 4 strategies) -->
-              <div class="sk-zone" style="margin:8px;padding:12px 10px 10px">
-                <span class="zone-tag">Header</span>
-                <div class="sk-identity" style="margin-top:10px">
-                  <div class="sk-thumb"></div>
-                  <div class="sk-meta">
-                    <div class="sk-bar h-10 w-70"></div>
-                    <div class="sk-bar h-6 w-50" style="opacity:.6"></div>
-                  </div>
-                  <span class="sk-pill outline">♡</span>
-                </div>
-                <!-- Content compressed to ONE summary line, sitting INSIDE header -->
-                <div style="margin-top:8px;padding-top:8px;border-top:1px dashed rgba(255,255,255,.06);display:flex;align-items:center;gap:6px">
-                  <span class="sk-pill brand" style="height:18px;font-size:8.5px">AI</span>
-                  <div class="sk-bar h-6 w-90" style="opacity:.65"></div>
-                </div>
-              </div>
-
-              <!-- STAY SELECTOR · OTA signature module (date / guests) -->
-              <div class="sk-zone" style="margin:0 8px 8px;padding:12px 10px 10px">
-                <span class="zone-tag">Stay selector</span>
-                <div class="sk-selector" style="margin-top:14px">
-                  <div>
-                    <span class="sk-label">Check-in</span>
-                    <div class="sk-bar h-10 w-70"></div>
-                  </div>
-                  <div>
-                    <span class="sk-label">Check-out</span>
-                    <div class="sk-bar h-10 w-70"></div>
-                  </div>
-                  <div>
-                    <span class="sk-label">Guests</span>
-                    <div class="sk-bar h-10 w-50"></div>
-                  </div>
-                </div>
-              </div>
-
-              <!-- ROOM LIST · transaction takes the body -->
-              <div class="sk-zone" style="margin:0 8px 8px;padding:12px 10px 10px">
-                <span class="zone-tag">Room list</span>
-                <div style="display:flex;flex-direction:column;gap:8px;margin-top:14px">
-                  <div class="sk-room">
-                    <div class="sk-thumb"></div>
-                    <div class="sk-room-meta">
-                      <div class="sk-bar h-10 w-80"></div>
-                      <div class="sk-bar h-6 w-60" style="opacity:.6"></div>
-                      <div style="display:flex;gap:4px;margin-top:2px">
-                        <span class="sk-pill" style="height:18px;font-size:8.5px">Bed</span>
-                        <span class="sk-pill" style="height:18px;font-size:8.5px">Breakfast</span>
-                      </div>
-                    </div>
-                    <div class="sk-room-cta">
-                      <div class="sk-bar h-10 brand" style="width:54px"></div>
-                      <span class="sk-cta sm">Book</span>
-                    </div>
-                  </div>
-                  <div class="sk-room">
-                    <div class="sk-thumb"></div>
-                    <div class="sk-room-meta">
-                      <div class="sk-bar h-10 w-70"></div>
-                      <div class="sk-bar h-6 w-50" style="opacity:.6"></div>
-                      <div style="display:flex;gap:4px;margin-top:2px">
-                        <span class="sk-pill" style="height:18px;font-size:8.5px">Bed</span>
-                        <span class="sk-pill" style="height:18px;font-size:8.5px">Cancel</span>
-                      </div>
-                    </div>
-                    <div class="sk-room-cta">
-                      <div class="sk-bar h-10 brand" style="width:54px;opacity:.85"></div>
-                      <span class="sk-cta sm">Book</span>
-                    </div>
-                  </div>
-                </div>
-                <div style="display:flex;justify-content:center;margin-top:10px">
-                  <span class="sk-pill outline">View all rooms ›</span>
-                </div>
-              </div>
-
-              <!-- STICKY TRANSACTION FOOTER · price-from + strong CTA -->
-              <div style="border-top:1px solid var(--line);background:var(--surface-2);padding:10px;display:flex;align-items:center;gap:10px;position:relative">
-                <span class="zone-tag" style="position:absolute;top:6px;left:8px">Footer · Sticky CTA</span>
-                <div style="flex:1;min-width:0;display:flex;flex-direction:column;gap:4px;padding-top:14px">
-                  <span class="sk-label">From</span>
-                  <div class="sk-bar h-14 w-50 brand"></div>
-                </div>
-                <span class="sk-cta lg" style="margin-top:14px">See availability ›</span>
-              </div>
+            <div class="sk-card" style="padding:8px;display:flex;flex-direction:column;gap:8px">
+              <div class="sk-block" style="height:54px"><span class="tag">Header · identity + 1-line summary</span></div>
+              <div class="sk-block" style="height:48px"><span class="tag">Stay selector</span></div>
+              <div class="sk-block brand" style="height:140px"><span class="tag tl">Room list</span></div>
+              <div class="sk-block brand" style="height:54px"><span class="tag">Sticky CTA</span></div>
             </div>
 
             <!-- Native dual-column video grid below -->
@@ -1127,50 +1063,11 @@
           <div class="scroll">
 
             <!-- ============ STRATEGY 2 SKELETON ============ -->
-            <div class="sk-card">
-              <!-- HEADER · identity (shared) + price preview -->
-              <div class="sk-zone" style="margin:8px;padding:12px 10px 10px">
-                <span class="zone-tag">Header · compact</span>
-                <div class="sk-identity" style="margin-top:10px">
-                  <div class="sk-thumb"></div>
-                  <div class="sk-meta">
-                    <div class="sk-bar h-10 w-70"></div>
-                    <div class="sk-bar h-6 w-50" style="opacity:.6"></div>
-                  </div>
-                  <div style="display:flex;flex-direction:column;align-items:flex-end;gap:4px">
-                    <span class="sk-label">From</span>
-                    <div class="sk-bar h-10 brand" style="width:54px"></div>
-                  </div>
-                </div>
-              </div>
-
-              <!-- AI / UGC SUMMARY · judgement upfront -->
-              <div class="sk-zone" style="margin:0 8px 8px;padding:10px;display:flex;gap:8px;align-items:flex-start">
-                <span class="zone-tag">Judgement signals</span>
-                <span class="sk-pill brand" style="margin-top:14px">AI</span>
-                <div style="flex:1;min-width:0;display:flex;flex-direction:column;gap:5px;padding-top:14px">
-                  <div class="sk-bar h-6 w-90"></div>
-                  <div class="sk-bar h-6 w-70"></div>
-                </div>
-              </div>
-
-              <!-- ACTION CHIP RAIL · folded actions -->
-              <div class="sk-zone" style="margin:0 8px 8px;padding:10px">
-                <span class="zone-tag">Action chips · folded</span>
-                <div style="display:flex;gap:6px;margin-top:14px;overflow:hidden">
-                  <span class="sk-pill solid">Primary</span>
-                  <span class="sk-pill"><span class="sk-icon" style="width:10px;height:10px;margin-right:4px"></span>Action</span>
-                  <span class="sk-pill"><span class="sk-icon" style="width:10px;height:10px;margin-right:4px"></span>Action</span>
-                  <span class="sk-pill"><span class="sk-icon" style="width:10px;height:10px;margin-right:4px"></span>Action</span>
-                  <span class="sk-pill outline">···</span>
-                </div>
-              </div>
-
-              <!-- EXPAND HINT -->
-              <div style="display:flex;align-items:center;justify-content:center;gap:6px;height:26px;background:var(--surface-2);border-top:1px solid var(--line)">
-                <div class="sk-bar h-6" style="width:60px;opacity:.5"></div>
-                <span style="color:var(--text-3);font-size:10px">▾</span>
-              </div>
+            <div class="sk-card" style="padding:8px;display:flex;flex-direction:column;gap:8px">
+              <div class="sk-block" style="height:54px"><span class="tag">Header · identity + price preview</span></div>
+              <div class="sk-block" style="height:44px"><span class="tag">Judgement signals · AI summary</span></div>
+              <div class="sk-block brand" style="height:38px"><span class="tag">Action chips · folded</span></div>
+              <div class="sk-block" style="height:22px;border-style:dashed;opacity:.65"><span class="tag" style="left:50%;transform:translate(-50%,-50%)">Expand ▾</span></div>
             </div>
 
             <!-- Native dual-column video grid below -->
@@ -1231,64 +1128,16 @@
           <div class="scroll">
 
             <!-- ============ STRATEGY 3 SKELETON ============ -->
-
-            <!-- IDENTITY UNIT · lightweight (uses shared identity skeleton) -->
-            <div class="sk-card sk-zone" style="padding:12px 10px 10px;margin-bottom:8px">
-              <span class="zone-tag">Identity unit</span>
-              <div class="sk-identity" style="margin-top:10px">
-                <div class="sk-thumb"></div>
-                <div class="sk-meta">
-                  <div class="sk-bar h-10 w-70"></div>
-                  <div class="sk-bar h-6 w-50" style="opacity:.6"></div>
-                </div>
-                <span class="sk-pill outline">Save</span>
-              </div>
-            </div>
-
-            <!-- CONTENT UNIT A · ranked feed -->
-            <div class="sk-card sk-zone" style="padding:10px;margin-bottom:8px">
-              <span class="zone-tag">Content unit · video</span>
-              <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-top:14px">
-                <div class="sk-thumb" style="aspect-ratio:9/12"></div>
-                <div class="sk-thumb" style="aspect-ratio:9/12"></div>
-              </div>
-            </div>
-
-            <!-- REVIEW UNIT · quote + meta -->
-            <div class="sk-card sk-zone" style="padding:12px;margin-bottom:8px;display:flex;flex-direction:column;gap:6px">
-              <span class="zone-tag">Review unit</span>
-              <div style="height:14px"></div>
-              <div class="sk-bar h-10 w-90"></div>
-              <div class="sk-bar h-10 w-70"></div>
-              <div style="display:flex;align-items:center;gap:6px;margin-top:6px">
-                <span class="sk-pill"><span class="sk-icon round" style="width:10px;height:10px;margin-right:4px"></span>Rating</span>
-                <span class="sk-pill outline">All reviews ›</span>
-              </div>
-            </div>
-
-            <!-- CONTENT UNIT B · gallery / official -->
-            <div class="sk-card sk-zone" style="padding:10px;margin-bottom:8px">
-              <span class="zone-tag">Content unit · gallery</span>
-              <div style="display:flex;gap:6px;margin-top:14px;overflow:hidden">
-                <div class="sk-thumb" style="flex:1;aspect-ratio:1/1"></div>
-                <div class="sk-thumb" style="flex:1;aspect-ratio:1/1"></div>
-                <div class="sk-thumb" style="flex:1;aspect-ratio:1/1"></div>
-                <div class="sk-thumb" style="flex:1;aspect-ratio:1/1"></div>
-              </div>
-            </div>
-
-            <!-- TRANSACTION UNIT · price + CTA -->
-            <div class="sk-card sk-zone" style="padding:12px 10px;display:flex;align-items:center;gap:10px;margin-bottom:8px">
-              <span class="zone-tag">Transaction unit</span>
-              <div style="flex:1;min-width:0;display:flex;flex-direction:column;gap:5px;padding-top:14px">
-                <div class="sk-bar h-6 w-30" style="opacity:.6"></div>
-                <div class="sk-bar h-12 w-60 brand"></div>
-              </div>
-              <span class="sk-cta" style="margin-top:14px">Book ›</span>
+            <div style="display:flex;flex-direction:column;gap:10px">
+              <div class="sk-card sk-block" style="height:54px"><span class="tag">Identity unit</span></div>
+              <div class="sk-card sk-block" style="height:96px"><span class="tag tl">Content unit · video</span></div>
+              <div class="sk-card sk-block" style="height:64px"><span class="tag">Review unit</span></div>
+              <div class="sk-card sk-block" style="height:74px"><span class="tag tl">Content unit · gallery</span></div>
+              <div class="sk-card sk-block brand" style="height:54px"><span class="tag">Transaction unit</span></div>
             </div>
 
             <!-- Native dual-column flow continues -->
-            <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-top:4px">
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-top:10px">
               <div class="sk-thumb" style="aspect-ratio:9/14"></div>
               <div class="sk-thumb" style="aspect-ratio:9/14"></div>
             </div>
@@ -1343,55 +1192,17 @@
           <div class="scroll">
 
             <!-- ============ STRATEGY 4 SKELETON ============ -->
-            <div style="position:relative;border-radius:var(--radius-card);overflow:hidden;aspect-ratio:9/13;border:1px solid var(--line);background:
-              linear-gradient(135deg,rgba(255,255,255,.06),rgba(255,255,255,.02)),
-              repeating-linear-gradient(45deg,rgba(255,255,255,.04) 0 10px,transparent 10px 20px);">
-
-              <!-- Bottom gradient overlay -->
-              <div style="position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,.45) 0%,transparent 25%,transparent 55%,rgba(0,0,0,.78) 100%);pointer-events:none"></div>
+            <div style="position:relative;border-radius:var(--radius-card);overflow:hidden;aspect-ratio:9/13;border:1px dashed rgba(255,255,255,.1);background:linear-gradient(180deg,rgba(255,255,255,.04),rgba(255,255,255,.015))">
+              <span class="zone-tag" style="position:absolute;top:8px;left:50%;transform:translateX(-50%);font-size:10px;color:rgba(255,255,255,.45)">Content surface · primary container</span>
 
               <!-- TOP · floating identity -->
-              <div style="position:absolute;left:10px;top:10px;right:10px;z-index:2;display:flex;justify-content:space-between;align-items:flex-start;gap:8px">
-                <div style="backdrop-filter:blur(18px) saturate(140%);-webkit-backdrop-filter:blur(18px) saturate(140%);background:rgba(20,20,22,.42);border:1px solid rgba(255,255,255,.12);border-radius:14px;padding:8px 10px;display:flex;gap:8px;align-items:center;max-width:78%;position:relative">
-                  <span class="zone-tag" style="top:-12px">Floating identity</span>
-                  <div class="sk-thumb" style="width:32px;height:32px"></div>
-                  <div style="display:flex;flex-direction:column;gap:5px;min-width:80px">
-                    <div class="sk-bar h-10 w-70"></div>
-                    <div class="sk-bar h-6 w-50" style="opacity:.65"></div>
-                  </div>
-                </div>
-                <div style="width:30px;height:30px;border-radius:50%;background:rgba(255,255,255,.16);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);display:flex;align-items:center;justify-content:center">
-                  <div class="sk-icon" style="width:12px;height:12px;background:rgba(255,255,255,.6)"></div>
-                </div>
-              </div>
-
-              <!-- CENTER · play affordance -->
-              <div style="position:absolute;left:50%;top:42%;transform:translate(-50%,-50%);width:50px;height:50px;border-radius:50%;background:rgba(0,0,0,.32);backdrop-filter:blur(8px);display:flex;align-items:center;justify-content:center;color:#fff;font-size:20px;z-index:2">▶</div>
-
-              <!-- PAGER -->
-              <div style="position:absolute;left:0;right:0;top:50%;transform:translateY(-50%);display:flex;justify-content:center;gap:4px;z-index:2">
-                <i style="width:14px;height:5px;border-radius:3px;background:#fff"></i>
-                <i style="width:5px;height:5px;border-radius:50%;background:rgba(255,255,255,.4)"></i>
-                <i style="width:5px;height:5px;border-radius:50%;background:rgba(255,255,255,.4)"></i>
-                <i style="width:5px;height:5px;border-radius:50%;background:rgba(255,255,255,.4)"></i>
-                <i style="width:5px;height:5px;border-radius:50%;background:rgba(255,255,255,.4)"></i>
-              </div>
-
-              <!-- RIGHT SIDE actions -->
-              <div style="position:absolute;right:10px;bottom:88px;z-index:2;display:flex;flex-direction:column;gap:14px;align-items:center">
-                <div style="width:32px;height:32px;border-radius:50%;background:rgba(255,255,255,.18);backdrop-filter:blur(10px);display:flex;align-items:center;justify-content:center"><div class="sk-icon round" style="width:14px;height:14px;background:rgba(255,255,255,.6)"></div></div>
-                <div style="width:32px;height:32px;border-radius:50%;background:rgba(255,255,255,.18);backdrop-filter:blur(10px);display:flex;align-items:center;justify-content:center"><div class="sk-icon round" style="width:14px;height:14px;background:rgba(255,255,255,.6)"></div></div>
-                <div style="width:32px;height:32px;border-radius:50%;background:rgba(255,255,255,.18);backdrop-filter:blur(10px);display:flex;align-items:center;justify-content:center"><div class="sk-icon round" style="width:14px;height:14px;background:rgba(255,255,255,.6)"></div></div>
+              <div class="sk-block" style="position:absolute;left:10px;top:34px;right:10px;height:38px;background:rgba(20,20,22,.55);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-color:rgba(255,255,255,.14)">
+                <span class="tag">Floating identity</span>
               </div>
 
               <!-- BOTTOM · floating transaction -->
-              <div style="position:absolute;left:10px;right:10px;bottom:10px;z-index:2;background:rgba(20,20,22,.5);backdrop-filter:blur(20px) saturate(140%);-webkit-backdrop-filter:blur(20px) saturate(140%);border:1px solid rgba(255,255,255,.12);border-radius:14px;padding:10px;display:flex;align-items:center;gap:10px;position:relative">
-                <span class="zone-tag" style="top:-12px">Floating transaction</span>
-                <div style="flex:1;min-width:0;display:flex;flex-direction:column;gap:4px">
-                  <span class="sk-label">From</span>
-                  <div class="sk-bar h-12 brand" style="width:60%"></div>
-                </div>
-                <span class="sk-cta">Book ›</span>
+              <div class="sk-block brand" style="position:absolute;left:10px;right:10px;bottom:10px;height:48px;background:rgba(20,20,22,.6);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-color:rgba(254,44,85,.35)">
+                <span class="tag">Floating transaction</span>
               </div>
             </div>
 
