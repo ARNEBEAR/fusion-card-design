@@ -327,22 +327,57 @@
   /* simplified block: only conveys module boundary + relative footprint */
   .sk-block{
     position:relative;
-    border:1px dashed rgba(255,255,255,.1);
-    border-radius:var(--radius-content);
-    background:linear-gradient(180deg,rgba(255,255,255,.03),rgba(255,255,255,.015));
+    border:1px solid rgba(255,255,255,.08);
+    border-radius:14px;
+    background:linear-gradient(180deg,rgba(255,255,255,.04),rgba(255,255,255,.015));
+    overflow:hidden;
   }
+  /* identity / metadata block */
+  .sk-block.identity{
+    background:linear-gradient(180deg,rgba(255,255,255,.06),rgba(255,255,255,.02));
+    border-color:rgba(255,255,255,.12);
+  }
+  /* content-bearing block (image / video / UGC surface) */
+  .sk-block.content{
+    background:
+      linear-gradient(135deg,rgba(37,244,238,.08),rgba(37,244,238,.02)),
+      repeating-linear-gradient(45deg,rgba(255,255,255,.045) 0 10px,transparent 10px 20px);
+    border-color:rgba(37,244,238,.22);
+  }
+  /* conversion / commerce block */
+  .sk-block.conversion{
+    background:linear-gradient(180deg,rgba(254,44,85,.16),rgba(254,44,85,.05));
+    border-color:rgba(254,44,85,.4);
+  }
+  /* light auxiliary / collapsed */
+  .sk-block.aux{
+    background:rgba(255,255,255,.025);
+    border-style:dashed;
+    border-color:rgba(255,255,255,.1);
+    opacity:.85;
+  }
+  /* glass overlay (used in immersive) */
+  .sk-block.glass{
+    background:rgba(20,20,22,.55);
+    backdrop-filter:blur(14px) saturate(140%);
+    -webkit-backdrop-filter:blur(14px) saturate(140%);
+    border-color:rgba(255,255,255,.16);
+  }
+  /* keep legacy .sk-block.brand alias mapping to .conversion look */
   .sk-block.brand{
-    background:linear-gradient(180deg,rgba(254,44,85,.08),rgba(254,44,85,.025));
-    border-color:rgba(254,44,85,.25);
+    background:linear-gradient(180deg,rgba(254,44,85,.16),rgba(254,44,85,.05));
+    border-color:rgba(254,44,85,.4);
   }
   .sk-block .tag{
-    position:absolute;left:10px;top:50%;transform:translateY(-50%);
-    font-family:var(--font-mono);font-size:9.5px;
-    color:rgba(255,255,255,.55);letter-spacing:.08em;text-transform:uppercase;
-    pointer-events:none;
+    position:absolute;left:14px;top:50%;transform:translateY(-50%);
+    font-family:var(--font-mono);font-size:10.5px;
+    color:rgba(255,255,255,.7);letter-spacing:.1em;text-transform:uppercase;
+    pointer-events:none;font-weight:500;
   }
-  .sk-block.brand .tag{color:#ff7894}
-  .sk-block .tag.tl{top:8px;transform:none}
+  .sk-block.content .tag{color:#7befe8}
+  .sk-block.conversion .tag,.sk-block.brand .tag{color:#ff7894}
+  .sk-block .tag.tl{top:14px;transform:none}
+  .sk-block .tag.center{left:50%;transform:translate(-50%,-50%);text-align:center}
   /* shared identity unit: keeps Header consistent across all 4 strategies */
   .sk-identity{display:flex;gap:10px;align-items:center}
   .sk-identity .sk-thumb{width:44px;height:44px}
@@ -927,16 +962,16 @@
   <div class="section-head">
     <div>
       <span class="index">03 · 4 Architectures</span>
-      <h2 style="margin-top:10px">4 个交互架构方向</h2>
-      <p class="sub">按架构开放度递进展开。这里的“策略”只表示结构开放度递进，<b style="color:var(--text-2)">不代表必须按产品阶段推进。</b></p>
+      <h2 style="margin-top:10px">从「货架卡」一路退向「原生内容」的 4 种结构</h2>
+      <p class="sub">本质上是<b style="color:var(--text-2)">围绕"商家身份 / 内容 / 交易"三者的结构关系</b>展开的一组架构光谱。从策略 1 的"全塞一张卡、强交易主导"，一步步退到策略 4 的"纯原生内容、交易仅作底部挂件"。结构差异显著，<b style="color:var(--text-2)">但这 4 个策略并非阶段递进。</b></p>
     </div>
   </div>
 
   <div class="stages">
-    <a class="stage-mini" href="#stage-1"><div class="num">1</div><h3>意图直达型架构</h3><p>在一体化卡片内优先缩短确认路径。</p></a>
-    <a class="stage-mini" href="#stage-2"><div class="num">2</div><h3>降噪折叠型架构</h3><p>在单卡框架内提升单位高度的信息效率。</p></a>
-    <a class="stage-mini" href="#stage-3"><div class="num">3</div><h3>路径解耦型架构</h3><p>将决策信息拆为可编排单元。</p></a>
-    <a class="stage-mini" href="#stage-4"><div class="num">4</div><h3>内容沉浸型架构</h3><p>以内容容器主导判断，再嵌入转化承接。</p></a>
+    <a class="stage-mini" href="#stage-1"><div class="num">1</div><h3>一体化强交易卡</h3><p>内容与交易全塞一张卡，追求最高转化效率。</p></a>
+    <a class="stage-mini" href="#stage-2"><div class="num">2</div><h3>信息折叠精简卡</h3><p>仍是一体卡，把次要信息折叠藏起，让卡片更矮。</p></a>
+    <a class="stage-mini" href="#stage-3"><div class="num">3</div><h3>内容与交易拆分（解耦）</h3><p>货架归货架、内容归内容，各自独立成卡，按场景穿插进结果页。</p></a>
+    <a class="stage-mini" href="#stage-4"><div class="num">4</div><h3>纯内容沉浸</h3><p>退回 TT 最原生的视频 / 内容体验，交易仅作底部附属挂件。</p></a>
   </div>
 
   <!-- ===== 屏效说明 ===== -->
@@ -953,33 +988,31 @@
     <div class="stage-head">
       <div class="badge">1</div>
       <div class="title">
-        <div class="kicker">Strategy 1 · 意图直达型架构</div>
-        <h3>转化主体型：把转化承接放大为卡片骨架，内容收束为 header 概要</h3>
-        <p class="lead">把转化承接（价格 / 优惠 / 关键供给 / 主操作）作为卡片主体放大，内容只在 header 内以一行总结呈现，作为基础信任与品牌锚点。该形态可同时适配酒店、餐饮、景点等不同生服行业。</p>
+        <div class="kicker">Strategy 1 · 一体化强交易卡</div>
+        <h3>内容 + 交易全塞一张卡，追求最高转化效率</h3>
+        <p class="lead">最贴近"货架电商卡"的形态：商家身份、内容判断与交易承接同时存在于一张卡里，交易模块在视觉权重上明显占主导。卡更高，但所有动作都能在卡内完成。</p>
       </div>
     </div>
     <div class="stage-body">
       <div class="text">
         <dl>
-          <dt>适用问题</dt>
-          <dd>地点明确、<b>转化供给密度高</b>的场景。用户希望在最短路径内完成确认 → 选择 → 下一步动作。最贴近 OTA / 预订平台的整卡形态，但不局限于酒店一行业。</dd>
           <dt>结构特征</dt>
           <dd>
             <ul>
-              <li>Header 仅承担 <b>识别 + 1 行内容概要</b>（AI / UGC 摘要单行入 header）。</li>
-              <li><b>Intent qualifier</b>：意图限定模块（酒店=日期/人数；餐饮=人数/时段；景点=日期/票种）。</li>
-              <li><b>Offerings preview</b>：核心供给概览，不外露具体 SKU 细节，仅展示供给的存在与差异维度。</li>
-              <li>底部 <b>Primary conversion (sticky)</b>：通用主操作 + 价格摘要，作为终态承接。</li>
+              <li><b>Identity · header</b>：地点档案 + 评分 + 关键 meta，作为第一锚点。</li>
+              <li><b>Content · summary + media</b>：1 行 AI / UGC 摘要 + 一组小预览，建立"懂这家"的感觉。</li>
+              <li><b>Conversion · offerings + price</b>：核心模块——核心供给概览 + 价格组合，是该形态的"重头戏"。</li>
+              <li><b>Primary CTA</b>：终态主操作，让用户在卡内即可完成下一步。</li>
             </ul>
           </dd>
-          <dt>与线上方案的差异</dt>
-          <dd>线上方案 = 内容主体 + 一行价格摘要；本策略 = <b>意图限定 + 供给概览 + sticky 主转化</b>，结构上从"内容卡"切换到"承接卡"。差异不在视觉细节，而在<b>模块构成与权重分配</b>。</dd>
+          <dt>定位</dt>
+          <dd>位于光谱<b>最左端</b>——离 TT 原生内容最远、离传统货架电商最近。卡身高，对屏占要求最严格。</dd>
           <dt>风险与边界</dt>
           <dd>
             <ul>
-              <li>偏离 TT 内容优势，需通过 header 概要提供的判断密度来对冲。</li>
               <li>对供给完整度依赖最高，供给不全时整卡显得空。</li>
-              <li>本质上是"高转化屏占"，必须靠强转化数据证明屏效合理。</li>
+              <li>偏离 TT 内容优势，必须靠强转化数据证明屏效合理。</li>
+              <li>过度堆砌会让卡片像独立 Mini App，与原生流割裂。</li>
             </ul>
           </dd>
         </dl>
@@ -999,12 +1032,12 @@
           <div class="tabs"><span>All</span><span class="active">Place</span><span>Video</span><span>User</span><span>LIVE</span><span>Shop</span></div>
           <div class="scroll">
 
-            <!-- ============ STRATEGY 1 SKELETON · OTA whole-card form ============ -->
-            <div class="sk-card" style="padding:8px;display:flex;flex-direction:column;gap:8px">
-              <div class="sk-block" style="height:54px"><span class="tag">Header · identity + 1-line summary</span></div>
-              <div class="sk-block" style="height:48px"><span class="tag">Intent qualifier</span></div>
-              <div class="sk-block brand" style="height:96px"><span class="tag tl">Offerings preview</span></div>
-              <div class="sk-block brand" style="height:54px"><span class="tag">Primary conversion · Sticky</span></div>
+            <!-- ============ STRATEGY 1 SKELETON · all-in-one heavy-conversion card ============ -->
+            <div class="sk-card" style="padding:10px;display:flex;flex-direction:column;gap:10px;background:var(--surface)">
+              <div class="sk-block identity" style="height:62px"><span class="tag">Identity · header</span></div>
+              <div class="sk-block content" style="height:74px"><span class="tag tl">Content · summary + media</span></div>
+              <div class="sk-block conversion" style="height:120px"><span class="tag tl">Conversion · offerings + price</span></div>
+              <div class="sk-block conversion" style="height:54px"><span class="tag">Primary CTA</span></div>
             </div>
 
             <!-- Native dual-column video grid below -->
@@ -1023,26 +1056,31 @@
     <div class="stage-head">
       <div class="badge">2</div>
       <div class="title">
-        <div class="kicker">Strategy 2 · 降噪折叠型架构</div>
-        <h3>把更多了解信息带到首屏，且不显著增高卡片</h3>
-        <p class="lead">通过结构压缩与信息折叠，让首屏先完成"认出来 + 看明白"，再决定是否转化。</p>
+        <div class="kicker">Strategy 2 · 信息折叠精简卡</div>
+        <h3>仍是一体卡，把次要信息折叠藏起来，让卡片更矮</h3>
+        <p class="lead">和策略 1 同源，仍然在一张卡里同时承载身份、内容、交易；但通过<b>主动折叠次级信息</b>把首屏高度压下来——首屏只看到识别 + 关键判断 + 一个 inline 转化入口，更多内容点击展开。</p>
       </div>
     </div>
     <div class="stage-body">
       <div class="text">
         <dl>
-          <dt>适用问题</dt>
-          <dd>用户需要更多判断依据，但结果页难以长期承载高卡。</dd>
           <dt>结构特征</dt>
-          <dd>Header 不再只负责识别，还吸收部分判断信息；交易收束为更轻的承接层，使首屏先完成<b>"认出来 + 看明白"</b>，再决定是否转化。</dd>
-          <dt>对 TikTok 的机会</dt>
-          <dd>更贴近 TikTok 当前结果页：既维持<span class="chip">内容流连续性</span>，也把<span class="chip">判断信息前置</span>，让内容真正参与决策。</dd>
+          <dd>
+            <ul>
+              <li><b>Identity · header</b>：保留与策略 1 一致的识别强度。</li>
+              <li><b>Content · folded summary</b>：内容被压成精炼摘要，复杂部分折叠。</li>
+              <li><b>Conversion · inline</b>：转化退到与内容并列、而非主导，体量更轻。</li>
+              <li><b>Expand</b>：展开入口在卡末，让感兴趣的用户主动获取更多。</li>
+            </ul>
+          </dd>
+          <dt>定位</dt>
+          <dd>位于光谱<b>偏左偏中</b>——还是"一体卡"语态，但靠折叠把首屏屏占控制下来。是策略 1 的"低屏占替代品"。</dd>
           <dt>风险与边界</dt>
           <dd>
             <ul>
               <li>压缩过度会削弱信息主次，用户反而更难判断先看什么。</li>
-              <li>折叠、切换、滑动都会增加操作成本，<b>不能用交互动作替代结构清晰度</b>。</li>
-              <li>必须严格约束首屏信息，否则 Header 会再次膨胀。</li>
+              <li>折叠 / 切换 / 滑动都会增加操作成本，<b>不能用交互替代结构清晰度</b>。</li>
+              <li>折叠的信息真正被用上多少，需要事件级数据回看。</li>
             </ul>
           </dd>
         </dl>
@@ -1062,12 +1100,12 @@
           <div class="tabs"><span>All</span><span class="active">Place</span><span>Video</span><span>User</span><span>LIVE</span><span>Shop</span></div>
           <div class="scroll">
 
-            <!-- ============ STRATEGY 2 SKELETON ============ -->
-            <div class="sk-card" style="padding:8px;display:flex;flex-direction:column;gap:8px">
-              <div class="sk-block" style="height:54px"><span class="tag">Header · identity + conversion preview</span></div>
-              <div class="sk-block" style="height:44px"><span class="tag">Judgement signals · summary</span></div>
-              <div class="sk-block brand" style="height:38px"><span class="tag">Quick actions · folded</span></div>
-              <div class="sk-block" style="height:22px;border-style:dashed;opacity:.65"><span class="tag" style="left:50%;transform:translate(-50%,-50%)">Expand ▾</span></div>
+            <!-- ============ STRATEGY 2 SKELETON · folded compact card ============ -->
+            <div class="sk-card" style="padding:10px;display:flex;flex-direction:column;gap:10px;background:var(--surface)">
+              <div class="sk-block identity" style="height:62px"><span class="tag">Identity · header</span></div>
+              <div class="sk-block content" style="height:48px"><span class="tag">Content · folded summary</span></div>
+              <div class="sk-block conversion" style="height:54px"><span class="tag">Conversion · inline</span></div>
+              <div class="sk-block aux" style="height:28px"><span class="tag center">Expand for more  ▾</span></div>
             </div>
 
             <!-- Native dual-column video grid below -->
@@ -1088,26 +1126,31 @@
     <div class="stage-head">
       <div class="badge">3</div>
       <div class="title">
-        <div class="kicker">Strategy 3 · 路径解耦型架构</div>
-        <h3>把识别、了解、交易转化拆成可独立编排的单元</h3>
-        <p class="lead">由搜索结果页按场景动态组织决策路径。关键不是某一行业样式，而是<b>"路径可拆、承接可编排"</b>。</p>
+        <div class="kicker">Strategy 3 · 内容与交易拆分（解耦）</div>
+        <h3>货架归货架，内容归内容，各自独立成卡，按场景穿插进结果页</h3>
+        <p class="lead">不再把"身份 + 内容 + 交易"塞进一张卡，而是把它们拆成<b>多张独立的小卡</b>：identity 卡、commerce 卡、content 卡，按用户意图与场景灵活穿插在结果页 feed 里。类似 Google 的分卡思路。</p>
       </div>
     </div>
     <div class="stage-body">
       <div class="text">
         <dl>
-          <dt>适用问题</dt>
-          <dd>供给差异大、行业分化明显，或用户无需完整读完一张卡也能继续决策。</dd>
           <dt>结构特征</dt>
-          <dd>先以<span class="chip">轻量识别单元</span>完成目标确认，再按场景组合<span class="chip">价格</span><span class="chip">评论</span><span class="chip">视频</span><span class="chip">亮点</span>等判断与转化单元。</dd>
-          <dt>对 TikTok 的机会</dt>
-          <dd>最有机会把结果页做成<b>编排系统</b>而不是固定模板：可根据搜索意图、内容质量和交易供给密度，动态决定单元顺序与组合。</dd>
+          <dd>
+            <ul>
+              <li><b>Identity card</b>：地点档案独立成卡，作为"是这家"的轻量确认。</li>
+              <li><b>Commerce card</b>：货架供给单独一张卡，专门承接交易。</li>
+              <li><b>Content card</b>：内容（视频 / 评论 / 图集）单独一张卡，纯内容判断。</li>
+              <li><b>Native feed 穿插</b>：原生双列内容流仍贯穿全程，不被卡片打断。</li>
+            </ul>
+          </dd>
+          <dt>定位</dt>
+          <dd>位于光谱<b>偏中偏右</b>——结构最自由、可编排度最高。每张卡都更矮、更轻，但需要用<b>顺序与组合</b>来表达决策路径。</dd>
           <dt>风险与边界</dt>
           <dd>
             <ul>
-              <li>编排规则不稳定，页面会显得零散，用户也难以形成稳定预期。</li>
-              <li>信息单元可以拆，但<b>决策路径不能断</b>。</li>
-              <li>对工程能力、排序策略与交互一致性的要求最高，短期投入也最大。</li>
+              <li>编排规则不稳定时，页面会显得零散，用户难以形成稳定预期。</li>
+              <li>信息单元可拆，但<b>决策路径不能断</b>。</li>
+              <li>对工程能力、排序策略与交互一致性要求最高，短期投入也最大。</li>
             </ul>
           </dd>
         </dl>
@@ -1127,19 +1170,21 @@
           <div class="tabs"><span>All</span><span class="active">Place</span><span>Video</span><span>User</span><span>LIVE</span><span>Shop</span></div>
           <div class="scroll">
 
-            <!-- ============ STRATEGY 3 SKELETON ============ -->
+            <!-- ============ STRATEGY 3 SKELETON · decoupled cards woven into feed ============ -->
             <div style="display:flex;flex-direction:column;gap:10px">
-              <div class="sk-card sk-block" style="height:54px"><span class="tag">Identity unit</span></div>
-              <div class="sk-card sk-block" style="height:96px"><span class="tag tl">Content unit · video</span></div>
-              <div class="sk-card sk-block" style="height:64px"><span class="tag">Review unit</span></div>
-              <div class="sk-card sk-block" style="height:74px"><span class="tag tl">Content unit · gallery</span></div>
-              <div class="sk-card sk-block brand" style="height:54px"><span class="tag">Conversion unit</span></div>
-            </div>
-
-            <!-- Native dual-column flow continues -->
-            <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-top:10px">
-              <div class="sk-thumb" style="aspect-ratio:9/14"></div>
-              <div class="sk-thumb" style="aspect-ratio:9/14"></div>
+              <div class="sk-block identity" style="height:60px"><span class="tag">Identity card</span></div>
+              <div class="sk-block conversion" style="height:80px"><span class="tag tl">Commerce card · offerings</span></div>
+              <!-- native feed row interleaved -->
+              <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+                <div class="sk-thumb" style="aspect-ratio:9/13"></div>
+                <div class="sk-thumb" style="aspect-ratio:9/13"></div>
+              </div>
+              <div class="sk-block content" style="height:80px"><span class="tag tl">Content card · review / video</span></div>
+              <!-- native feed row interleaved -->
+              <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+                <div class="sk-thumb" style="aspect-ratio:9/13"></div>
+                <div class="sk-thumb" style="aspect-ratio:9/13"></div>
+              </div>
             </div>
           </div>
         </div></div>
@@ -1152,26 +1197,30 @@
     <div class="stage-head">
       <div class="badge">4</div>
       <div class="title">
-        <div class="kicker">Strategy 4 · 内容沉浸型架构</div>
-        <h3>视频 / UGC 主容器，把识别与交易作为浮层嵌入消费过程</h3>
-        <p class="lead">把"先看内容，再决定是否转化"设为默认路径。重点不是放大内容，而是把<b>理解前置</b>。</p>
+        <div class="kicker">Strategy 4 · 纯内容沉浸</div>
+        <h3>彻底退回 TT 最原生的视频 / 内容体验，交易只作底部附属挂件</h3>
+        <p class="lead">不再有一张"卡"——结果页主体就是 TikTok 最擅长的全屏内容容器（视频 / UGC）；商家身份与转化承接<b>退到底部成为一个轻量挂件</b>，仅在用户已经被内容打动后才出现。</p>
       </div>
     </div>
     <div class="stage-body">
       <div class="text">
         <dl>
-          <dt>适用问题</dt>
-          <dd>内容质量高、用户愿意先通过短时浏览建立判断。<b>尤其适合餐饮、景点</b>，以及部分更依赖感性体验的地点搜索。</dd>
           <dt>结构特征</dt>
-          <dd>首屏由内容主导；地点名称、位置关系与品牌信息收束为<span class="chip">上层识别条</span>，交易退到<span class="chip">辅助承接层</span>。</dd>
-          <dt>对 TikTok 的机会</dt>
-          <dd>最能放大 TikTok 的<b>原生内容优势</b>：先让用户看懂、建立偏好，再承接下一步转化。</dd>
+          <dd>
+            <ul>
+              <li><b>Content surface · primary container</b>：内容是唯一主角，几乎占满首屏。</li>
+              <li><b>Conversion · appendix</b>：交易承接收成底部一条挂件，不打断内容消费。</li>
+              <li>不存在传统意义上的"融合卡" —— 卡的边界让位于内容流。</li>
+            </ul>
+          </dd>
+          <dt>定位</dt>
+          <dd>位于光谱<b>最右端</b>——离 TT 原生内容最近、离传统货架最远。屏占合理性最容易成立，但转化承接力最弱。</dd>
           <dt>风险与边界</dt>
           <dd>
             <ul>
-              <li>对素材质量、内容相关性与首屏判断效率要求最高；内容不足时，形式感会大于实际价值。</li>
-              <li>在强交易场景下，用户未必希望先看内容，仍可能偏好更直接的确认与转化路径。</li>
-              <li>浮层层级、出现时机与手势关系处理不当，会同时伤害内容消费与交易转化。</li>
+              <li>对素材质量与内容相关性要求最高；内容不足时，形式感会大于实际价值。</li>
+              <li>在强交易场景下，用户未必希望先看内容，仍可能偏好更直接的承接路径。</li>
+              <li>挂件层级、出现时机与手势关系处理不当，会同时伤害内容消费与转化承接。</li>
             </ul>
           </dd>
         </dl>
@@ -1191,18 +1240,12 @@
           <div class="tabs"><span>All</span><span class="active">Place</span><span>Video</span><span>User</span><span>LIVE</span><span>Shop</span></div>
           <div class="scroll">
 
-            <!-- ============ STRATEGY 4 SKELETON ============ -->
-            <div style="position:relative;border-radius:var(--radius-card);overflow:hidden;aspect-ratio:9/13;border:1px dashed rgba(255,255,255,.1);background:linear-gradient(180deg,rgba(255,255,255,.04),rgba(255,255,255,.015))">
-              <span class="zone-tag" style="position:absolute;top:8px;left:50%;transform:translateX(-50%);font-size:10px;color:rgba(255,255,255,.45)">Content surface · primary container</span>
-
-              <!-- TOP · floating identity -->
-              <div class="sk-block" style="position:absolute;left:10px;top:34px;right:10px;height:38px;background:rgba(20,20,22,.55);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-color:rgba(255,255,255,.14)">
-                <span class="tag">Floating identity</span>
-              </div>
-
-              <!-- BOTTOM · floating conversion -->
-              <div class="sk-block brand" style="position:absolute;left:10px;right:10px;bottom:10px;height:48px;background:rgba(20,20,22,.6);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-color:rgba(254,44,85,.35)">
-                <span class="tag">Floating conversion</span>
+            <!-- ============ STRATEGY 4 SKELETON · pure content immersion + appendix ============ -->
+            <div class="sk-block content" style="position:relative;aspect-ratio:9/14;overflow:hidden">
+              <span class="tag center" style="font-size:11.5px;color:#7befe8">Content surface · primary container</span>
+              <!-- bottom-attached conversion appendix -->
+              <div class="sk-block conversion" style="position:absolute;left:10px;right:10px;bottom:10px;height:40px">
+                <span class="tag">Conversion · appendix</span>
               </div>
             </div>
 
@@ -1224,119 +1267,132 @@
 <section class="block">
   <div class="section-head">
     <div>
-      <span class="index">03.5 · Structural diff at a glance</span>
-      <h2 style="margin-top:10px">四套结构骨架并排对比</h2>
-      <p class="sub">共性元素（identity / price / CTA）保持视觉一致，差异只发生在<b>模块构成与排布</b>。</p>
+      <span class="index">03.5 · Spectrum at a glance</span>
+      <h2 style="margin-top:10px">从「货架卡」一路退向「原生内容」</h2>
+      <p class="sub">同一根光谱：左端是把内容 + 交易全塞一张卡的"货架电商卡"，右端是 TT 最原生的纯内容流。每一站都是结构关系的一次让步。</p>
     </div>
   </div>
 
-  <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:8px">
+  <!-- ===== spectrum bar ===== -->
+  <div style="margin-top:8px;padding:24px 14px 18px;background:var(--surface);border:1px solid var(--line);border-radius:var(--radius-card);position:relative">
+    <div style="display:flex;justify-content:space-between;align-items:center;font-family:var(--font-mono);font-size:11px;color:var(--text-3);letter-spacing:.08em;text-transform:uppercase;margin-bottom:14px">
+      <span style="color:#ff7894">◀ Commerce-led</span>
+      <span style="color:#7befe8">Native content ▶</span>
+    </div>
+    <div style="height:6px;border-radius:3px;background:linear-gradient(90deg,rgba(254,44,85,.85) 0%,rgba(254,44,85,.45) 30%,rgba(255,255,255,.18) 50%,rgba(37,244,238,.45) 70%,rgba(37,244,238,.85) 100%);position:relative">
+      <i style="position:absolute;left:6%;top:50%;transform:translate(-50%,-50%);width:14px;height:14px;border-radius:50%;background:#ff2c55;border:3px solid var(--bg);box-shadow:0 0 0 1px rgba(254,44,85,.6)"></i>
+      <i style="position:absolute;left:36%;top:50%;transform:translate(-50%,-50%);width:14px;height:14px;border-radius:50%;background:#ff2c55;border:3px solid var(--bg);box-shadow:0 0 0 1px rgba(254,44,85,.4);opacity:.85"></i>
+      <i style="position:absolute;left:64%;top:50%;transform:translate(-50%,-50%);width:14px;height:14px;border-radius:50%;background:#25f4ee;border:3px solid var(--bg);box-shadow:0 0 0 1px rgba(37,244,238,.4);opacity:.85"></i>
+      <i style="position:absolute;left:94%;top:50%;transform:translate(-50%,-50%);width:14px;height:14px;border-radius:50%;background:#25f4ee;border:3px solid var(--bg);box-shadow:0 0 0 1px rgba(37,244,238,.6)"></i>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(4,1fr);margin-top:10px;font-size:11px;color:var(--text-2)">
+      <span style="text-align:left">1 · 一体化强交易</span>
+      <span style="text-align:center">2 · 折叠精简</span>
+      <span style="text-align:center">3 · 解耦穿插</span>
+      <span style="text-align:right">4 · 纯内容沉浸</span>
+    </div>
+  </div>
 
-    <!-- ========== Compare · Strategy 1 ========== -->
-    <div style="background:var(--surface);border:1px solid var(--line);border-radius:var(--radius-card);padding:14px">
-      <div style="display:flex;align-items:center;gap:8px;margin-bottom:12px">
-        <span style="width:24px;height:24px;border-radius:7px;background:linear-gradient(135deg,var(--brand),#ff7194);color:#fff;font-weight:700;font-size:11px;display:flex;align-items:center;justify-content:center">1</span>
-        <span style="font-size:11px;color:var(--text-2);letter-spacing:.04em">CONVERSION-LED</span>
+  <!-- ===== 4 schematic columns ===== -->
+  <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-top:18px">
+
+    <!-- Compare · 1 -->
+    <div style="background:var(--surface);border:1px solid var(--line);border-radius:var(--radius-card);padding:18px">
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:16px">
+        <span style="width:30px;height:30px;border-radius:9px;background:linear-gradient(135deg,#ff2c55,#ff7194);color:#fff;font-weight:700;font-size:13px;display:flex;align-items:center;justify-content:center">1</span>
+        <span style="font-size:12px;color:#ff7894;letter-spacing:.05em;font-weight:600">一体化强交易卡</span>
       </div>
-      <div style="display:flex;flex-direction:column;gap:6px">
-        <div class="sk-zone" style="padding:6px 6px 6px 22px;font-family:var(--font-mono);font-size:9px;color:var(--text-2);text-transform:uppercase">Header</div>
-        <div class="sk-zone" style="padding:14px 6px 14px 22px;font-family:var(--font-mono);font-size:9px;color:var(--text-2);text-transform:uppercase">Intent qualifier</div>
-        <div class="sk-zone" style="padding:24px 6px 24px 22px;font-family:var(--font-mono);font-size:9px;color:var(--text-2);text-transform:uppercase;background:linear-gradient(180deg,rgba(254,44,85,.06),rgba(254,44,85,.02));border-color:rgba(254,44,85,.2)">Offerings preview</div>
-        <div class="sk-zone" style="padding:14px 6px 14px 22px;font-family:var(--font-mono);font-size:9px;color:var(--text-2);text-transform:uppercase;background:linear-gradient(180deg,rgba(254,44,85,.1),rgba(254,44,85,.04));border-color:rgba(254,44,85,.3)">Primary conversion</div>
+      <div style="display:flex;flex-direction:column;gap:8px">
+        <div class="sk-block identity" style="height:32px"></div>
+        <div class="sk-block content" style="height:36px"></div>
+        <div class="sk-block conversion" style="height:60px"></div>
+        <div class="sk-block conversion" style="height:30px"></div>
       </div>
-      <p style="margin:14px 0 0;font-size:11px;color:var(--text-3);line-height:1.6"><b>转化主体 · 内容收成 1 行</b><br>跨行业承接型卡，向 OTA / 团购整卡收敛</p>
+      <p style="margin:16px 0 0;font-size:12px;color:var(--text-2);line-height:1.6">内容 + 交易全塞一张卡，<b style="color:#ff7894">交易主导</b></p>
     </div>
 
-    <!-- ========== Compare · Strategy 2 ========== -->
-    <div style="background:var(--surface);border:1px solid var(--line);border-radius:var(--radius-card);padding:14px">
-      <div style="display:flex;align-items:center;gap:8px;margin-bottom:12px">
-        <span style="width:24px;height:24px;border-radius:7px;background:linear-gradient(135deg,var(--brand),#ff7194);color:#fff;font-weight:700;font-size:11px;display:flex;align-items:center;justify-content:center">2</span>
-        <span style="font-size:11px;color:var(--text-2);letter-spacing:.04em">FOLDED · COMPACT</span>
+    <!-- Compare · 2 -->
+    <div style="background:var(--surface);border:1px solid var(--line);border-radius:var(--radius-card);padding:18px">
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:16px">
+        <span style="width:30px;height:30px;border-radius:9px;background:linear-gradient(135deg,#ff2c55,#ff7194);color:#fff;font-weight:700;font-size:13px;display:flex;align-items:center;justify-content:center">2</span>
+        <span style="font-size:12px;color:var(--text-2);letter-spacing:.05em;font-weight:600">信息折叠精简卡</span>
       </div>
-      <div style="display:flex;flex-direction:column;gap:6px">
-        <div class="sk-zone" style="padding:8px 6px 8px 22px;font-family:var(--font-mono);font-size:9px;color:var(--text-2);text-transform:uppercase">Header + summary</div>
-        <div class="sk-zone" style="padding:14px 6px 14px 22px;font-family:var(--font-mono);font-size:9px;color:var(--text-2);text-transform:uppercase">Judgement signals</div>
-        <div class="sk-zone" style="padding:10px 6px 10px 22px;font-family:var(--font-mono);font-size:9px;color:var(--text-2);text-transform:uppercase">Quick actions · folded</div>
-        <div class="sk-zone" style="padding:6px 6px 6px 22px;font-family:var(--font-mono);font-size:9px;color:var(--text-3);text-transform:uppercase;border-style:dashed;opacity:.7">Expand ▾</div>
+      <div style="display:flex;flex-direction:column;gap:8px">
+        <div class="sk-block identity" style="height:32px"></div>
+        <div class="sk-block content" style="height:24px"></div>
+        <div class="sk-block conversion" style="height:30px"></div>
+        <div class="sk-block aux" style="height:18px"></div>
       </div>
-      <p style="margin:14px 0 0;font-size:11px;color:var(--text-3);line-height:1.6"><b>压缩首屏 · 折叠次级</b><br>不放大卡身，把判断前置</p>
+      <p style="margin:16px 0 0;font-size:12px;color:var(--text-2);line-height:1.6">仍是一体卡，但<b>更矮</b>，次要信息折叠</p>
     </div>
 
-    <!-- ========== Compare · Strategy 3 ========== -->
-    <div style="background:var(--surface);border:1px solid var(--line);border-radius:var(--radius-card);padding:14px">
-      <div style="display:flex;align-items:center;gap:8px;margin-bottom:12px">
-        <span style="width:24px;height:24px;border-radius:7px;background:linear-gradient(135deg,var(--brand),#ff7194);color:#fff;font-weight:700;font-size:11px;display:flex;align-items:center;justify-content:center">3</span>
-        <span style="font-size:11px;color:var(--text-2);letter-spacing:.04em">DECOUPLED UNITS</span>
+    <!-- Compare · 3 -->
+    <div style="background:var(--surface);border:1px solid var(--line);border-radius:var(--radius-card);padding:18px">
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:16px">
+        <span style="width:30px;height:30px;border-radius:9px;background:linear-gradient(135deg,#ff2c55,#ff7194);color:#fff;font-weight:700;font-size:13px;display:flex;align-items:center;justify-content:center">3</span>
+        <span style="font-size:12px;color:var(--text-2);letter-spacing:.05em;font-weight:600">内容与交易拆分</span>
       </div>
       <div style="display:flex;flex-direction:column;gap:6px">
-        <div class="sk-zone" style="padding:8px 6px 8px 22px;font-family:var(--font-mono);font-size:9px;color:var(--text-2);text-transform:uppercase">Identity</div>
-        <div class="sk-zone" style="padding:18px 6px 18px 22px;font-family:var(--font-mono);font-size:9px;color:var(--text-2);text-transform:uppercase">Content · video</div>
-        <div class="sk-zone" style="padding:14px 6px 14px 22px;font-family:var(--font-mono);font-size:9px;color:var(--text-2);text-transform:uppercase">Review</div>
-        <div class="sk-zone" style="padding:14px 6px 14px 22px;font-family:var(--font-mono);font-size:9px;color:var(--text-2);text-transform:uppercase;background:linear-gradient(180deg,rgba(254,44,85,.06),rgba(254,44,85,.02));border-color:rgba(254,44,85,.2)">Conversion</div>
+        <div class="sk-block identity" style="height:24px"></div>
+        <div class="sk-block conversion" style="height:32px"></div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;height:38px"><div class="sk-thumb"></div><div class="sk-thumb"></div></div>
+        <div class="sk-block content" style="height:32px"></div>
       </div>
-      <p style="margin:14px 0 0;font-size:11px;color:var(--text-3);line-height:1.6"><b>原子单元 · 可编排</b><br>顺序由场景决定，不固定模板</p>
+      <p style="margin:16px 0 0;font-size:12px;color:var(--text-2);line-height:1.6"><b>各自独立成卡</b>，按场景穿插</p>
     </div>
 
-    <!-- ========== Compare · Strategy 4 ========== -->
-    <div style="background:var(--surface);border:1px solid var(--line);border-radius:var(--radius-card);padding:14px">
-      <div style="display:flex;align-items:center;gap:8px;margin-bottom:12px">
-        <span style="width:24px;height:24px;border-radius:7px;background:linear-gradient(135deg,var(--brand),#ff7194);color:#fff;font-weight:700;font-size:11px;display:flex;align-items:center;justify-content:center">4</span>
-        <span style="font-size:11px;color:var(--text-2);letter-spacing:.04em">CONTENT IMMERSIVE</span>
+    <!-- Compare · 4 -->
+    <div style="background:var(--surface);border:1px solid var(--line);border-radius:var(--radius-card);padding:18px">
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:16px">
+        <span style="width:30px;height:30px;border-radius:9px;background:linear-gradient(135deg,#25f4ee,#7befe8);color:#000;font-weight:700;font-size:13px;display:flex;align-items:center;justify-content:center">4</span>
+        <span style="font-size:12px;color:#7befe8;letter-spacing:.05em;font-weight:600">纯内容沉浸</span>
       </div>
-      <div style="position:relative;border:1px dashed rgba(255,255,255,.1);border-radius:var(--radius-content);background:linear-gradient(180deg,var(--surface-2),var(--surface));aspect-ratio:9/13;overflow:hidden">
-        <span class="zone-tag">Content surface</span>
-        <div style="position:absolute;top:8px;left:8px;right:8px;padding:4px 6px;background:rgba(20,20,22,.6);border:1px solid rgba(255,255,255,.12);border-radius:8px;font-family:var(--font-mono);font-size:8px;color:var(--text-2);text-transform:uppercase">Floating identity</div>
-        <div style="position:absolute;bottom:8px;left:8px;right:8px;padding:6px;background:rgba(20,20,22,.6);border:1px solid rgba(254,44,85,.3);border-radius:8px;font-family:var(--font-mono);font-size:8px;color:#ff7894;text-transform:uppercase">Floating conversion</div>
+      <div class="sk-block content" style="position:relative;aspect-ratio:9/14;overflow:hidden">
+        <div class="sk-block conversion" style="position:absolute;left:8px;right:8px;bottom:8px;height:22px"></div>
       </div>
-      <p style="margin:14px 0 0;font-size:11px;color:var(--text-3);line-height:1.6"><b>内容主容器 · 浮层叠加</b><br>识别与转化作为浮层嵌入内容</p>
+      <p style="margin:16px 0 0;font-size:12px;color:var(--text-2);line-height:1.6">退回原生内容，<b style="color:#7befe8">交易仅作底部挂件</b></p>
     </div>
 
   </div>
 
-  <!-- diff matrix -->
-  <div style="margin-top:18px;padding:14px;background:var(--surface);border:1px solid var(--line);border-radius:var(--radius-card)">
-    <div style="display:grid;grid-template-columns:140px repeat(4,1fr);gap:0;font-size:12px">
-      <div style="padding:8px 10px;color:var(--text-3);font-family:var(--font-mono);font-size:10px;text-transform:uppercase;letter-spacing:.06em">差异维度</div>
-      <div style="padding:8px 10px;color:var(--text-2);font-family:var(--font-mono);font-size:10px;text-transform:uppercase">Strategy 1</div>
-      <div style="padding:8px 10px;color:var(--text-2);font-family:var(--font-mono);font-size:10px;text-transform:uppercase">Strategy 2</div>
-      <div style="padding:8px 10px;color:var(--text-2);font-family:var(--font-mono);font-size:10px;text-transform:uppercase">Strategy 3</div>
-      <div style="padding:8px 10px;color:var(--text-2);font-family:var(--font-mono);font-size:10px;text-transform:uppercase">Strategy 4</div>
+  <!-- ===== 3-axis matrix (内容 / 交易 / 卡片高度) ===== -->
+  <div style="margin-top:18px;padding:18px 22px;background:var(--surface);border:1px solid var(--line);border-radius:var(--radius-card)">
+    <div style="display:grid;grid-template-columns:140px repeat(4,1fr);gap:0;font-size:13px">
+      <div style="padding:10px 10px;color:var(--text-3);font-family:var(--font-mono);font-size:11px;text-transform:uppercase;letter-spacing:.08em">轴向</div>
+      <div style="padding:10px 10px;color:var(--text-2);font-family:var(--font-mono);font-size:11px;text-transform:uppercase">Strategy 1</div>
+      <div style="padding:10px 10px;color:var(--text-2);font-family:var(--font-mono);font-size:11px;text-transform:uppercase">Strategy 2</div>
+      <div style="padding:10px 10px;color:var(--text-2);font-family:var(--font-mono);font-size:11px;text-transform:uppercase">Strategy 3</div>
+      <div style="padding:10px 10px;color:var(--text-2);font-family:var(--font-mono);font-size:11px;text-transform:uppercase">Strategy 4</div>
 
-      <div style="padding:10px;border-top:1px solid var(--line);color:var(--text-2)">主语</div>
-      <div style="padding:10px;border-top:1px solid var(--line);color:var(--text)">在这下一步</div>
-      <div style="padding:10px;border-top:1px solid var(--line);color:var(--text)">是什么 + 怎么样</div>
-      <div style="padding:10px;border-top:1px solid var(--line);color:var(--text)">可拆解为多个判断单元</div>
-      <div style="padding:10px;border-top:1px solid var(--line);color:var(--text)">看起来是什么样</div>
+      <div style="padding:14px 10px;border-top:1px solid var(--line);color:var(--text-2)">交易权重</div>
+      <div style="padding:14px 10px;border-top:1px solid var(--line)"><span style="display:inline-block;height:8px;width:90%;background:linear-gradient(90deg,#ff2c55,#ff7194);border-radius:4px"></span></div>
+      <div style="padding:14px 10px;border-top:1px solid var(--line)"><span style="display:inline-block;height:8px;width:50%;background:linear-gradient(90deg,#ff2c55,#ff7194);border-radius:4px"></span></div>
+      <div style="padding:14px 10px;border-top:1px solid var(--line)"><span style="display:inline-block;height:8px;width:35%;background:linear-gradient(90deg,#ff2c55,#ff7194);border-radius:4px"></span></div>
+      <div style="padding:14px 10px;border-top:1px solid var(--line)"><span style="display:inline-block;height:8px;width:15%;background:linear-gradient(90deg,#ff2c55,#ff7194);border-radius:4px"></span></div>
 
-      <div style="padding:10px;border-top:1px solid var(--line);color:var(--text-2)">转化权重</div>
-      <div style="padding:10px;border-top:1px solid var(--line);color:#ff7894"><b>主体 · 60–70%</b></div>
-      <div style="padding:10px;border-top:1px solid var(--line);color:var(--text)">轻承接 · ~20%</div>
-      <div style="padding:10px;border-top:1px solid var(--line);color:var(--text)">独立单元 · 可省略</div>
-      <div style="padding:10px;border-top:1px solid var(--line);color:var(--text)">浮层 · ~15%</div>
+      <div style="padding:14px 10px;border-top:1px solid var(--line);color:var(--text-2)">内容权重</div>
+      <div style="padding:14px 10px;border-top:1px solid var(--line)"><span style="display:inline-block;height:8px;width:25%;background:linear-gradient(90deg,#25f4ee,#7befe8);border-radius:4px"></span></div>
+      <div style="padding:14px 10px;border-top:1px solid var(--line)"><span style="display:inline-block;height:8px;width:35%;background:linear-gradient(90deg,#25f4ee,#7befe8);border-radius:4px"></span></div>
+      <div style="padding:14px 10px;border-top:1px solid var(--line)"><span style="display:inline-block;height:8px;width:55%;background:linear-gradient(90deg,#25f4ee,#7befe8);border-radius:4px"></span></div>
+      <div style="padding:14px 10px;border-top:1px solid var(--line)"><span style="display:inline-block;height:8px;width:95%;background:linear-gradient(90deg,#25f4ee,#7befe8);border-radius:4px"></span></div>
 
-      <div style="padding:10px;border-top:1px solid var(--line);color:var(--text-2)">内容位置</div>
-      <div style="padding:10px;border-top:1px solid var(--line);color:var(--text)">Header 1 行概要</div>
-      <div style="padding:10px;border-top:1px solid var(--line);color:var(--text)">折叠 / 卡外内容流</div>
-      <div style="padding:10px;border-top:1px solid var(--line);color:var(--text)">独立 Content unit</div>
-      <div style="padding:10px;border-top:1px solid var(--line);color:#25f4ee"><b>主容器</b></div>
+      <div style="padding:14px 10px;border-top:1px solid var(--line);color:var(--text-2)">卡片屏占</div>
+      <div style="padding:14px 10px;border-top:1px solid var(--line);color:var(--text)">最高</div>
+      <div style="padding:14px 10px;border-top:1px solid var(--line);color:var(--text)">中</div>
+      <div style="padding:14px 10px;border-top:1px solid var(--line);color:var(--text)">单卡矮 / 总数多</div>
+      <div style="padding:14px 10px;border-top:1px solid var(--line);color:var(--text)">几乎只剩内容</div>
 
-      <div style="padding:10px;border-top:1px solid var(--line);color:var(--text-2)">签名模块</div>
-      <div style="padding:10px;border-top:1px solid var(--line);color:var(--text)">Intent qualifier + Offerings preview</div>
-      <div style="padding:10px;border-top:1px solid var(--line);color:var(--text)">Summary + Quick actions</div>
-      <div style="padding:10px;border-top:1px solid var(--line);color:var(--text)">原子卡簇</div>
-      <div style="padding:10px;border-top:1px solid var(--line);color:var(--text)">毛玻璃浮层</div>
+      <div style="padding:14px 10px;border-top:1px solid var(--line);color:var(--text-2)">承接路径</div>
+      <div style="padding:14px 10px;border-top:1px solid var(--line);color:var(--text)">卡内即决</div>
+      <div style="padding:14px 10px;border-top:1px solid var(--line);color:var(--text)">展开 → 卡内</div>
+      <div style="padding:14px 10px;border-top:1px solid var(--line);color:var(--text)">跨卡组合 → 决策</div>
+      <div style="padding:14px 10px;border-top:1px solid var(--line);color:var(--text)">先看内容 → 触发挂件</div>
 
-      <div style="padding:10px;border-top:1px solid var(--line);color:var(--text-2)">主操作形态</div>
-      <div style="padding:10px;border-top:1px solid var(--line);color:var(--text)">Sticky 主转化</div>
-      <div style="padding:10px;border-top:1px solid var(--line);color:var(--text)">行内 Primary chip</div>
-      <div style="padding:10px;border-top:1px solid var(--line);color:var(--text)">独立 Conversion unit</div>
-      <div style="padding:10px;border-top:1px solid var(--line);color:var(--text)">Bottom floating</div>
-
-      <div style="padding:10px;border-top:1px solid var(--line);color:var(--text-2)">行业适配倾向</div>
-      <div style="padding:10px;border-top:1px solid var(--line);color:var(--text)">标准化供给（酒/团/票皆可）</div>
-      <div style="padding:10px;border-top:1px solid var(--line);color:var(--text)">通用 · 中小屏占</div>
-      <div style="padding:10px;border-top:1px solid var(--line);color:var(--text)">跨行业 · 编排型</div>
-      <div style="padding:10px;border-top:1px solid var(--line);color:var(--text)">内容侧重（餐饮 / 景点 / 体验）</div>
+      <div style="padding:14px 10px;border-top:1px solid var(--line);color:var(--text-2)">和原生流的关系</div>
+      <div style="padding:14px 10px;border-top:1px solid var(--line);color:var(--text)">割裂感最强</div>
+      <div style="padding:14px 10px;border-top:1px solid var(--line);color:var(--text)">割裂感中</div>
+      <div style="padding:14px 10px;border-top:1px solid var(--line);color:var(--text)">穿插共存</div>
+      <div style="padding:14px 10px;border-top:1px solid var(--line);color:var(--text)">融为一体</div>
     </div>
   </div>
 </section>
