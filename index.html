@@ -228,11 +228,24 @@
     border:1px solid rgba(254,44,85,.25);
   }
   .flow-arrow{
-    display:flex;align-items:center;justify-content:center;gap:14px;
-    margin:24px 0 8px;color:var(--text-3);font-size:13px;
+    display:flex;align-items:center;justify-content:center;gap:18px;
+    margin:32px 0 18px;color:var(--text);font-size:14px;flex-wrap:wrap;
   }
-  .flow-arrow .pill{padding:6px 12px;background:var(--surface-2);border:1px solid var(--line);border-radius:var(--radius-pill);color:var(--text)}
-  .flow-arrow .arrow{color:var(--brand);font-weight:700}
+  .flow-arrow .pill{
+    padding:14px 22px;background:linear-gradient(180deg,var(--surface),var(--surface-2));
+    border:1px solid var(--line-2);border-radius:16px;color:var(--text);
+    display:inline-flex;align-items:center;gap:10px;font-weight:600;
+    box-shadow:0 4px 14px rgba(0,0,0,.25);min-width:180px;justify-content:center;
+  }
+  .flow-arrow .pill .step{
+    display:inline-flex;align-items:center;justify-content:center;
+    width:28px;height:28px;border-radius:9px;
+    background:linear-gradient(135deg,var(--brand),#ff7194);
+    color:#fff;font-size:13px;font-weight:800;letter-spacing:0;
+    box-shadow:0 2px 8px rgba(254,44,85,.45);border:0;
+  }
+  .flow-arrow .arrow{color:var(--brand);font-weight:800;font-size:22px}
+  @media (max-width:760px){.flow-arrow .pill{min-width:0;padding:10px 14px;font-size:13px}.flow-arrow .arrow{font-size:18px}}
 
   /* =========================================================
      Principle / decoupling cards
@@ -737,7 +750,7 @@
   }
   @media (max-width:980px){.story-rail .rail{grid-template-columns:repeat(2,1fr)}.story-rail .rail::before{display:none}.story-rail .stop{border-bottom:1px solid var(--line)}}
   .story-rail .rail::before{
-    content:"";position:absolute;left:6%;right:6%;top:36px;height:2px;
+    content:"";position:absolute;left:6%;right:6%;top:51px;height:2px;
     background:linear-gradient(90deg,
       rgba(254,44,85,.7) 0%,
       rgba(254,44,85,.45) 25%,
@@ -754,14 +767,25 @@
   .story-rail .stop:last-child{border-right:0}
   .story-rail .stop:hover{background:var(--surface-2)}
   .story-rail .stop .dot{
-    width:14px;height:14px;border-radius:50%;
-    background:var(--surface-3);border:3px solid var(--bg);
-    box-shadow:0 0 0 1px var(--line);
+    width:22px;height:22px;border-radius:50%;
+    background:var(--surface-3);border:4px solid var(--bg);
+    box-shadow:0 0 0 1px var(--line-2);
     margin-left:30%;z-index:1;position:relative;
+    transition:transform .25s ease,box-shadow .25s ease;
   }
-  .story-rail .stop[data-tone=brand] .dot{background:var(--brand);box-shadow:0 0 0 1px rgba(254,44,85,.5)}
-  .story-rail .stop[data-tone=cyan] .dot{background:var(--brand-2);box-shadow:0 0 0 1px rgba(37,244,238,.5)}
-  .story-rail .stop[data-tone=mid] .dot{background:#888;box-shadow:0 0 0 1px rgba(255,255,255,.3)}
+  .story-rail .stop:hover .dot{transform:scale(1.1)}
+  .story-rail .stop[data-tone=brand] .dot{
+    background:var(--brand);
+    box-shadow:0 0 0 1px rgba(254,44,85,.6),0 0 18px rgba(254,44,85,.55);
+  }
+  .story-rail .stop[data-tone=cyan] .dot{
+    background:var(--brand-2);
+    box-shadow:0 0 0 1px rgba(37,244,238,.6),0 0 18px rgba(37,244,238,.45);
+  }
+  .story-rail .stop[data-tone=mid] .dot{
+    background:#999;
+    box-shadow:0 0 0 1px rgba(255,255,255,.35),0 0 12px rgba(255,255,255,.18);
+  }
   .story-rail .stop .num{
     font-family:var(--font-mono);font-size:10.5px;color:var(--text-3);letter-spacing:.08em;
   }
@@ -980,11 +1004,11 @@
   </div>
 
   <div class="flow-arrow">
-    <span class="pill"><span class="step">Step 1</span> 识别信息</span>
+    <span class="pill"><span class="step">1</span><span>识别信息</span></span>
     <span class="arrow">→</span>
-    <span class="pill"><span class="step">Step 2</span> 了解信息</span>
+    <span class="pill"><span class="step">2</span><span>了解信息</span></span>
     <span class="arrow">→</span>
-    <span class="pill"><span class="step">Step 3</span> 交易转化</span>
+    <span class="pill"><span class="step">3</span><span>交易转化</span></span>
   </div>
 
   <table class="flow-table">
@@ -1637,64 +1661,140 @@
     </div>
   </div>
 
+  <!-- ===== 颜色契约 / 元素图例 ===== -->
+  <div style="margin-top:18px;padding:16px 20px;background:var(--surface);border:1px solid var(--line);border-radius:var(--radius-card)">
+    <div style="font-family:var(--font-mono);font-size:10.5px;color:var(--text-3);letter-spacing:.08em;text-transform:uppercase;margin-bottom:10px">图例 · 元素颜色契约</div>
+    <div style="display:flex;gap:20px;flex-wrap:wrap;align-items:center;font-size:12.5px;color:var(--text-2)">
+      <span style="display:inline-flex;align-items:center;gap:8px"><span style="width:14px;height:14px;border-radius:4px;background:rgba(255,255,255,.18);border:1px solid rgba(255,255,255,.3)"></span>商家身份 · IDENTITY <span style="color:var(--text-4)">（地点档案 / Header）</span></span>
+      <span style="display:inline-flex;align-items:center;gap:8px"><span style="width:14px;height:14px;border-radius:4px;background:rgba(37,244,238,.32);border:1px solid rgba(37,244,238,.55)"></span>内容 · CONTENT <span style="color:var(--text-4)">（视频 / 图文 / UGC）</span></span>
+      <span style="display:inline-flex;align-items:center;gap:8px"><span style="width:14px;height:14px;border-radius:4px;background:rgba(254,44,85,.42);border:1px solid rgba(254,44,85,.65)"></span>交易 · COMMERCE <span style="color:var(--text-4)">（货架 / 价格 / CTA）</span></span>
+      <span style="display:inline-flex;align-items:center;gap:8px;margin-left:8px;padding-left:18px;border-left:1px solid var(--line)"><span style="display:inline-block;width:18px;height:14px;background:repeating-linear-gradient(45deg,rgba(255,255,255,.08) 0 4px,transparent 4px 8px);border:1px solid rgba(255,255,255,.18);border-radius:3px"></span>原生双列 feed <span style="color:var(--text-4)">（卡外环境）</span></span>
+    </div>
+  </div>
+
   <!-- ===== 4 schematic columns ===== -->
   <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-top:18px">
 
-    <!-- Compare · 1 -->
+    <!-- ============ Compare · 1 重交易一体卡 ============ -->
     <div style="background:var(--surface);border:1px solid var(--line);border-radius:var(--radius-card);padding:18px">
-      <div style="display:flex;align-items:center;gap:10px;margin-bottom:16px">
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:14px">
         <span style="width:30px;height:30px;border-radius:9px;background:linear-gradient(135deg,#ff2c55,#ff7194);color:#fff;font-weight:700;font-size:13px;display:flex;align-items:center;justify-content:center">1</span>
-        <span style="font-size:12px;color:#ff7894;letter-spacing:.05em;font-weight:600">重交易一体卡</span>
+        <div><div style="font-size:13px;color:var(--text);font-weight:700;letter-spacing:-.005em">重交易一体卡</div><div style="font-size:10.5px;color:var(--text-3);font-family:var(--font-mono)">ALL-IN-ONE · COMMERCE-LED</div></div>
       </div>
-      <div style="display:flex;flex-direction:column;gap:8px">
-        <div class="sk-block identity" style="height:32px"></div>
-        <div class="sk-block content" style="height:36px"></div>
-        <div class="sk-block conversion" style="height:60px"></div>
-        <div class="sk-block conversion" style="height:30px"></div>
+      <!-- mini phone surface -->
+      <div style="background:linear-gradient(180deg,#0c0c0e,#0a0a0c);border:1px solid var(--line);border-radius:14px;padding:8px;display:flex;flex-direction:column;gap:6px">
+        <!-- search bar -->
+        <div style="height:14px;border-radius:7px;background:rgba(255,255,255,.06)"></div>
+        <!-- the single big card with 3 modules inside -->
+        <div style="border:2px solid rgba(254,44,85,.55);border-radius:10px;padding:6px;display:flex;flex-direction:column;gap:5px;background:rgba(254,44,85,.04)">
+          <div style="display:flex;gap:5px;align-items:center">
+            <div style="width:18px;height:18px;border-radius:4px;background:rgba(255,255,255,.18)"></div>
+            <div style="flex:1;display:flex;flex-direction:column;gap:3px">
+              <div style="height:5px;border-radius:2px;background:rgba(255,255,255,.22);width:80%"></div>
+              <div style="height:4px;border-radius:2px;background:rgba(255,255,255,.12);width:50%"></div>
+            </div>
+          </div>
+          <div style="height:30px;border-radius:5px;background:rgba(37,244,238,.28);border:1px solid rgba(37,244,238,.45)"></div>
+          <div style="height:24px;border-radius:5px;background:rgba(254,44,85,.4);border:1px solid rgba(254,44,85,.6)"></div>
+          <div style="height:18px;border-radius:5px;background:rgba(254,44,85,.55);border:1px solid rgba(254,44,85,.7)"></div>
+        </div>
+        <!-- native feed below -->
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:4px;margin-top:2px">
+          <div style="aspect-ratio:9/14;background:repeating-linear-gradient(45deg,rgba(255,255,255,.08) 0 4px,transparent 4px 8px);border:1px solid rgba(255,255,255,.1);border-radius:4px"></div>
+          <div style="aspect-ratio:9/14;background:repeating-linear-gradient(45deg,rgba(255,255,255,.08) 0 4px,transparent 4px 8px);border:1px solid rgba(255,255,255,.1);border-radius:4px"></div>
+        </div>
       </div>
-      <p style="margin:16px 0 0;font-size:12px;color:var(--text-2);line-height:1.6">内容 + 交易全塞一张卡，<b style="color:#ff7894">交易主导</b></p>
+      <p style="margin:14px 0 0;font-size:12px;color:var(--text-2);line-height:1.6"><b style="color:#ff7894">一张超大卡</b>把身份 / 内容 / 交易全部铺开，<b>交易模块占比最大</b>。</p>
     </div>
 
-    <!-- Compare · 2 -->
+    <!-- ============ Compare · 2 信息折叠一体卡 ============ -->
     <div style="background:var(--surface);border:1px solid var(--line);border-radius:var(--radius-card);padding:18px">
-      <div style="display:flex;align-items:center;gap:10px;margin-bottom:16px">
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:14px">
         <span style="width:30px;height:30px;border-radius:9px;background:linear-gradient(135deg,#ff2c55,#ff7194);color:#fff;font-weight:700;font-size:13px;display:flex;align-items:center;justify-content:center">2</span>
-        <span style="font-size:12px;color:var(--text-2);letter-spacing:.05em;font-weight:600">信息折叠一体卡</span>
+        <div><div style="font-size:13px;color:var(--text);font-weight:700;letter-spacing:-.005em">信息折叠一体卡</div><div style="font-size:10.5px;color:var(--text-3);font-family:var(--font-mono)">FOLDED · COMPACT</div></div>
       </div>
-      <div style="display:flex;flex-direction:column;gap:8px">
-        <div class="sk-block identity" style="height:32px"></div>
-        <div class="sk-block content" style="height:24px"></div>
-        <div class="sk-block conversion" style="height:30px"></div>
-        <div class="sk-block aux" style="height:18px"></div>
+      <div style="background:linear-gradient(180deg,#0c0c0e,#0a0a0c);border:1px solid var(--line);border-radius:14px;padding:8px;display:flex;flex-direction:column;gap:6px">
+        <div style="height:14px;border-radius:7px;background:rgba(255,255,255,.06)"></div>
+        <!-- the same single card, but shorter; folded summary -->
+        <div style="border:2px solid rgba(254,44,85,.55);border-radius:10px;padding:6px;display:flex;flex-direction:column;gap:5px;background:rgba(254,44,85,.04)">
+          <div style="display:flex;gap:5px;align-items:center">
+            <div style="width:18px;height:18px;border-radius:4px;background:rgba(255,255,255,.18)"></div>
+            <div style="flex:1;display:flex;flex-direction:column;gap:3px">
+              <div style="height:5px;border-radius:2px;background:rgba(255,255,255,.22);width:80%"></div>
+              <div style="height:4px;border-radius:2px;background:rgba(255,255,255,.12);width:50%"></div>
+            </div>
+          </div>
+          <!-- horizontal scroll content row -->
+          <div style="display:flex;gap:4px;overflow:hidden">
+            <div style="width:34%;height:18px;border-radius:4px;background:rgba(37,244,238,.28);border:1px solid rgba(37,244,238,.45);flex:0 0 auto"></div>
+            <div style="width:34%;height:18px;border-radius:4px;background:rgba(37,244,238,.22);border:1px solid rgba(37,244,238,.4);flex:0 0 auto"></div>
+            <div style="width:34%;height:18px;border-radius:4px;background:rgba(37,244,238,.18);border:1px solid rgba(37,244,238,.35);flex:0 0 auto;opacity:.7"></div>
+          </div>
+          <div style="height:14px;border-radius:4px;background:rgba(254,44,85,.4);border:1px solid rgba(254,44,85,.6)"></div>
+          <div style="height:10px;border-radius:3px;background:rgba(255,255,255,.04);border:1px dashed rgba(255,255,255,.18);text-align:center;font-family:var(--font-mono);font-size:7px;color:var(--text-4);line-height:10px">▾ EXPAND</div>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:4px;margin-top:2px">
+          <div style="aspect-ratio:9/14;background:repeating-linear-gradient(45deg,rgba(255,255,255,.08) 0 4px,transparent 4px 8px);border:1px solid rgba(255,255,255,.1);border-radius:4px"></div>
+          <div style="aspect-ratio:9/14;background:repeating-linear-gradient(45deg,rgba(255,255,255,.08) 0 4px,transparent 4px 8px);border:1px solid rgba(255,255,255,.1);border-radius:4px"></div>
+        </div>
       </div>
-      <p style="margin:16px 0 0;font-size:12px;color:var(--text-2);line-height:1.6">仍是一体卡，但<b>更矮</b>，次要信息折叠</p>
+      <p style="margin:14px 0 0;font-size:12px;color:var(--text-2);line-height:1.6">仍是<b style="color:#ff7894">同一张卡</b>，但内容横滑、次级折叠 — <b>卡变矮</b>。</p>
     </div>
 
-    <!-- Compare · 3 -->
+    <!-- ============ Compare · 3 模块拆分排版 ============ -->
     <div style="background:var(--surface);border:1px solid var(--line);border-radius:var(--radius-card);padding:18px">
-      <div style="display:flex;align-items:center;gap:10px;margin-bottom:16px">
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:14px">
         <span style="width:30px;height:30px;border-radius:9px;background:linear-gradient(135deg,#ff2c55,#ff7194);color:#fff;font-weight:700;font-size:13px;display:flex;align-items:center;justify-content:center">3</span>
-        <span style="font-size:12px;color:var(--text-2);letter-spacing:.05em;font-weight:600">模块拆分排版</span>
+        <div><div style="font-size:13px;color:var(--text);font-weight:700;letter-spacing:-.005em">模块拆分排版</div><div style="font-size:10.5px;color:var(--text-3);font-family:var(--font-mono)">DECOUPLED MODULES</div></div>
       </div>
-      <div style="display:flex;flex-direction:column;gap:6px">
-        <div class="sk-block identity" style="height:24px"></div>
-        <div class="sk-block conversion" style="height:32px"></div>
-        <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;height:38px"><div class="sk-thumb"></div><div class="sk-thumb"></div></div>
-        <div class="sk-block content" style="height:32px"></div>
+      <div style="background:linear-gradient(180deg,#0c0c0e,#0a0a0c);border:1px solid var(--line);border-radius:14px;padding:8px;display:flex;flex-direction:column;gap:5px">
+        <div style="height:14px;border-radius:7px;background:rgba(255,255,255,.06)"></div>
+        <!-- identity strip (lightweight) -->
+        <div style="border:1px solid rgba(255,255,255,.22);border-radius:6px;padding:4px 6px;display:flex;gap:5px;align-items:center;background:rgba(255,255,255,.03)">
+          <div style="width:14px;height:14px;border-radius:3px;background:rgba(255,255,255,.2)"></div>
+          <div style="height:5px;flex:1;border-radius:2px;background:rgba(255,255,255,.18);width:60%"></div>
+        </div>
+        <!-- content as a content card (independent) -->
+        <div style="border:2px solid rgba(37,244,238,.5);border-radius:6px;padding:4px;background:rgba(37,244,238,.05)">
+          <div style="height:24px;border-radius:3px;background:rgba(37,244,238,.32);border:1px solid rgba(37,244,238,.5)"></div>
+        </div>
+        <!-- native feed inserted between -->
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:4px">
+          <div style="aspect-ratio:9/13;background:repeating-linear-gradient(45deg,rgba(255,255,255,.08) 0 4px,transparent 4px 8px);border:1px solid rgba(255,255,255,.1);border-radius:4px"></div>
+          <div style="aspect-ratio:9/13;background:repeating-linear-gradient(45deg,rgba(255,255,255,.08) 0 4px,transparent 4px 8px);border:1px solid rgba(255,255,255,.1);border-radius:4px"></div>
+        </div>
+        <!-- commerce as a separate card -->
+        <div style="border:2px solid rgba(254,44,85,.55);border-radius:6px;padding:4px;background:rgba(254,44,85,.05)">
+          <div style="height:18px;border-radius:3px;background:rgba(254,44,85,.4);border:1px solid rgba(254,44,85,.6)"></div>
+        </div>
       </div>
-      <p style="margin:16px 0 0;font-size:12px;color:var(--text-2);line-height:1.6"><b>各自独立成卡</b>，按场景穿插</p>
+      <p style="margin:14px 0 0;font-size:12px;color:var(--text-2);line-height:1.6">内容卡 / 交易卡 <b style="color:var(--text)">各自独立</b>，可在 feed 里穿插。</p>
     </div>
 
-    <!-- Compare · 4 -->
+    <!-- ============ Compare · 4 纯内容挂载 ============ -->
     <div style="background:var(--surface);border:1px solid var(--line);border-radius:var(--radius-card);padding:18px">
-      <div style="display:flex;align-items:center;gap:10px;margin-bottom:16px">
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:14px">
         <span style="width:30px;height:30px;border-radius:9px;background:linear-gradient(135deg,#25f4ee,#7befe8);color:#000;font-weight:700;font-size:13px;display:flex;align-items:center;justify-content:center">4</span>
-        <span style="font-size:12px;color:#7befe8;letter-spacing:.05em;font-weight:600">纯内容挂载</span>
+        <div><div style="font-size:13px;color:var(--text);font-weight:700;letter-spacing:-.005em">纯内容挂载</div><div style="font-size:10.5px;color:#7befe8;font-family:var(--font-mono)">CONTENT IMMERSIVE</div></div>
       </div>
-      <div class="sk-block content" style="position:relative;aspect-ratio:9/14;overflow:hidden">
-        <div class="sk-block conversion" style="position:absolute;left:8px;right:8px;bottom:8px;height:22px"></div>
+      <div style="background:linear-gradient(180deg,#0c0c0e,#0a0a0c);border:1px solid var(--line);border-radius:14px;padding:8px;display:flex;flex-direction:column;gap:5px">
+        <div style="height:14px;border-radius:7px;background:rgba(255,255,255,.06)"></div>
+        <!-- a full-bleed content surface; native feed-like, with bottom appendix -->
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:4px;position:relative">
+          <div style="aspect-ratio:9/15;background:linear-gradient(135deg,rgba(37,244,238,.18),rgba(37,244,238,.06)),repeating-linear-gradient(45deg,rgba(255,255,255,.06) 0 4px,transparent 4px 8px);border:1px solid rgba(37,244,238,.3);border-radius:4px;position:relative">
+            <!-- bottom appendix -->
+            <div style="position:absolute;left:3px;right:3px;bottom:3px;height:14px;border-radius:3px;background:rgba(254,44,85,.55);border:1px solid rgba(254,44,85,.7)"></div>
+          </div>
+          <div style="aspect-ratio:9/15;background:linear-gradient(135deg,rgba(37,244,238,.14),rgba(37,244,238,.04)),repeating-linear-gradient(45deg,rgba(255,255,255,.06) 0 4px,transparent 4px 8px);border:1px solid rgba(37,244,238,.25);border-radius:4px;position:relative">
+            <div style="position:absolute;left:3px;right:3px;bottom:3px;height:14px;border-radius:3px;background:rgba(254,44,85,.45);border:1px solid rgba(254,44,85,.6)"></div>
+          </div>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:4px">
+          <div style="aspect-ratio:9/13;background:repeating-linear-gradient(45deg,rgba(255,255,255,.08) 0 4px,transparent 4px 8px);border:1px solid rgba(255,255,255,.1);border-radius:4px"></div>
+          <div style="aspect-ratio:9/13;background:repeating-linear-gradient(45deg,rgba(255,255,255,.08) 0 4px,transparent 4px 8px);border:1px solid rgba(255,255,255,.1);border-radius:4px"></div>
+        </div>
       </div>
-      <p style="margin:16px 0 0;font-size:12px;color:var(--text-2);line-height:1.6">退回原生内容，<b style="color:#7befe8">交易仅作底部挂载</b></p>
+      <p style="margin:14px 0 0;font-size:12px;color:var(--text-2);line-height:1.6"><b style="color:#7befe8">没有"卡"</b>——内容直接占容器，交易仅是内容底部一条<b style="color:#ff7894">挂载</b>。</p>
     </div>
 
   </div>
