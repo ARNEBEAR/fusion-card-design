@@ -322,7 +322,21 @@
   }
   .sk-cta.ghost{background:transparent;border:1px solid rgba(255,255,255,.18);color:var(--text)}
   .sk-cta.lg{height:36px;padding:0 16px;font-size:12px}
+  .sk-cta.sm{height:24px;padding:0 10px;font-size:10px;border-radius:999px}
   .sk-divider{height:1px;background:var(--line)}
+  /* shared identity unit: keeps Header consistent across all 4 strategies */
+  .sk-identity{display:flex;gap:10px;align-items:center}
+  .sk-identity .sk-thumb{width:44px;height:44px}
+  .sk-identity .sk-meta{flex:1;min-width:0;display:flex;flex-direction:column;gap:5px}
+  /* OTA-style selector pill row */
+  .sk-selector{display:flex;align-items:center;gap:0;border:1px solid var(--line);border-radius:12px;overflow:hidden;background:var(--surface-2)}
+  .sk-selector > div{flex:1;padding:8px 10px;display:flex;flex-direction:column;gap:4px;border-right:1px solid var(--line)}
+  .sk-selector > div:last-child{border-right:0}
+  /* OTA-style room row */
+  .sk-room{display:flex;gap:10px;padding:10px;border:1px solid var(--line);border-radius:12px;background:var(--surface-2);align-items:center}
+  .sk-room .sk-thumb{width:64px;height:64px}
+  .sk-room .sk-room-meta{flex:1;min-width:0;display:flex;flex-direction:column;gap:5px}
+  .sk-room .sk-room-cta{display:flex;flex-direction:column;align-items:flex-end;gap:4px}
   .sk-icon{
     width:18px;height:18px;border-radius:5px;
     background:rgba(255,255,255,.1);
@@ -933,13 +947,14 @@
           <dt>结构特征</dt>
           <dd>
             <ul>
-              <li>Header 同时完成 <b>识别 + 内容概要</b>：地点档案 + 1–2 行 AI / UGC 摘要。</li>
-              <li>主体放大 <b>交易承接区</b>：价格、关键供给（房型 / 团购 / 门票）、强 CTA。</li>
-              <li>内容证据仅以<span class="chip">缩略入口</span>形式存在，不抢主判断位。</li>
+              <li>Header 仅承担 <b>识别 + 1 行内容概要</b>（AI / UGC 摘要单行入 header）。</li>
+              <li>主体由 <b>Stay selector + Room list</b> 占据，是 OTA 整卡的标志性签名模块。</li>
+              <li>底部 <b>sticky transaction footer</b>（"From ¥xxx" + See availability ›）作为终态 CTA。</li>
+              <li>不再保留独立的内容缩略入口，避免与"内容卡"形态混淆。</li>
             </ul>
           </dd>
           <dt>与线上方案的差异</dt>
-          <dd>线上方案是"内容 + 轻交易"，本策略反向：<b>交易主体 + 内容轻概要</b>。这是和 Agoda / Tripadvisor 整卡逻辑对齐的探索向量。</dd>
+          <dd>线上方案 = 内容主体 + 一行价格；本策略 = <b>Stay selector + 房型列表 + sticky CTA</b>，结构上从"内容卡"切换到"预订卡"，差异肉眼可辨。对齐 Agoda / Booking / Tripadvisor 的整卡逻辑。</dd>
           <dt>风险与边界</dt>
           <dd>
             <ul>
@@ -965,65 +980,94 @@
           <div class="tabs"><span>All</span><span class="active">Place</span><span>Video</span><span>User</span><span>LIVE</span><span>Shop</span></div>
           <div class="scroll">
 
-            <!-- ============ STRATEGY 1 SKELETON ============ -->
+            <!-- ============ STRATEGY 1 SKELETON · OTA whole-card form ============ -->
             <div class="sk-card">
-              <!-- HEADER · identity + content summary -->
-              <div class="sk-zone" style="margin:8px;padding:10px;display:flex;gap:10px;align-items:flex-start">
-                <span class="zone-tag">Header</span>
-                <div class="sk-thumb" style="width:56px;height:56px"></div>
-                <div style="flex:1;min-width:0;display:flex;flex-direction:column;gap:6px;padding-top:14px">
-                  <div class="sk-bar h-12 w-70"></div>
-                  <div class="sk-bar h-6 w-50"></div>
-                  <div class="sk-bar h-6 w-90" style="opacity:.7;margin-top:4px"></div>
-                  <div class="sk-bar h-6 w-60" style="opacity:.55"></div>
-                  <span class="sk-label" style="margin-top:2px">Content summary · 1–2 lines</span>
-                </div>
-              </div>
 
-              <div class="sk-divider"></div>
-
-              <!-- KEY SUPPLY · transaction expanded -->
+              <!-- HEADER · identity (shared across all 4 strategies) -->
               <div class="sk-zone" style="margin:8px;padding:12px 10px 10px">
-                <span class="zone-tag">Key supply</span>
-                <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:14px">
-                  <div style="border:1px solid var(--line);border-radius:10px;padding:10px;display:flex;flex-direction:column;gap:6px">
-                    <div class="sk-bar h-6 w-60"></div>
-                    <div class="sk-bar h-10 w-80"></div>
-                    <div class="sk-bar h-6 w-50" style="opacity:.6"></div>
-                    <span class="sk-pill brand" style="margin-top:4px">Option A</span>
-                  </div>
-                  <div style="border:1px solid var(--line);border-radius:10px;padding:10px;display:flex;flex-direction:column;gap:6px">
-                    <div class="sk-bar h-6 w-50"></div>
+                <span class="zone-tag">Header</span>
+                <div class="sk-identity" style="margin-top:10px">
+                  <div class="sk-thumb"></div>
+                  <div class="sk-meta">
                     <div class="sk-bar h-10 w-70"></div>
-                    <div class="sk-bar h-6 w-60" style="opacity:.6"></div>
-                    <span class="sk-pill outline" style="margin-top:4px">Option B</span>
+                    <div class="sk-bar h-6 w-50" style="opacity:.6"></div>
+                  </div>
+                  <span class="sk-pill outline">♡</span>
+                </div>
+                <!-- Content compressed to ONE summary line, sitting INSIDE header -->
+                <div style="margin-top:8px;padding-top:8px;border-top:1px dashed rgba(255,255,255,.06);display:flex;align-items:center;gap:6px">
+                  <span class="sk-pill brand" style="height:18px;font-size:8.5px">AI</span>
+                  <div class="sk-bar h-6 w-90" style="opacity:.65"></div>
+                </div>
+              </div>
+
+              <!-- STAY SELECTOR · OTA signature module (date / guests) -->
+              <div class="sk-zone" style="margin:0 8px 8px;padding:12px 10px 10px">
+                <span class="zone-tag">Stay selector</span>
+                <div class="sk-selector" style="margin-top:14px">
+                  <div>
+                    <span class="sk-label">Check-in</span>
+                    <div class="sk-bar h-10 w-70"></div>
+                  </div>
+                  <div>
+                    <span class="sk-label">Check-out</span>
+                    <div class="sk-bar h-10 w-70"></div>
+                  </div>
+                  <div>
+                    <span class="sk-label">Guests</span>
+                    <div class="sk-bar h-10 w-50"></div>
                   </div>
                 </div>
               </div>
 
-              <!-- TRANSACTION FOOTER · price + strong CTA -->
-              <div class="sk-zone" style="margin:8px;padding:12px 10px;display:flex;align-items:center;gap:10px">
-                <span class="zone-tag">Transaction</span>
-                <div style="flex:1;min-width:0;display:flex;flex-direction:column;gap:5px;padding-top:14px">
-                  <div class="sk-bar h-6 w-30" style="opacity:.6"></div>
-                  <div class="sk-bar h-14 w-60 brand"></div>
-                </div>
-                <span class="sk-cta lg" style="margin-top:14px">Book ›</span>
-              </div>
-
-              <div class="sk-divider"></div>
-
-              <!-- CONTENT THUMB STRIP · collapsed reference -->
-              <div class="sk-zone" style="margin:8px;padding:10px">
-                <span class="zone-tag">Content · collapsed</span>
-                <div style="display:flex;gap:6px;margin-top:14px;overflow:hidden">
-                  <div class="sk-thumb" style="flex:1;aspect-ratio:1/1"></div>
-                  <div class="sk-thumb" style="flex:1;aspect-ratio:1/1"></div>
-                  <div class="sk-thumb" style="flex:1;aspect-ratio:1/1"></div>
-                  <div class="sk-thumb" style="flex:1;aspect-ratio:1/1;position:relative">
-                    <span class="sk-pill" style="position:absolute;left:50%;top:50%;transform:translate(-50%,-50%)">+12</span>
+              <!-- ROOM LIST · transaction takes the body -->
+              <div class="sk-zone" style="margin:0 8px 8px;padding:12px 10px 10px">
+                <span class="zone-tag">Room list</span>
+                <div style="display:flex;flex-direction:column;gap:8px;margin-top:14px">
+                  <div class="sk-room">
+                    <div class="sk-thumb"></div>
+                    <div class="sk-room-meta">
+                      <div class="sk-bar h-10 w-80"></div>
+                      <div class="sk-bar h-6 w-60" style="opacity:.6"></div>
+                      <div style="display:flex;gap:4px;margin-top:2px">
+                        <span class="sk-pill" style="height:18px;font-size:8.5px">Bed</span>
+                        <span class="sk-pill" style="height:18px;font-size:8.5px">Breakfast</span>
+                      </div>
+                    </div>
+                    <div class="sk-room-cta">
+                      <div class="sk-bar h-10 brand" style="width:54px"></div>
+                      <span class="sk-cta sm">Book</span>
+                    </div>
+                  </div>
+                  <div class="sk-room">
+                    <div class="sk-thumb"></div>
+                    <div class="sk-room-meta">
+                      <div class="sk-bar h-10 w-70"></div>
+                      <div class="sk-bar h-6 w-50" style="opacity:.6"></div>
+                      <div style="display:flex;gap:4px;margin-top:2px">
+                        <span class="sk-pill" style="height:18px;font-size:8.5px">Bed</span>
+                        <span class="sk-pill" style="height:18px;font-size:8.5px">Cancel</span>
+                      </div>
+                    </div>
+                    <div class="sk-room-cta">
+                      <div class="sk-bar h-10 brand" style="width:54px;opacity:.85"></div>
+                      <span class="sk-cta sm">Book</span>
+                    </div>
                   </div>
                 </div>
+                <div style="display:flex;justify-content:center;margin-top:10px">
+                  <span class="sk-pill outline">View all rooms ›</span>
+                </div>
+              </div>
+
+              <!-- STICKY TRANSACTION FOOTER · price-from + strong CTA -->
+              <div style="border-top:1px solid var(--line);background:var(--surface-2);padding:10px;display:flex;align-items:center;gap:10px;position:relative">
+                <span class="zone-tag" style="position:absolute;top:6px;left:8px">Footer · Sticky CTA</span>
+                <div style="flex:1;min-width:0;display:flex;flex-direction:column;gap:4px;padding-top:14px">
+                  <span class="sk-label">From</span>
+                  <div class="sk-bar h-14 w-50 brand"></div>
+                </div>
+                <span class="sk-cta lg" style="margin-top:14px">See availability ›</span>
               </div>
             </div>
 
@@ -1084,17 +1128,19 @@
 
             <!-- ============ STRATEGY 2 SKELETON ============ -->
             <div class="sk-card">
-              <!-- HEADER · identity + judgement signals + price preview -->
-              <div class="sk-zone" style="margin:8px;padding:10px;display:flex;gap:10px;align-items:center">
+              <!-- HEADER · identity (shared) + price preview -->
+              <div class="sk-zone" style="margin:8px;padding:12px 10px 10px">
                 <span class="zone-tag">Header · compact</span>
-                <div class="sk-thumb" style="width:42px;height:42px"></div>
-                <div style="flex:1;min-width:0;display:flex;flex-direction:column;gap:5px;padding-top:8px">
-                  <div class="sk-bar h-10 w-80"></div>
-                  <div class="sk-bar h-6 w-60" style="opacity:.65"></div>
-                </div>
-                <div style="display:flex;flex-direction:column;align-items:flex-end;gap:4px;padding-top:8px">
-                  <div class="sk-bar h-6 w-full" style="width:36px;opacity:.6"></div>
-                  <div class="sk-bar h-10 w-full brand" style="width:60px"></div>
+                <div class="sk-identity" style="margin-top:10px">
+                  <div class="sk-thumb"></div>
+                  <div class="sk-meta">
+                    <div class="sk-bar h-10 w-70"></div>
+                    <div class="sk-bar h-6 w-50" style="opacity:.6"></div>
+                  </div>
+                  <div style="display:flex;flex-direction:column;align-items:flex-end;gap:4px">
+                    <span class="sk-label">From</span>
+                    <div class="sk-bar h-10 brand" style="width:54px"></div>
+                  </div>
                 </div>
               </div>
 
@@ -1186,15 +1232,17 @@
 
             <!-- ============ STRATEGY 3 SKELETON ============ -->
 
-            <!-- IDENTITY UNIT · lightweight -->
-            <div class="sk-card sk-zone" style="padding:10px;display:flex;gap:10px;align-items:center;margin-bottom:8px">
+            <!-- IDENTITY UNIT · lightweight (uses shared identity skeleton) -->
+            <div class="sk-card sk-zone" style="padding:12px 10px 10px;margin-bottom:8px">
               <span class="zone-tag">Identity unit</span>
-              <div class="sk-thumb" style="width:36px;height:36px"></div>
-              <div style="flex:1;min-width:0;display:flex;flex-direction:column;gap:4px;padding-top:8px">
-                <div class="sk-bar h-10 w-70"></div>
-                <div class="sk-bar h-6 w-50" style="opacity:.6"></div>
+              <div class="sk-identity" style="margin-top:10px">
+                <div class="sk-thumb"></div>
+                <div class="sk-meta">
+                  <div class="sk-bar h-10 w-70"></div>
+                  <div class="sk-bar h-6 w-50" style="opacity:.6"></div>
+                </div>
+                <span class="sk-pill outline">Save</span>
               </div>
-              <span class="sk-pill outline" style="margin-top:6px">Save</span>
             </div>
 
             <!-- CONTENT UNIT A · ranked feed -->
@@ -1304,12 +1352,12 @@
 
               <!-- TOP · floating identity -->
               <div style="position:absolute;left:10px;top:10px;right:10px;z-index:2;display:flex;justify-content:space-between;align-items:flex-start;gap:8px">
-                <div style="backdrop-filter:blur(18px) saturate(140%);-webkit-backdrop-filter:blur(18px) saturate(140%);background:rgba(20,20,22,.42);border:1px solid rgba(255,255,255,.12);border-radius:14px;padding:7px 10px;display:flex;gap:8px;align-items:center;max-width:78%;position:relative">
+                <div style="backdrop-filter:blur(18px) saturate(140%);-webkit-backdrop-filter:blur(18px) saturate(140%);background:rgba(20,20,22,.42);border:1px solid rgba(255,255,255,.12);border-radius:14px;padding:8px 10px;display:flex;gap:8px;align-items:center;max-width:78%;position:relative">
                   <span class="zone-tag" style="top:-12px">Floating identity</span>
-                  <div class="sk-thumb" style="width:28px;height:28px"></div>
-                  <div style="display:flex;flex-direction:column;gap:4px;min-width:80px">
-                    <div class="sk-bar h-10 w-80"></div>
-                    <div class="sk-bar h-6 w-60" style="opacity:.65"></div>
+                  <div class="sk-thumb" style="width:32px;height:32px"></div>
+                  <div style="display:flex;flex-direction:column;gap:5px;min-width:80px">
+                    <div class="sk-bar h-10 w-70"></div>
+                    <div class="sk-bar h-6 w-50" style="opacity:.65"></div>
                   </div>
                 </div>
                 <div style="width:30px;height:30px;border-radius:50%;background:rgba(255,255,255,.16);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);display:flex;align-items:center;justify-content:center">
@@ -1337,11 +1385,11 @@
               </div>
 
               <!-- BOTTOM · floating transaction -->
-              <div style="position:absolute;left:10px;right:10px;bottom:10px;z-index:2;background:rgba(20,20,22,.5);backdrop-filter:blur(20px) saturate(140%);-webkit-backdrop-filter:blur(20px) saturate(140%);border:1px solid rgba(255,255,255,.12);border-radius:14px;padding:8px 10px;display:flex;align-items:center;gap:10px;position:relative">
+              <div style="position:absolute;left:10px;right:10px;bottom:10px;z-index:2;background:rgba(20,20,22,.5);backdrop-filter:blur(20px) saturate(140%);-webkit-backdrop-filter:blur(20px) saturate(140%);border:1px solid rgba(255,255,255,.12);border-radius:14px;padding:10px;display:flex;align-items:center;gap:10px;position:relative">
                 <span class="zone-tag" style="top:-12px">Floating transaction</span>
                 <div style="flex:1;min-width:0;display:flex;flex-direction:column;gap:4px">
-                  <div class="sk-bar h-6 w-50" style="opacity:.6"></div>
-                  <div class="sk-bar h-10 w-70 brand"></div>
+                  <span class="sk-label">From</span>
+                  <div class="sk-bar h-12 brand" style="width:60%"></div>
                 </div>
                 <span class="sk-cta">Book ›</span>
               </div>
@@ -1357,6 +1405,129 @@
       </div>
     </div>
   </article>
+</section>
+
+<!-- =========================================================
+     SECTION · 4 策略结构对比骨架（一眼看清差异）
+     ========================================================= -->
+<section class="block">
+  <div class="section-head">
+    <div>
+      <span class="index">03.5 · Structural diff at a glance</span>
+      <h2 style="margin-top:10px">四套结构骨架并排对比</h2>
+      <p class="sub">共性元素（identity / price / CTA）保持视觉一致，差异只发生在<b>模块构成与排布</b>。</p>
+    </div>
+  </div>
+
+  <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:8px">
+
+    <!-- ========== Compare · Strategy 1 ========== -->
+    <div style="background:var(--surface);border:1px solid var(--line);border-radius:var(--radius-card);padding:14px">
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:12px">
+        <span style="width:24px;height:24px;border-radius:7px;background:linear-gradient(135deg,var(--brand),#ff7194);color:#fff;font-weight:700;font-size:11px;display:flex;align-items:center;justify-content:center">1</span>
+        <span style="font-size:11px;color:var(--text-2);letter-spacing:.04em">OTA WHOLE-CARD</span>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:6px">
+        <div class="sk-zone" style="padding:6px 6px 6px 22px;font-family:var(--font-mono);font-size:9px;color:var(--text-2);text-transform:uppercase">Header</div>
+        <div class="sk-zone" style="padding:14px 6px 14px 22px;font-family:var(--font-mono);font-size:9px;color:var(--text-2);text-transform:uppercase">Stay selector</div>
+        <div class="sk-zone" style="padding:30px 6px 30px 22px;font-family:var(--font-mono);font-size:9px;color:var(--text-2);text-transform:uppercase;background:linear-gradient(180deg,rgba(254,44,85,.06),rgba(254,44,85,.02));border-color:rgba(254,44,85,.2)">Room list</div>
+        <div class="sk-zone" style="padding:14px 6px 14px 22px;font-family:var(--font-mono);font-size:9px;color:var(--text-2);text-transform:uppercase;background:linear-gradient(180deg,rgba(254,44,85,.1),rgba(254,44,85,.04));border-color:rgba(254,44,85,.3)">Sticky CTA</div>
+      </div>
+      <p style="margin:14px 0 0;font-size:11px;color:var(--text-3);line-height:1.6"><b>交易主体 · 内容收成 1 行</b><br>对齐 Agoda / Booking 整卡形态</p>
+    </div>
+
+    <!-- ========== Compare · Strategy 2 ========== -->
+    <div style="background:var(--surface);border:1px solid var(--line);border-radius:var(--radius-card);padding:14px">
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:12px">
+        <span style="width:24px;height:24px;border-radius:7px;background:linear-gradient(135deg,var(--brand),#ff7194);color:#fff;font-weight:700;font-size:11px;display:flex;align-items:center;justify-content:center">2</span>
+        <span style="font-size:11px;color:var(--text-2);letter-spacing:.04em">FOLDED · COMPACT</span>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:6px">
+        <div class="sk-zone" style="padding:8px 6px 8px 22px;font-family:var(--font-mono);font-size:9px;color:var(--text-2);text-transform:uppercase">Header + price</div>
+        <div class="sk-zone" style="padding:14px 6px 14px 22px;font-family:var(--font-mono);font-size:9px;color:var(--text-2);text-transform:uppercase">Judgement signals</div>
+        <div class="sk-zone" style="padding:10px 6px 10px 22px;font-family:var(--font-mono);font-size:9px;color:var(--text-2);text-transform:uppercase">Action chips · folded</div>
+        <div class="sk-zone" style="padding:6px 6px 6px 22px;font-family:var(--font-mono);font-size:9px;color:var(--text-3);text-transform:uppercase;border-style:dashed;opacity:.7">Expand ▾</div>
+      </div>
+      <p style="margin:14px 0 0;font-size:11px;color:var(--text-3);line-height:1.6"><b>压缩首屏 · 折叠次级</b><br>不放大卡身，把判断前置</p>
+    </div>
+
+    <!-- ========== Compare · Strategy 3 ========== -->
+    <div style="background:var(--surface);border:1px solid var(--line);border-radius:var(--radius-card);padding:14px">
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:12px">
+        <span style="width:24px;height:24px;border-radius:7px;background:linear-gradient(135deg,var(--brand),#ff7194);color:#fff;font-weight:700;font-size:11px;display:flex;align-items:center;justify-content:center">3</span>
+        <span style="font-size:11px;color:var(--text-2);letter-spacing:.04em">DECOUPLED UNITS</span>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:6px">
+        <div class="sk-zone" style="padding:8px 6px 8px 22px;font-family:var(--font-mono);font-size:9px;color:var(--text-2);text-transform:uppercase">Identity</div>
+        <div class="sk-zone" style="padding:18px 6px 18px 22px;font-family:var(--font-mono);font-size:9px;color:var(--text-2);text-transform:uppercase">Content · video</div>
+        <div class="sk-zone" style="padding:14px 6px 14px 22px;font-family:var(--font-mono);font-size:9px;color:var(--text-2);text-transform:uppercase">Review</div>
+        <div class="sk-zone" style="padding:14px 6px 14px 22px;font-family:var(--font-mono);font-size:9px;color:var(--text-2);text-transform:uppercase;background:linear-gradient(180deg,rgba(254,44,85,.06),rgba(254,44,85,.02));border-color:rgba(254,44,85,.2)">Transaction</div>
+      </div>
+      <p style="margin:14px 0 0;font-size:11px;color:var(--text-3);line-height:1.6"><b>原子单元 · 可编排</b><br>顺序由场景决定，不固定模板</p>
+    </div>
+
+    <!-- ========== Compare · Strategy 4 ========== -->
+    <div style="background:var(--surface);border:1px solid var(--line);border-radius:var(--radius-card);padding:14px">
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:12px">
+        <span style="width:24px;height:24px;border-radius:7px;background:linear-gradient(135deg,var(--brand),#ff7194);color:#fff;font-weight:700;font-size:11px;display:flex;align-items:center;justify-content:center">4</span>
+        <span style="font-size:11px;color:var(--text-2);letter-spacing:.04em">CONTENT IMMERSIVE</span>
+      </div>
+      <div style="position:relative;border:1px dashed rgba(255,255,255,.1);border-radius:var(--radius-content);background:linear-gradient(180deg,var(--surface-2),var(--surface));aspect-ratio:9/13;overflow:hidden">
+        <span class="zone-tag">Content surface</span>
+        <div style="position:absolute;top:8px;left:8px;right:8px;padding:4px 6px;background:rgba(20,20,22,.6);border:1px solid rgba(255,255,255,.12);border-radius:8px;font-family:var(--font-mono);font-size:8px;color:var(--text-2);text-transform:uppercase">Floating identity</div>
+        <div style="position:absolute;bottom:8px;left:8px;right:8px;padding:6px;background:rgba(20,20,22,.6);border:1px solid rgba(254,44,85,.3);border-radius:8px;font-family:var(--font-mono);font-size:8px;color:#ff7894;text-transform:uppercase">Floating transaction</div>
+      </div>
+      <p style="margin:14px 0 0;font-size:11px;color:var(--text-3);line-height:1.6"><b>内容主容器 · 浮层叠加</b><br>识别与交易作为浮层嵌入</p>
+    </div>
+
+  </div>
+
+  <!-- diff matrix -->
+  <div style="margin-top:18px;padding:14px;background:var(--surface);border:1px solid var(--line);border-radius:var(--radius-card)">
+    <div style="display:grid;grid-template-columns:140px repeat(4,1fr);gap:0;font-size:12px">
+      <div style="padding:8px 10px;color:var(--text-3);font-family:var(--font-mono);font-size:10px;text-transform:uppercase;letter-spacing:.06em">差异维度</div>
+      <div style="padding:8px 10px;color:var(--text-2);font-family:var(--font-mono);font-size:10px;text-transform:uppercase">Strategy 1</div>
+      <div style="padding:8px 10px;color:var(--text-2);font-family:var(--font-mono);font-size:10px;text-transform:uppercase">Strategy 2</div>
+      <div style="padding:8px 10px;color:var(--text-2);font-family:var(--font-mono);font-size:10px;text-transform:uppercase">Strategy 3</div>
+      <div style="padding:8px 10px;color:var(--text-2);font-family:var(--font-mono);font-size:10px;text-transform:uppercase">Strategy 4</div>
+
+      <div style="padding:10px;border-top:1px solid var(--line);color:var(--text-2)">主语</div>
+      <div style="padding:10px;border-top:1px solid var(--line);color:var(--text)">能买什么</div>
+      <div style="padding:10px;border-top:1px solid var(--line);color:var(--text)">是什么 + 怎么样</div>
+      <div style="padding:10px;border-top:1px solid var(--line);color:var(--text)">可拆解为多个判断单元</div>
+      <div style="padding:10px;border-top:1px solid var(--line);color:var(--text)">看起来是什么样</div>
+
+      <div style="padding:10px;border-top:1px solid var(--line);color:var(--text-2)">交易权重</div>
+      <div style="padding:10px;border-top:1px solid var(--line);color:#ff7894"><b>主体 · 60–70%</b></div>
+      <div style="padding:10px;border-top:1px solid var(--line);color:var(--text)">轻承接 · ~20%</div>
+      <div style="padding:10px;border-top:1px solid var(--line);color:var(--text)">独立单元 · 可省略</div>
+      <div style="padding:10px;border-top:1px solid var(--line);color:var(--text)">浮层 CTA · ~15%</div>
+
+      <div style="padding:10px;border-top:1px solid var(--line);color:var(--text-2)">内容位置</div>
+      <div style="padding:10px;border-top:1px solid var(--line);color:var(--text)">Header 1 行概要</div>
+      <div style="padding:10px;border-top:1px solid var(--line);color:var(--text)">折叠 / 卡外内容流</div>
+      <div style="padding:10px;border-top:1px solid var(--line);color:var(--text)">独立 Content unit</div>
+      <div style="padding:10px;border-top:1px solid var(--line);color:#25f4ee"><b>主容器</b></div>
+
+      <div style="padding:10px;border-top:1px solid var(--line);color:var(--text-2)">签名模块</div>
+      <div style="padding:10px;border-top:1px solid var(--line);color:var(--text)">Stay selector + Room list</div>
+      <div style="padding:10px;border-top:1px solid var(--line);color:var(--text)">AI summary + Action chips</div>
+      <div style="padding:10px;border-top:1px solid var(--line);color:var(--text)">原子卡簇</div>
+      <div style="padding:10px;border-top:1px solid var(--line);color:var(--text)">毛玻璃浮层</div>
+
+      <div style="padding:10px;border-top:1px solid var(--line);color:var(--text-2)">CTA 形态</div>
+      <div style="padding:10px;border-top:1px solid var(--line);color:var(--text)">Sticky · See availability ›</div>
+      <div style="padding:10px;border-top:1px solid var(--line);color:var(--text)">行内 Primary chip</div>
+      <div style="padding:10px;border-top:1px solid var(--line);color:var(--text)">独立 Transaction unit</div>
+      <div style="padding:10px;border-top:1px solid var(--line);color:var(--text)">Bottom floating Book ›</div>
+
+      <div style="padding:10px;border-top:1px solid var(--line);color:var(--text-2)">最适行业</div>
+      <div style="padding:10px;border-top:1px solid var(--line);color:var(--text)">酒店 / 标准化套餐</div>
+      <div style="padding:10px;border-top:1px solid var(--line);color:var(--text)">通用 · 中小屏占</div>
+      <div style="padding:10px;border-top:1px solid var(--line);color:var(--text)">跨行业 · 编排型</div>
+      <div style="padding:10px;border-top:1px solid var(--line);color:var(--text)">餐饮 / 景点</div>
+    </div>
+  </div>
 </section>
 
 <!-- =========================================================
