@@ -347,7 +347,7 @@
   .sk-identity{display:flex;gap:10px;align-items:center}
   .sk-identity .sk-thumb{width:44px;height:44px}
   .sk-identity .sk-meta{flex:1;min-width:0;display:flex;flex-direction:column;gap:5px}
-  /* OTA-style selector pill row */
+  /* legacy: OTA-style helpers, kept but no longer used by skeletons */
   .sk-selector{display:flex;align-items:center;gap:0;border:1px solid var(--line);border-radius:12px;overflow:hidden;background:var(--surface-2)}
   .sk-selector > div{flex:1;padding:8px 10px;display:flex;flex-direction:column;gap:4px;border-right:1px solid var(--line)}
   .sk-selector > div:last-child{border-right:0}
@@ -954,32 +954,32 @@
       <div class="badge">1</div>
       <div class="title">
         <div class="kicker">Strategy 1 · 意图直达型架构</div>
-        <h3>对齐 OTA 整卡形态：交易能力放大，内容收束为 header 概要</h3>
-        <p class="lead">把交易承接（价格 / 优惠 / CTA / 关键供给）作为卡片主体放大，内容只在 header 内以一两行总结呈现，作为基础信任与品牌锚点。</p>
+        <h3>转化主体型：把转化承接放大为卡片骨架，内容收束为 header 概要</h3>
+        <p class="lead">把转化承接（价格 / 优惠 / 关键供给 / 主操作）作为卡片主体放大，内容只在 header 内以一行总结呈现，作为基础信任与品牌锚点。该形态可同时适配酒店、餐饮、景点等不同生服行业。</p>
       </div>
     </div>
     <div class="stage-body">
       <div class="text">
         <dl>
           <dt>适用问题</dt>
-          <dd>地点明确、<b>交易供给密度高</b>的场景。用户希望在最短路径内完成确认 → 选择 → 下一步交易动作。最贴近 OTA / 预订平台的整卡形态。</dd>
+          <dd>地点明确、<b>转化供给密度高</b>的场景。用户希望在最短路径内完成确认 → 选择 → 下一步动作。最贴近 OTA / 预订平台的整卡形态，但不局限于酒店一行业。</dd>
           <dt>结构特征</dt>
           <dd>
             <ul>
               <li>Header 仅承担 <b>识别 + 1 行内容概要</b>（AI / UGC 摘要单行入 header）。</li>
-              <li>主体由 <b>Stay selector + Room list</b> 占据，是 OTA 整卡的标志性签名模块。</li>
-              <li>底部 <b>sticky transaction footer</b>（"From ¥xxx" + See availability ›）作为终态 CTA。</li>
-              <li>不再保留独立的内容缩略入口，避免与"内容卡"形态混淆。</li>
+              <li><b>Intent qualifier</b>：意图限定模块（酒店=日期/人数；餐饮=人数/时段；景点=日期/票种）。</li>
+              <li><b>Offerings preview</b>：核心供给概览，不外露具体 SKU 细节，仅展示供给的存在与差异维度。</li>
+              <li>底部 <b>Primary conversion (sticky)</b>：通用主操作 + 价格摘要，作为终态承接。</li>
             </ul>
           </dd>
           <dt>与线上方案的差异</dt>
-          <dd>线上方案 = 内容主体 + 一行价格；本策略 = <b>Stay selector + 房型列表 + sticky CTA</b>，结构上从"内容卡"切换到"预订卡"，差异肉眼可辨。对齐 Agoda / Booking / Tripadvisor 的整卡逻辑。</dd>
+          <dd>线上方案 = 内容主体 + 一行价格摘要；本策略 = <b>意图限定 + 供给概览 + sticky 主转化</b>，结构上从"内容卡"切换到"承接卡"。差异不在视觉细节，而在<b>模块构成与权重分配</b>。</dd>
           <dt>风险与边界</dt>
           <dd>
             <ul>
               <li>偏离 TT 内容优势，需通过 header 概要提供的判断密度来对冲。</li>
               <li>对供给完整度依赖最高，供给不全时整卡显得空。</li>
-              <li>本质上是"高交易屏占"，必须靠强转化数据证明屏效合理。</li>
+              <li>本质上是"高转化屏占"，必须靠强转化数据证明屏效合理。</li>
             </ul>
           </dd>
         </dl>
@@ -1002,9 +1002,9 @@
             <!-- ============ STRATEGY 1 SKELETON · OTA whole-card form ============ -->
             <div class="sk-card" style="padding:8px;display:flex;flex-direction:column;gap:8px">
               <div class="sk-block" style="height:54px"><span class="tag">Header · identity + 1-line summary</span></div>
-              <div class="sk-block" style="height:48px"><span class="tag">Stay selector</span></div>
-              <div class="sk-block brand" style="height:140px"><span class="tag tl">Room list</span></div>
-              <div class="sk-block brand" style="height:54px"><span class="tag">Sticky CTA</span></div>
+              <div class="sk-block" style="height:48px"><span class="tag">Intent qualifier</span></div>
+              <div class="sk-block brand" style="height:96px"><span class="tag tl">Offerings preview</span></div>
+              <div class="sk-block brand" style="height:54px"><span class="tag">Primary conversion · Sticky</span></div>
             </div>
 
             <!-- Native dual-column video grid below -->
@@ -1064,9 +1064,9 @@
 
             <!-- ============ STRATEGY 2 SKELETON ============ -->
             <div class="sk-card" style="padding:8px;display:flex;flex-direction:column;gap:8px">
-              <div class="sk-block" style="height:54px"><span class="tag">Header · identity + price preview</span></div>
-              <div class="sk-block" style="height:44px"><span class="tag">Judgement signals · AI summary</span></div>
-              <div class="sk-block brand" style="height:38px"><span class="tag">Action chips · folded</span></div>
+              <div class="sk-block" style="height:54px"><span class="tag">Header · identity + conversion preview</span></div>
+              <div class="sk-block" style="height:44px"><span class="tag">Judgement signals · summary</span></div>
+              <div class="sk-block brand" style="height:38px"><span class="tag">Quick actions · folded</span></div>
               <div class="sk-block" style="height:22px;border-style:dashed;opacity:.65"><span class="tag" style="left:50%;transform:translate(-50%,-50%)">Expand ▾</span></div>
             </div>
 
@@ -1133,7 +1133,7 @@
               <div class="sk-card sk-block" style="height:96px"><span class="tag tl">Content unit · video</span></div>
               <div class="sk-card sk-block" style="height:64px"><span class="tag">Review unit</span></div>
               <div class="sk-card sk-block" style="height:74px"><span class="tag tl">Content unit · gallery</span></div>
-              <div class="sk-card sk-block brand" style="height:54px"><span class="tag">Transaction unit</span></div>
+              <div class="sk-card sk-block brand" style="height:54px"><span class="tag">Conversion unit</span></div>
             </div>
 
             <!-- Native dual-column flow continues -->
@@ -1200,9 +1200,9 @@
                 <span class="tag">Floating identity</span>
               </div>
 
-              <!-- BOTTOM · floating transaction -->
+              <!-- BOTTOM · floating conversion -->
               <div class="sk-block brand" style="position:absolute;left:10px;right:10px;bottom:10px;height:48px;background:rgba(20,20,22,.6);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-color:rgba(254,44,85,.35)">
-                <span class="tag">Floating transaction</span>
+                <span class="tag">Floating conversion</span>
               </div>
             </div>
 
@@ -1236,15 +1236,15 @@
     <div style="background:var(--surface);border:1px solid var(--line);border-radius:var(--radius-card);padding:14px">
       <div style="display:flex;align-items:center;gap:8px;margin-bottom:12px">
         <span style="width:24px;height:24px;border-radius:7px;background:linear-gradient(135deg,var(--brand),#ff7194);color:#fff;font-weight:700;font-size:11px;display:flex;align-items:center;justify-content:center">1</span>
-        <span style="font-size:11px;color:var(--text-2);letter-spacing:.04em">OTA WHOLE-CARD</span>
+        <span style="font-size:11px;color:var(--text-2);letter-spacing:.04em">CONVERSION-LED</span>
       </div>
       <div style="display:flex;flex-direction:column;gap:6px">
         <div class="sk-zone" style="padding:6px 6px 6px 22px;font-family:var(--font-mono);font-size:9px;color:var(--text-2);text-transform:uppercase">Header</div>
-        <div class="sk-zone" style="padding:14px 6px 14px 22px;font-family:var(--font-mono);font-size:9px;color:var(--text-2);text-transform:uppercase">Stay selector</div>
-        <div class="sk-zone" style="padding:30px 6px 30px 22px;font-family:var(--font-mono);font-size:9px;color:var(--text-2);text-transform:uppercase;background:linear-gradient(180deg,rgba(254,44,85,.06),rgba(254,44,85,.02));border-color:rgba(254,44,85,.2)">Room list</div>
-        <div class="sk-zone" style="padding:14px 6px 14px 22px;font-family:var(--font-mono);font-size:9px;color:var(--text-2);text-transform:uppercase;background:linear-gradient(180deg,rgba(254,44,85,.1),rgba(254,44,85,.04));border-color:rgba(254,44,85,.3)">Sticky CTA</div>
+        <div class="sk-zone" style="padding:14px 6px 14px 22px;font-family:var(--font-mono);font-size:9px;color:var(--text-2);text-transform:uppercase">Intent qualifier</div>
+        <div class="sk-zone" style="padding:24px 6px 24px 22px;font-family:var(--font-mono);font-size:9px;color:var(--text-2);text-transform:uppercase;background:linear-gradient(180deg,rgba(254,44,85,.06),rgba(254,44,85,.02));border-color:rgba(254,44,85,.2)">Offerings preview</div>
+        <div class="sk-zone" style="padding:14px 6px 14px 22px;font-family:var(--font-mono);font-size:9px;color:var(--text-2);text-transform:uppercase;background:linear-gradient(180deg,rgba(254,44,85,.1),rgba(254,44,85,.04));border-color:rgba(254,44,85,.3)">Primary conversion</div>
       </div>
-      <p style="margin:14px 0 0;font-size:11px;color:var(--text-3);line-height:1.6"><b>交易主体 · 内容收成 1 行</b><br>对齐 Agoda / Booking 整卡形态</p>
+      <p style="margin:14px 0 0;font-size:11px;color:var(--text-3);line-height:1.6"><b>转化主体 · 内容收成 1 行</b><br>跨行业承接型卡，向 OTA / 团购整卡收敛</p>
     </div>
 
     <!-- ========== Compare · Strategy 2 ========== -->
@@ -1254,9 +1254,9 @@
         <span style="font-size:11px;color:var(--text-2);letter-spacing:.04em">FOLDED · COMPACT</span>
       </div>
       <div style="display:flex;flex-direction:column;gap:6px">
-        <div class="sk-zone" style="padding:8px 6px 8px 22px;font-family:var(--font-mono);font-size:9px;color:var(--text-2);text-transform:uppercase">Header + price</div>
+        <div class="sk-zone" style="padding:8px 6px 8px 22px;font-family:var(--font-mono);font-size:9px;color:var(--text-2);text-transform:uppercase">Header + summary</div>
         <div class="sk-zone" style="padding:14px 6px 14px 22px;font-family:var(--font-mono);font-size:9px;color:var(--text-2);text-transform:uppercase">Judgement signals</div>
-        <div class="sk-zone" style="padding:10px 6px 10px 22px;font-family:var(--font-mono);font-size:9px;color:var(--text-2);text-transform:uppercase">Action chips · folded</div>
+        <div class="sk-zone" style="padding:10px 6px 10px 22px;font-family:var(--font-mono);font-size:9px;color:var(--text-2);text-transform:uppercase">Quick actions · folded</div>
         <div class="sk-zone" style="padding:6px 6px 6px 22px;font-family:var(--font-mono);font-size:9px;color:var(--text-3);text-transform:uppercase;border-style:dashed;opacity:.7">Expand ▾</div>
       </div>
       <p style="margin:14px 0 0;font-size:11px;color:var(--text-3);line-height:1.6"><b>压缩首屏 · 折叠次级</b><br>不放大卡身，把判断前置</p>
@@ -1272,7 +1272,7 @@
         <div class="sk-zone" style="padding:8px 6px 8px 22px;font-family:var(--font-mono);font-size:9px;color:var(--text-2);text-transform:uppercase">Identity</div>
         <div class="sk-zone" style="padding:18px 6px 18px 22px;font-family:var(--font-mono);font-size:9px;color:var(--text-2);text-transform:uppercase">Content · video</div>
         <div class="sk-zone" style="padding:14px 6px 14px 22px;font-family:var(--font-mono);font-size:9px;color:var(--text-2);text-transform:uppercase">Review</div>
-        <div class="sk-zone" style="padding:14px 6px 14px 22px;font-family:var(--font-mono);font-size:9px;color:var(--text-2);text-transform:uppercase;background:linear-gradient(180deg,rgba(254,44,85,.06),rgba(254,44,85,.02));border-color:rgba(254,44,85,.2)">Transaction</div>
+        <div class="sk-zone" style="padding:14px 6px 14px 22px;font-family:var(--font-mono);font-size:9px;color:var(--text-2);text-transform:uppercase;background:linear-gradient(180deg,rgba(254,44,85,.06),rgba(254,44,85,.02));border-color:rgba(254,44,85,.2)">Conversion</div>
       </div>
       <p style="margin:14px 0 0;font-size:11px;color:var(--text-3);line-height:1.6"><b>原子单元 · 可编排</b><br>顺序由场景决定，不固定模板</p>
     </div>
@@ -1286,9 +1286,9 @@
       <div style="position:relative;border:1px dashed rgba(255,255,255,.1);border-radius:var(--radius-content);background:linear-gradient(180deg,var(--surface-2),var(--surface));aspect-ratio:9/13;overflow:hidden">
         <span class="zone-tag">Content surface</span>
         <div style="position:absolute;top:8px;left:8px;right:8px;padding:4px 6px;background:rgba(20,20,22,.6);border:1px solid rgba(255,255,255,.12);border-radius:8px;font-family:var(--font-mono);font-size:8px;color:var(--text-2);text-transform:uppercase">Floating identity</div>
-        <div style="position:absolute;bottom:8px;left:8px;right:8px;padding:6px;background:rgba(20,20,22,.6);border:1px solid rgba(254,44,85,.3);border-radius:8px;font-family:var(--font-mono);font-size:8px;color:#ff7894;text-transform:uppercase">Floating transaction</div>
+        <div style="position:absolute;bottom:8px;left:8px;right:8px;padding:6px;background:rgba(20,20,22,.6);border:1px solid rgba(254,44,85,.3);border-radius:8px;font-family:var(--font-mono);font-size:8px;color:#ff7894;text-transform:uppercase">Floating conversion</div>
       </div>
-      <p style="margin:14px 0 0;font-size:11px;color:var(--text-3);line-height:1.6"><b>内容主容器 · 浮层叠加</b><br>识别与交易作为浮层嵌入</p>
+      <p style="margin:14px 0 0;font-size:11px;color:var(--text-3);line-height:1.6"><b>内容主容器 · 浮层叠加</b><br>识别与转化作为浮层嵌入内容</p>
     </div>
 
   </div>
@@ -1303,16 +1303,16 @@
       <div style="padding:8px 10px;color:var(--text-2);font-family:var(--font-mono);font-size:10px;text-transform:uppercase">Strategy 4</div>
 
       <div style="padding:10px;border-top:1px solid var(--line);color:var(--text-2)">主语</div>
-      <div style="padding:10px;border-top:1px solid var(--line);color:var(--text)">能买什么</div>
+      <div style="padding:10px;border-top:1px solid var(--line);color:var(--text)">在这下一步</div>
       <div style="padding:10px;border-top:1px solid var(--line);color:var(--text)">是什么 + 怎么样</div>
       <div style="padding:10px;border-top:1px solid var(--line);color:var(--text)">可拆解为多个判断单元</div>
       <div style="padding:10px;border-top:1px solid var(--line);color:var(--text)">看起来是什么样</div>
 
-      <div style="padding:10px;border-top:1px solid var(--line);color:var(--text-2)">交易权重</div>
+      <div style="padding:10px;border-top:1px solid var(--line);color:var(--text-2)">转化权重</div>
       <div style="padding:10px;border-top:1px solid var(--line);color:#ff7894"><b>主体 · 60–70%</b></div>
       <div style="padding:10px;border-top:1px solid var(--line);color:var(--text)">轻承接 · ~20%</div>
       <div style="padding:10px;border-top:1px solid var(--line);color:var(--text)">独立单元 · 可省略</div>
-      <div style="padding:10px;border-top:1px solid var(--line);color:var(--text)">浮层 CTA · ~15%</div>
+      <div style="padding:10px;border-top:1px solid var(--line);color:var(--text)">浮层 · ~15%</div>
 
       <div style="padding:10px;border-top:1px solid var(--line);color:var(--text-2)">内容位置</div>
       <div style="padding:10px;border-top:1px solid var(--line);color:var(--text)">Header 1 行概要</div>
@@ -1321,22 +1321,22 @@
       <div style="padding:10px;border-top:1px solid var(--line);color:#25f4ee"><b>主容器</b></div>
 
       <div style="padding:10px;border-top:1px solid var(--line);color:var(--text-2)">签名模块</div>
-      <div style="padding:10px;border-top:1px solid var(--line);color:var(--text)">Stay selector + Room list</div>
-      <div style="padding:10px;border-top:1px solid var(--line);color:var(--text)">AI summary + Action chips</div>
+      <div style="padding:10px;border-top:1px solid var(--line);color:var(--text)">Intent qualifier + Offerings preview</div>
+      <div style="padding:10px;border-top:1px solid var(--line);color:var(--text)">Summary + Quick actions</div>
       <div style="padding:10px;border-top:1px solid var(--line);color:var(--text)">原子卡簇</div>
       <div style="padding:10px;border-top:1px solid var(--line);color:var(--text)">毛玻璃浮层</div>
 
-      <div style="padding:10px;border-top:1px solid var(--line);color:var(--text-2)">CTA 形态</div>
-      <div style="padding:10px;border-top:1px solid var(--line);color:var(--text)">Sticky · See availability ›</div>
+      <div style="padding:10px;border-top:1px solid var(--line);color:var(--text-2)">主操作形态</div>
+      <div style="padding:10px;border-top:1px solid var(--line);color:var(--text)">Sticky 主转化</div>
       <div style="padding:10px;border-top:1px solid var(--line);color:var(--text)">行内 Primary chip</div>
-      <div style="padding:10px;border-top:1px solid var(--line);color:var(--text)">独立 Transaction unit</div>
-      <div style="padding:10px;border-top:1px solid var(--line);color:var(--text)">Bottom floating Book ›</div>
+      <div style="padding:10px;border-top:1px solid var(--line);color:var(--text)">独立 Conversion unit</div>
+      <div style="padding:10px;border-top:1px solid var(--line);color:var(--text)">Bottom floating</div>
 
-      <div style="padding:10px;border-top:1px solid var(--line);color:var(--text-2)">最适行业</div>
-      <div style="padding:10px;border-top:1px solid var(--line);color:var(--text)">酒店 / 标准化套餐</div>
+      <div style="padding:10px;border-top:1px solid var(--line);color:var(--text-2)">行业适配倾向</div>
+      <div style="padding:10px;border-top:1px solid var(--line);color:var(--text)">标准化供给（酒/团/票皆可）</div>
       <div style="padding:10px;border-top:1px solid var(--line);color:var(--text)">通用 · 中小屏占</div>
       <div style="padding:10px;border-top:1px solid var(--line);color:var(--text)">跨行业 · 编排型</div>
-      <div style="padding:10px;border-top:1px solid var(--line);color:var(--text)">餐饮 / 景点</div>
+      <div style="padding:10px;border-top:1px solid var(--line);color:var(--text)">内容侧重（餐饮 / 景点 / 体验）</div>
     </div>
   </div>
 </section>
