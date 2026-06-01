@@ -187,14 +187,20 @@
   /* =========================================================
      Generic section
      ========================================================= */
-  section.block{max-width:1280px;margin:0 auto;padding:56px 28px;border-top:1px solid var(--line)}
-  .section-head{display:flex;align-items:flex-end;justify-content:space-between;gap:20px;margin-bottom:28px;flex-wrap:wrap}
-  .section-head h2{font-size:26px;letter-spacing:-.01em;margin:0 0 6px;font-weight:700}
-  .section-head .sub{color:var(--text-3);font-size:13.5px;margin:0}
+  section.block{max-width:1280px;margin:0 auto;padding:80px 28px;border-top:1px solid var(--line);position:relative}
+  section.block::before{
+    content:"";position:absolute;left:50%;top:0;width:64px;height:1px;
+    background:linear-gradient(90deg,transparent,var(--brand),transparent);
+    transform:translateX(-50%);
+  }
+  .section-head{display:flex;align-items:flex-end;justify-content:space-between;gap:20px;margin-bottom:36px;flex-wrap:wrap}
+  .section-head h2{font-size:30px;letter-spacing:-.015em;margin:0 0 8px;font-weight:700;line-height:1.2}
+  .section-head .sub{color:var(--text-3);font-size:14px;margin:0;max-width:780px;line-height:1.7}
   .section-head .index{
-    font-family:var(--font-mono);font-size:12px;color:var(--brand);
+    font-family:var(--font-mono);font-size:11px;color:var(--brand);
     padding:4px 10px;border:1px solid rgba(254,44,85,.35);border-radius:var(--radius-pill);
-    background:rgba(254,44,85,.08);
+    background:rgba(254,44,85,.08);letter-spacing:.06em;text-transform:uppercase;
+    display:inline-block;
   }
 
   /* =========================================================
@@ -462,17 +468,42 @@
     display:grid;grid-template-columns:minmax(0,1fr) 320px;gap:0;
   }
   @media (max-width:980px){.stage-body{grid-template-columns:1fr}}
-  .stage-body .text{padding:24px 32px;border-right:1px solid var(--line)}
+  .stage-body .text{padding:28px 32px;border-right:1px solid var(--line)}
   @media (max-width:980px){.stage-body .text{border-right:0;border-bottom:1px solid var(--line)}}
-  .stage-body .text dl{margin:0;display:grid;grid-template-columns:120px 1fr;row-gap:14px;column-gap:18px}
+  /* Info-card style for strategy details */
+  .stage-body .text dl{margin:0;display:flex;flex-direction:column;gap:12px}
   .stage-body .text dt{
-    color:var(--text-3);font-size:12px;font-weight:600;
-    letter-spacing:.04em;text-transform:uppercase;
-    padding-top:2px;
+    display:none;
   }
-  .stage-body .text dd{margin:0;color:var(--text);font-size:14px;line-height:1.65}
-  .stage-body .text dd ul{margin:6px 0 0;padding-left:18px;color:var(--text-2)}
+  .stage-body .text dd{
+    margin:0;background:var(--surface-2);border:1px solid var(--line);
+    border-radius:var(--radius-content);padding:14px 18px;
+    color:var(--text);font-size:13.5px;line-height:1.7;
+    border-left:3px solid var(--surface-3);
+    position:relative;
+  }
+  /* labeled sections inside dl - use nth-of-type to colour & label */
+  .stage-body .text dl > dd:nth-of-type(1){border-left-color:var(--brand)}
+  .stage-body .text dl > dd:nth-of-type(2){border-left-color:var(--brand-2)}
+  .stage-body .text dl > dd:nth-of-type(3){border-left-color:var(--gold)}
+  .stage-body .text dl > dd:nth-of-type(1)::before{
+    content:"结构特征 · STRUCTURE";color:#ff7894;
+    display:block;font-family:var(--font-mono);font-size:10.5px;
+    letter-spacing:.08em;font-weight:600;margin-bottom:8px;
+  }
+  .stage-body .text dl > dd:nth-of-type(2)::before{
+    content:"光谱定位 · POSITION";color:#7befe8;
+    display:block;font-family:var(--font-mono);font-size:10.5px;
+    letter-spacing:.08em;font-weight:600;margin-bottom:8px;
+  }
+  .stage-body .text dl > dd:nth-of-type(3)::before{
+    content:"风险与边界 · RISK";color:var(--gold);
+    display:block;font-family:var(--font-mono);font-size:10.5px;
+    letter-spacing:.08em;font-weight:600;margin-bottom:8px;
+  }
+  .stage-body .text dd ul{margin:0;padding-left:18px;color:var(--text-2)}
   .stage-body .text dd li{margin:4px 0}
+  .stage-body .text dd li b{color:#fff}
   .stage-body .text dd .chip{
     display:inline-block;font-size:11.5px;padding:2px 9px;
     border-radius:var(--radius-pill);background:var(--surface-3);color:var(--text-2);
@@ -683,6 +714,188 @@
   .fade-up.delay-1{animation-delay:.05s}
   .fade-up.delay-2{animation-delay:.12s}
   @keyframes up{to{opacity:1;transform:none}}
+
+  /* =========================================================
+     v2 · Story rail (top-of-page logical path)
+     ========================================================= */
+  .story-rail{
+    max-width:1280px;margin:0 auto;padding:24px 28px 8px;
+    position:relative;
+  }
+  .story-rail .rail-head{
+    display:flex;align-items:center;gap:10px;
+    font-family:var(--font-mono);font-size:11px;color:var(--text-3);
+    letter-spacing:.12em;text-transform:uppercase;margin-bottom:14px;
+  }
+  .story-rail .rail-head::after{
+    content:"";flex:1;height:1px;background:linear-gradient(90deg,var(--line),transparent);
+  }
+  .story-rail .rail{
+    display:grid;grid-template-columns:repeat(5,1fr);gap:0;align-items:stretch;
+    background:var(--surface);border:1px solid var(--line);border-radius:var(--radius-card);
+    overflow:hidden;position:relative;
+  }
+  @media (max-width:980px){.story-rail .rail{grid-template-columns:repeat(2,1fr)}.story-rail .rail::before{display:none}.story-rail .stop{border-bottom:1px solid var(--line)}}
+  .story-rail .rail::before{
+    content:"";position:absolute;left:6%;right:6%;top:36px;height:2px;
+    background:linear-gradient(90deg,
+      rgba(254,44,85,.7) 0%,
+      rgba(254,44,85,.45) 25%,
+      rgba(255,255,255,.18) 50%,
+      rgba(37,244,238,.45) 75%,
+      rgba(37,244,238,.7) 100%);
+    z-index:0;
+  }
+  .story-rail .stop{
+    position:relative;padding:18px 16px 18px;display:flex;flex-direction:column;
+    align-items:flex-start;gap:8px;text-decoration:none;color:inherit;
+    border-right:1px solid var(--line);transition:background .25s;
+  }
+  .story-rail .stop:last-child{border-right:0}
+  .story-rail .stop:hover{background:var(--surface-2)}
+  .story-rail .stop .dot{
+    width:14px;height:14px;border-radius:50%;
+    background:var(--surface-3);border:3px solid var(--bg);
+    box-shadow:0 0 0 1px var(--line);
+    margin-left:30%;z-index:1;position:relative;
+  }
+  .story-rail .stop[data-tone=brand] .dot{background:var(--brand);box-shadow:0 0 0 1px rgba(254,44,85,.5)}
+  .story-rail .stop[data-tone=cyan] .dot{background:var(--brand-2);box-shadow:0 0 0 1px rgba(37,244,238,.5)}
+  .story-rail .stop[data-tone=mid] .dot{background:#888;box-shadow:0 0 0 1px rgba(255,255,255,.3)}
+  .story-rail .stop .num{
+    font-family:var(--font-mono);font-size:10.5px;color:var(--text-3);letter-spacing:.08em;
+  }
+  .story-rail .stop b{font-size:14px;color:var(--text);letter-spacing:-.005em}
+  .story-rail .stop em{font-style:normal;font-size:12px;color:var(--text-3);line-height:1.5}
+
+  /* =========================================================
+     v2 · Section number badge
+     ========================================================= */
+  .section-head .num-badge{
+    width:46px;height:46px;border-radius:14px;
+    background:linear-gradient(135deg,var(--brand),#ff7194);
+    color:#fff;font-weight:800;font-size:18px;
+    display:flex;align-items:center;justify-content:center;
+    box-shadow:0 6px 18px rgba(254,44,85,.35);
+    flex:0 0 auto;
+  }
+  .section-head .head-left{display:flex;gap:18px;align-items:center;flex:1;min-width:0}
+
+  /* =========================================================
+     v2 · Reasoning visual (constraint → question → direction)
+     ========================================================= */
+  .reasoning-board{
+    margin-top:32px;background:var(--surface);
+    border:1px solid var(--line);border-radius:var(--radius-card);
+    padding:30px 30px 28px;position:relative;overflow:hidden;
+  }
+  .reasoning-board::before{
+    content:"";position:absolute;inset:0;
+    background:
+      radial-gradient(50% 40% at 12% 0%,rgba(254,44,85,.08),transparent 60%),
+      radial-gradient(50% 40% at 88% 100%,rgba(37,244,238,.06),transparent 60%);
+    pointer-events:none;
+  }
+  .reasoning-board > *{position:relative;z-index:1}
+  .reasoning-board h3{
+    margin:0 0 6px;font-size:18px;letter-spacing:-.005em;
+    display:flex;align-items:center;gap:10px;
+  }
+  .reasoning-board h3 .step-tag{
+    font-family:var(--font-mono);font-size:10.5px;color:var(--brand);
+    padding:3px 8px;border-radius:var(--radius-pill);
+    background:rgba(254,44,85,.1);border:1px solid rgba(254,44,85,.3);
+    letter-spacing:.06em;text-transform:uppercase;font-weight:600;
+  }
+  .reasoning-board .lead{margin:0 0 22px;color:var(--text-3);font-size:13px}
+  .reasoning-board .stage-spacer{height:24px;display:flex;align-items:center;justify-content:center;color:var(--text-4);font-size:14px;letter-spacing:8px}
+
+  /* =========================================================
+     v2 · Strategy detail compact info-cards
+     ========================================================= */
+  .strat-info{
+    display:grid;grid-template-columns:1fr;gap:12px;
+  }
+  .strat-info-card{
+    background:var(--surface-2);border:1px solid var(--line);
+    border-radius:var(--radius-content);padding:14px 16px;
+  }
+  .strat-info-card.spec{border-left:3px solid var(--brand)}
+  .strat-info-card.position{border-left:3px solid var(--brand-2)}
+  .strat-info-card.risk{border-left:3px solid var(--gold)}
+  .strat-info-card .label{
+    font-family:var(--font-mono);font-size:10.5px;color:var(--text-3);
+    letter-spacing:.08em;text-transform:uppercase;font-weight:600;
+    margin-bottom:8px;display:flex;align-items:center;gap:6px;
+  }
+  .strat-info-card.spec .label{color:#ff7894}
+  .strat-info-card.position .label{color:#7befe8}
+  .strat-info-card.risk .label{color:#ffb038}
+  .strat-info-card ul{margin:0;padding-left:18px;color:var(--text-2);font-size:13px;line-height:1.7}
+  .strat-info-card ul li{margin:3px 0}
+  .strat-info-card ul li b{color:#fff}
+  .strat-info-card p{margin:0;color:var(--text-2);font-size:13px;line-height:1.7}
+
+  /* mini spectrum locator */
+  .mini-spectrum{
+    margin-top:16px;padding:14px 16px;background:var(--surface-2);
+    border:1px solid var(--line);border-radius:var(--radius-content);
+  }
+  .mini-spectrum .ms-head{
+    font-family:var(--font-mono);font-size:10.5px;color:var(--text-3);
+    letter-spacing:.08em;text-transform:uppercase;margin-bottom:12px;
+    display:flex;justify-content:space-between;
+  }
+  .mini-spectrum .ms-bar{
+    height:4px;border-radius:2px;
+    background:linear-gradient(90deg,
+      rgba(254,44,85,.6) 0%,
+      rgba(254,44,85,.3) 30%,
+      rgba(255,255,255,.15) 50%,
+      rgba(37,244,238,.3) 70%,
+      rgba(37,244,238,.6) 100%);
+    position:relative;
+  }
+  .mini-spectrum .ms-bar i{
+    position:absolute;top:50%;transform:translate(-50%,-50%);
+    width:14px;height:14px;border-radius:50%;
+    background:#fff;border:3px solid var(--bg);
+    box-shadow:0 0 0 2px rgba(255,255,255,.55);
+  }
+  .mini-spectrum .ms-stops{
+    display:grid;grid-template-columns:repeat(4,1fr);
+    margin-top:10px;font-size:10.5px;color:var(--text-4);font-family:var(--font-mono);
+  }
+  .mini-spectrum .ms-stops span:nth-child(1){text-align:left}
+  .mini-spectrum .ms-stops span:nth-child(2),
+  .mini-spectrum .ms-stops span:nth-child(3){text-align:center}
+  .mini-spectrum .ms-stops span:nth-child(4){text-align:right}
+
+  /* =========================================================
+     v2 · Reminders → do/don't cards
+     ========================================================= */
+  .reminder-card{
+    background:var(--surface);border:1px solid var(--line);
+    border-radius:var(--radius-card);padding:18px 20px;
+    position:relative;overflow:hidden;
+  }
+  .reminder-card::before{
+    content:"";position:absolute;left:0;top:0;bottom:0;width:3px;
+    background:var(--gold);
+  }
+  .reminder-card .r-head{display:flex;align-items:center;gap:10px;margin-bottom:10px}
+  .reminder-card .r-num{
+    font-family:var(--font-mono);font-size:10.5px;color:var(--gold);
+    padding:3px 8px;border-radius:6px;background:rgba(255,176,56,.1);
+    border:1px solid rgba(255,176,56,.3);letter-spacing:.04em;font-weight:700;
+  }
+  .reminder-card .r-tag{
+    font-family:var(--font-mono);font-size:10px;color:var(--text-3);
+    letter-spacing:.06em;text-transform:uppercase;
+  }
+  .reminder-card h4{margin:0 0 8px;font-size:14.5px;line-height:1.4}
+  .reminder-card p{margin:0;color:var(--text-2);font-size:12.5px;line-height:1.65}
+  .reminder-card a{color:#ff7894;font-size:12px}
 </style>
 </head>
 <body>
@@ -713,14 +926,56 @@
 </header>
 
 <!-- =========================================================
+     STORY RAIL · 全文逻辑推演主线（5 站）
+     ========================================================= -->
+<div class="story-rail fade-up delay-2">
+  <div class="rail-head">逻辑推演主线 · How this doc reasons</div>
+  <div class="rail">
+    <a class="stop" href="#sec-framework" data-tone="brand">
+      <span class="num">01 · FRAMEWORK</span>
+      <span class="dot"></span>
+      <b>定义判断动线</b>
+      <em>识别 → 了解 → 转化</em>
+    </a>
+    <a class="stop" href="#sec-industry" data-tone="brand">
+      <span class="num">02 · INDUSTRY</span>
+      <span class="dot"></span>
+      <b>看行业 4 类范式</b>
+      <em>OTA / 地图 / 双入口 / 综搜</em>
+    </a>
+    <a class="stop" href="#sec-constraint" data-tone="mid">
+      <span class="num">03 · CONSTRAINT</span>
+      <span class="dot"></span>
+      <b>叠加 TT 平台约束</b>
+      <em>3 约束 · 3 问题</em>
+    </a>
+    <a class="stop" href="#sec-strategies" data-tone="cyan">
+      <span class="num">04 · 4 STRATEGIES</span>
+      <span class="dot"></span>
+      <b>收束 4 种结构</b>
+      <em>从货架卡 → 原生内容</em>
+    </a>
+    <a class="stop" href="#sec-spectrum" data-tone="cyan">
+      <span class="num">05 · SPECTRUM</span>
+      <span class="dot"></span>
+      <b>结构光谱与组合</b>
+      <em>权重 / 边界 / 选型</em>
+    </a>
+  </div>
+</div>
+
+<!-- =========================================================
      SECTION · 业务定义与判断动线
      ========================================================= -->
-<section class="block">
+<section class="block" id="sec-framework">
   <div class="section-head">
-    <div>
-      <span class="index">01 · Framework</span>
-      <h2 style="margin-top:10px">业务定义与判断动线</h2>
-      <p class="sub">先按用户的判断动线看这张卡：识别信息 → 了解信息 → 交易转化。</p>
+    <div class="head-left">
+      <div class="num-badge">01</div>
+      <div>
+        <span class="index">Framework</span>
+        <h2 style="margin-top:6px">先理清用户的判断动线</h2>
+        <p class="sub">这张卡要解决的不是"放什么"，而是"用户怎么读它"——识别 → 了解 → 转化的判断顺序。</p>
+      </div>
     </div>
   </div>
 
@@ -765,12 +1020,15 @@
 <!-- =========================================================
      SECTION · 结构解耦原则
      ========================================================= -->
-<section class="block">
+<section class="block" id="sec-principle">
   <div class="section-head">
-    <div>
-      <span class="index">02 · Principle</span>
-      <h2 style="margin-top:10px">结构解耦原则</h2>
-      <p class="sub">同一类信息可以承担不同角色；对 TikTok 来说，结构应先服务判断，再服务转化。</p>
+    <div class="head-left">
+      <div class="num-badge" style="background:linear-gradient(135deg,#888,#bbb);box-shadow:0 6px 18px rgba(255,255,255,.12)">02</div>
+      <div>
+        <span class="index">Principle</span>
+        <h2 style="margin-top:6px">结构应先服务判断，再服务转化</h2>
+        <p class="sub">同一类信息可以承担不同角色——结构不是机械切分，而是为信息匹配位置与时机。</p>
+      </div>
     </div>
   </div>
 
@@ -793,12 +1051,15 @@
 <!-- =========================================================
      SECTION · 行业结构观察 + TT 约束 + 3 个问题推理
      ========================================================= -->
-<section class="block">
+<section class="block" id="sec-industry">
   <div class="section-head">
-    <div>
-      <span class="index">02.5 · Industry Observation</span>
-      <h2 style="margin-top:10px">行业结构观察 → TikTok 平台约束 → 4 个方向</h2>
-      <p class="sub">先看行业里已经稳定存在的 4 类组织逻辑，再叠加 TikTok 的平台约束，自然收束出 4 个方向。</p>
+    <div class="head-left">
+      <div class="num-badge">03</div>
+      <div>
+        <span class="index">Industry → Constraint → Reasoning</span>
+        <h2 style="margin-top:6px">行业 4 类范式 → 叠加 TT 约束 → 收束 4 个方向</h2>
+        <p class="sub">这是整篇文档的<b style="color:#fff">核心推演链</b>。从行业里已经稳定存在的 4 类组织逻辑出发，叠加 TT 平台的 3 条约束，再回答 3 个结构问题，自然收束出 4 个结构方向。</p>
+      </div>
     </div>
   </div>
 
@@ -889,31 +1150,31 @@
   </p>
 
   <!-- TT 平台 3 大约束 + 3 问题推理 + 4 方向收束 -->
-  <div class="reasoning-flow">
-    <h3>🎯 叠加 TikTok 的平台约束</h3>
-    <p class="lead">同样的结构问题，落到 TT 上必须先满足这 3 条约束。</p>
+  <div class="reasoning-board" id="sec-constraint">
+    <h3><span class="step-tag">Step A</span> 叠加 TikTok 平台约束</h3>
+    <p class="lead">同样的结构问题，落到 TT 上必须先满足这 3 条硬约束。</p>
 
     <div class="constraints">
       <div class="constraint">
         <span class="num">1</span>
-        <h5>高屏效约束</h5>
-        <p>搜索结果页首先服务连续浏览，卡片高度必须对首屏效率负责。</p>
+        <h5>高屏效</h5>
+        <p>结果页首先服务连续浏览，卡片高度必须对首屏效率负责。</p>
       </div>
       <div class="constraint">
         <span class="num">2</span>
         <h5>不打断原生消费</h5>
-        <p>卡片不能把用户从双列视频的原生浏览节奏里硬拽出来。</p>
+        <p>卡片不能把用户从双列视频的原生节奏里硬拽出来。</p>
       </div>
       <div class="constraint">
         <span class="num">3</span>
         <h5>内容优势优先</h5>
-        <p>TT 的核心长板不是把货架堆得更满，而是用原生内容更快帮助用户判断"是不是这个地点、值不值得继续看 / 点"。</p>
+        <p>TT 的核心长板不是堆货架，而是用原生内容更快帮用户判断。</p>
       </div>
     </div>
 
-    <div class="arrow-down">▼ ▼ ▼</div>
+    <div class="stage-spacer">▼ ▼ ▼</div>
 
-    <h3 style="margin-top:8px">🤔 因此先回答 3 个结构问题</h3>
+    <h3><span class="step-tag">Step B</span> 回答 3 个结构问题</h3>
     <p class="lead">这 3 个问题决定了识别、了解、交易三类信息在 TT 结果页里如何重新落位。</p>
 
     <div class="questions">
@@ -931,25 +1192,26 @@
       </div>
     </div>
 
-    <div class="arrow-down">▼ ▼ ▼</div>
+    <div class="stage-spacer">▼ ▼ ▼</div>
 
-    <h3 style="margin-top:8px">💡 4 个方向自然收束</h3>
+    <h3><span class="step-tag">Step C</span> 4 个结构方向自然收束</h3>
+    <p class="lead">围绕"商家身份 / 内容 / 交易"三者的结构关系，自然形成一根从货架卡退向原生内容的光谱。</p>
     <div class="conclusion-list">
       <div class="conc-item">
         <div class="dir">1</div>
-        <div class="text"><b>意图直达型</b><span>地点明确，路径最短。</span></div>
+        <div class="text"><b>一体化强交易卡</b><span>内容 + 交易全塞一张卡，转化主导。</span></div>
       </div>
       <div class="conc-item">
         <div class="dir">2</div>
-        <div class="text"><b>降噪折叠型</b><span>首屏要压缩，但判断信息不能缺位。</span></div>
+        <div class="text"><b>信息折叠精简卡</b><span>仍是一体卡，把次要信息折叠藏起，让卡更矮。</span></div>
       </div>
       <div class="conc-item">
         <div class="dir">3</div>
-        <div class="text"><b>路径解耦型</b><span>不同业态下，内容与交易的承接顺序可动态调整。</span></div>
+        <div class="text"><b>内容与交易拆分</b><span>各自独立成卡，按场景穿插进 feed。</span></div>
       </div>
       <div class="conc-item">
         <div class="dir">4</div>
-        <div class="text"><b>内容沉浸型</b><span>内容已经足以主导地点判断。</span></div>
+        <div class="text"><b>纯内容沉浸</b><span>退回原生内容，交易仅作底部挂件。</span></div>
       </div>
     </div>
   </div>
@@ -958,12 +1220,15 @@
 <!-- =========================================================
      SECTION · 4 策略总览
      ========================================================= -->
-<section class="block">
+<section class="block" id="sec-strategies">
   <div class="section-head">
-    <div>
-      <span class="index">03 · 4 Architectures</span>
-      <h2 style="margin-top:10px">从「货架卡」一路退向「原生内容」的 4 种结构</h2>
-      <p class="sub">本质上是<b style="color:var(--text-2)">围绕"商家身份 / 内容 / 交易"三者的结构关系</b>展开的一组架构光谱。从策略 1 的"全塞一张卡、强交易主导"，一步步退到策略 4 的"纯原生内容、交易仅作底部挂件"。结构差异显著，<b style="color:var(--text-2)">但这 4 个策略并非阶段递进。</b></p>
+    <div class="head-left">
+      <div class="num-badge">04</div>
+      <div>
+        <span class="index">4 Architectures</span>
+        <h2 style="margin-top:6px">从「货架卡」一路退向「原生内容」的 4 种结构</h2>
+        <p class="sub">围绕<b style="color:var(--text-2)">"商家身份 / 内容 / 交易"</b>三者的结构关系展开的一组架构光谱。从策略 1 的"全塞一张卡、强交易主导"，一步步退到策略 4 的"纯原生内容、交易仅作底部挂件"。<b style="color:var(--text-2)">不是阶段递进，是 4 种并置选项。</b></p>
+      </div>
     </div>
   </div>
 
@@ -1264,12 +1529,15 @@
 <!-- =========================================================
      SECTION · 4 策略结构对比骨架（一眼看清差异）
      ========================================================= -->
-<section class="block">
+<section class="block" id="sec-spectrum">
   <div class="section-head">
-    <div>
-      <span class="index">03.5 · Spectrum at a glance</span>
-      <h2 style="margin-top:10px">从「货架卡」一路退向「原生内容」</h2>
-      <p class="sub">同一根光谱：左端是把内容 + 交易全塞一张卡的"货架电商卡"，右端是 TT 最原生的纯内容流。每一站都是结构关系的一次让步。</p>
+    <div class="head-left">
+      <div class="num-badge" style="background:linear-gradient(135deg,#25f4ee,#7befe8);color:#000;box-shadow:0 6px 18px rgba(37,244,238,.3)">05</div>
+      <div>
+        <span class="index">Spectrum at a glance</span>
+        <h2 style="margin-top:6px">把 4 个结构放回一根光谱看</h2>
+        <p class="sub">同一根光谱：左端货架电商卡，右端 TT 原生内容流。每一站都是结构关系的一次让步。</p>
+      </div>
     </div>
   </div>
 
@@ -1400,12 +1668,15 @@
 <!-- =========================================================
      SECTION · 可组合性
      ========================================================= -->
-<section class="block">
+<section class="block" id="sec-composability">
   <div class="section-head">
-    <div>
-      <span class="index">04 · Composability</span>
-      <h2 style="margin-top:10px">可组合性</h2>
-      <p class="sub">这 4 个方向不是结论列表，而是一组可组合的架构工具。同一套框架也应同时适配酒店、餐饮与景点等地点搜索。</p>
+    <div class="head-left">
+      <div class="num-badge" style="background:linear-gradient(135deg,#25f4ee,#7befe8);color:#000;box-shadow:0 6px 18px rgba(37,244,238,.3)">06</div>
+      <div>
+        <span class="index">Composability</span>
+        <h2 style="margin-top:6px">这 4 个方向不是结论，而是一组可组合的工具</h2>
+        <p class="sub">同一套框架同时适配酒店、餐饮、景点。具体落到哪个方向，由这 4 条业务变量决定。</p>
+      </div>
     </div>
   </div>
 
@@ -1444,45 +1715,66 @@
 <!-- =========================================================
      SECTION · 附录提醒
      ========================================================= -->
-<section class="block">
+<section class="block" id="sec-appendix">
   <div class="section-head">
-    <div>
-      <span class="index">05 · Appendix</span>
-      <h2 style="margin-top:10px">轻量历史提醒</h2>
-      <p class="sub">以下材料只作为边界提醒，不进入正文论证链条。作用是避免重复踩坑，不为任何方向背书。</p>
+    <div class="head-left">
+      <div class="num-badge" style="background:linear-gradient(135deg,#888,#bbb);box-shadow:0 6px 18px rgba(255,255,255,.12)">07</div>
+      <div>
+        <span class="index">Appendix · Reminders</span>
+        <h2 style="margin-top:6px">轻量历史提醒（不进入主推演）</h2>
+        <p class="sub">边界提醒，避免重复踩坑——不为任何方向背书。</p>
+      </div>
     </div>
   </div>
 
-  <div class="reminders">
-    <div class="reminder">
-      <span class="num">01</span>
+  <div class="reminders" style="display:grid;grid-template-columns:repeat(2,1fr);gap:14px">
+    <div class="reminder-card">
+      <div class="r-head">
+        <span class="r-num">PITFALL · 01</span>
+        <span class="r-tag">封面 · 识别效率</span>
+      </div>
       <h4>封面相关性和识别效率要一起成立</h4>
-      <p>封面相关性提升但美观度下降，点击未必同步上涨。对精确地点搜索，封面先服务"认出它"，再服务"想点它"。<br>参考：<a href="#">AI 精搜卡三期复盘</a>。</p>
+      <p>封面相关性提升但美观度下降，点击未必同步上涨。对精确地点搜索，封面先服务"认出它"，再服务"想点它"。<br><a href="#">参考：AI 精搜卡三期复盘</a></p>
     </div>
-    <div class="reminder">
-      <span class="num">02</span>
+    <div class="reminder-card">
+      <div class="r-head">
+        <span class="r-num">PITFALL · 02</span>
+        <span class="r-tag">内容相关性</span>
+      </div>
       <h4>内容相关性不足，会直接诱发重搜</h4>
-      <p>如果"了解信息"没有回答用户真正关心的问题，用户会回去改词，而不是继续决策。<br>参考：<a href="#">AI 精搜卡迭代需求</a>。</p>
+      <p>如果"了解信息"没回答用户真正关心的问题，用户会回去改词，而不是继续决策。<br><a href="#">参考：AI 精搜卡迭代需求</a></p>
     </div>
-    <div class="reminder">
-      <span class="num">03</span>
+    <div class="reminder-card">
+      <div class="r-head">
+        <span class="r-num">PITFALL · 03</span>
+        <span class="r-tag">动效 · 自动起播</span>
+      </div>
       <h4>自动起播不能替代结构价值</h4>
-      <p>自动起播只能放大已有价值，不能补结构短板。识别路径、信息组织和转化承接没理顺前，动效只会放大问题。<br>参考：<a href="#">AI 精搜卡三期复盘</a>。</p>
+      <p>自动起播只能放大已有价值，不能补结构短板。识别路径、信息组织、转化承接没理顺前，动效只会放大问题。<br><a href="#">参考：AI 精搜卡三期复盘</a></p>
     </div>
-    <div class="reminder">
-      <span class="num">04</span>
-      <h4>内容聚合要先证明"真的能帮用户理解地点"</h4>
-      <p>UGC、标签、摘要不是越多越好。只有在确实缩短"要不要继续看 / 点"的判断路径时，才值得占用搜索结果页空间。<br>参考：<a href="#">AI 精搜卡合辑样式改造</a>。</p>
+    <div class="reminder-card">
+      <div class="r-head">
+        <span class="r-num">PITFALL · 04</span>
+        <span class="r-tag">内容聚合</span>
+      </div>
+      <h4>聚合要先证明"真的能帮用户理解地点"</h4>
+      <p>UGC、标签、摘要不是越多越好。只有在确实缩短"要不要继续看 / 点"的判断路径时，才值得占用结果页空间。<br><a href="#">参考：AI 精搜卡合辑样式改造</a></p>
     </div>
-    <div class="reminder">
-      <span class="num">05</span>
-      <h4>卡片不是越高越好，先证明内容值不值得占这块空间</h4>
-      <p>统一拉高卡片、默认多露出，不一定提升决策效率。内容价值没有被证明前，更高的占屏只会放大理解成本，甚至拖累点击和消费。<br>参考：<a href="#">Search 2026 Q1 数据沉淀 / 脉络模块实验复盘</a>。</p>
+    <div class="reminder-card">
+      <div class="r-head">
+        <span class="r-num">PITFALL · 05</span>
+        <span class="r-tag">屏占 · 卡片高度</span>
+      </div>
+      <h4>卡片不是越高越好</h4>
+      <p>统一拉高卡片、默认多露出不一定提升决策效率。内容价值未证明前，更高的占屏只会放大理解成本，甚至拖累点击和消费。<br><a href="#">参考：Search 2026 Q1 数据沉淀 / 脉络模块实验复盘</a></p>
     </div>
-    <div class="reminder">
-      <span class="num">06</span>
+    <div class="reminder-card">
+      <div class="r-head">
+        <span class="r-num">PITFALL · 06</span>
+        <span class="r-tag">交互节点</span>
+      </div>
       <h4>交互节点一多，用户不一定更愿意继续决策</h4>
-      <p>按钮、媒体区、查看更多入口同时增强时，用户注意力容易被拆散。入口变多不等于路径更清晰，反而可能把用户推向换词、切 tab，或停留在浅层点击。<br>参考：<a href="#">Top1 问答卡按钮样式优化</a>。</p>
+      <p>按钮、媒体区、查看更多入口同时增强时，用户注意力容易被拆散。入口变多不等于路径更清晰，反而可能把用户推向换词、切 tab、浅层点击。<br><a href="#">参考：Top1 问答卡按钮样式优化</a></p>
     </div>
   </div>
 </section>
