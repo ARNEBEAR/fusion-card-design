@@ -487,17 +487,17 @@
   .stage-body .text dl > dd:nth-of-type(2){border-left-color:var(--brand-2)}
   .stage-body .text dl > dd:nth-of-type(3){border-left-color:var(--gold)}
   .stage-body .text dl > dd:nth-of-type(1)::before{
-    content:"结构特征 · STRUCTURE";color:#ff7894;
+    content:"模块构成 · STRUCTURE";color:#ff7894;
     display:block;font-family:var(--font-mono);font-size:10.5px;
     letter-spacing:.08em;font-weight:600;margin-bottom:8px;
   }
   .stage-body .text dl > dd:nth-of-type(2)::before{
-    content:"光谱定位 · POSITION";color:#7befe8;
+    content:"和其他策略的边界 · BOUNDARY";color:#7befe8;
     display:block;font-family:var(--font-mono);font-size:10.5px;
     letter-spacing:.08em;font-weight:600;margin-bottom:8px;
   }
   .stage-body .text dl > dd:nth-of-type(3)::before{
-    content:"风险与边界 · RISK";color:var(--gold);
+    content:"风险与代价 · RISK";color:var(--gold);
     display:block;font-family:var(--font-mono);font-size:10.5px;
     letter-spacing:.08em;font-weight:600;margin-bottom:8px;
   }
@@ -958,7 +958,7 @@
     <a class="stop" href="#sec-spectrum" data-tone="cyan">
       <span class="num">05 · SPECTRUM</span>
       <span class="dot"></span>
-      <b>结构光谱与组合</b>
+      <b>4 个策略的连续关系</b>
       <em>权重 / 边界 / 选型</em>
     </a>
   </div>
@@ -1195,7 +1195,7 @@
     <div class="stage-spacer">▼ ▼ ▼</div>
 
     <h3><span class="step-tag">Step C</span> 4 个结构方向自然收束</h3>
-    <p class="lead">围绕"商家身份 / 内容 / 交易"三者的结构关系，自然形成一根从货架卡退向原生内容的光谱。</p>
+    <p class="lead">围绕"商家身份 / 内容 / 交易"三者的结构关系，4 个策略其实是<b>一根从左到右的连续轴</b>：从"货架卡"一路退向"原生内容"。</p>
     <div class="conclusion-list">
       <div class="conc-item">
         <div class="dir">1</div>
@@ -1227,7 +1227,7 @@
       <div>
         <span class="index">4 Architectures</span>
         <h2 style="margin-top:6px">从「货架卡」一路退向「原生内容」的 4 种结构</h2>
-        <p class="sub">围绕<b style="color:var(--text-2)">"商家身份 / 内容 / 交易"</b>三者的结构关系展开的一组架构光谱。从策略 1 的"全塞一张卡、强交易主导"，一步步退到策略 4 的"纯原生内容、交易仅作底部挂件"。<b style="color:var(--text-2)">不是阶段递进，是 4 种并置选项。</b></p>
+        <p class="sub">围绕<b style="color:var(--text-2)">"商家身份 / 内容 / 交易"</b>三者的结构关系，4 个策略是<b style="color:var(--text-2)">一根从左到右的连续轴</b>。从策略 1 的"全塞一张卡、强交易主导"，一步步退到策略 4 的"纯原生内容、交易仅作底部挂件"。<b style="color:var(--text-2)">不是阶段递进，而是 4 种可并置的选项。</b></p>
       </div>
     </div>
   </div>
@@ -1270,9 +1270,9 @@
               <li><b>Primary CTA</b>：终态主操作，让用户在卡内即可完成下一步。</li>
             </ul>
           </dd>
-          <dt>定位</dt>
-          <dd>位于光谱<b>最左端</b>——离 TT 原生内容最远、离传统货架电商最近。卡身高，对屏占要求最严格。</dd>
-          <dt>风险与边界</dt>
+          <dt>边界</dt>
+          <dd>它是 4 个策略里<b>交易权重最大、卡身最高的</b>那一种——<b>所有承接都发生在这一张卡内</b>。和策略 2 的差异：2 还是要把内容/交易都装进一张卡，但通过"折叠"压低首屏；本策略不折叠，直接放大交易模块、内容退成 1 行 header 摘要。</dd>
+          <dt>风险与代价</dt>
           <dd>
             <ul>
               <li>对供给完整度依赖最高，供给不全时整卡显得空。</li>
@@ -1338,9 +1338,12 @@
               <li><b>Expand</b>：展开入口在卡末，让感兴趣的用户主动获取更多。</li>
             </ul>
           </dd>
-          <dt>定位</dt>
-          <dd>位于光谱<b>偏左偏中</b>——还是"一体卡"语态，但靠折叠把首屏屏占控制下来。是策略 1 的"低屏占替代品"。</dd>
-          <dt>风险与边界</dt>
+          <dt>边界</dt>
+          <dd>
+            和策略 1：1 是"放大交易模块、卡很高"；本策略是"维持交易模块的强度，但<b>把次要信息折叠藏起</b>，让卡变矮"。<br>
+            和策略 3：本策略<b>所有信息都在同一张卡里</b>，靠卡内的折叠/展开调节；策略 3 是<b>把信息打散成多张卡</b>，靠结果页层面的编排调节——一个是<b>单卡内调节</b>，一个是<b>跨卡之间调节</b>。
+          </dd>
+          <dt>风险与代价</dt>
           <dd>
             <ul>
               <li>压缩过度会削弱信息主次，用户反而更难判断先看什么。</li>
@@ -1408,9 +1411,12 @@
               <li><b>Native feed 穿插</b>：原生双列内容流仍贯穿全程，不被卡片打断。</li>
             </ul>
           </dd>
-          <dt>定位</dt>
-          <dd>位于光谱<b>偏中偏右</b>——结构最自由、可编排度最高。每张卡都更矮、更轻，但需要用<b>顺序与组合</b>来表达决策路径。</dd>
-          <dt>风险与边界</dt>
+          <dt>边界</dt>
+          <dd>
+            和策略 2：2 把内容、交易都塞在<b>同一张卡内</b>，靠折叠平衡；本策略<b>不再有"一张大卡"</b>——身份/交易/内容拆成多张独立小卡，<b>靠结果页层面（feed 顺序、出现频次、谁占首屏）来平衡</b>权重。<br>
+            和策略 4：4 是"内容彻底主导、卡退场"；本策略仍有交易卡作为独立模块，只是它<b>不强制出现在首屏</b>——可以根据用户意图（更想转化 → 把交易卡前置；更想看内容 → 把内容卡前置）动态决定。
+          </dd>
+          <dt>风险与代价</dt>
           <dd>
             <ul>
               <li>编排规则不稳定时，页面会显得零散，用户难以形成稳定预期。</li>
@@ -1457,6 +1463,89 @@
     </div>
   </article>
 
+  <!-- ============ 2 vs 3 边界专题对照 ============ -->
+  <div style="max-width:1280px;margin:0 auto;padding:20px 28px 0">
+    <div style="background:linear-gradient(180deg,rgba(255,255,255,.025),transparent);border:1px solid var(--line);border-radius:var(--radius-card);padding:28px 32px">
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:8px">
+        <span style="font-family:var(--font-mono);font-size:10.5px;color:#7befe8;padding:3px 10px;border-radius:var(--radius-pill);background:rgba(37,244,238,.1);border:1px solid rgba(37,244,238,.3);letter-spacing:.06em;font-weight:600">边界专题 · BOUNDARY DEEP-DIVE</span>
+      </div>
+      <h3 style="margin:0 0 8px;font-size:20px;letter-spacing:-.01em">策略 2 和 策略 3：怎么判断它们的内容/交易占比？</h3>
+      <p style="margin:0 0 22px;color:var(--text-3);font-size:13.5px;line-height:1.7;max-width:880px">
+        2 和 3 的真正差异<b style="color:var(--text)">不在"内容/交易各占多少"这个数字</b>，而在<b style="color:var(--text)">"在哪一层调节"</b>。1 和 4 的占比是<b style="color:var(--text)">写死在卡里</b>；2 和 3 的占比则<b style="color:var(--text)">取决于交互或上下文</b>。
+      </p>
+
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px">
+
+        <!-- 策略 2 · 单卡内调节 -->
+        <div style="background:var(--surface);border:1px solid var(--line);border-radius:var(--radius-content);padding:20px 22px">
+          <div style="display:flex;align-items:center;gap:8px;margin-bottom:12px">
+            <span style="width:24px;height:24px;border-radius:7px;background:linear-gradient(135deg,var(--brand),#ff7194);color:#fff;font-weight:700;font-size:11px;display:flex;align-items:center;justify-content:center">2</span>
+            <span style="font-size:12.5px;font-weight:600">在<b style="color:#ff7894">单卡内</b>调节</span>
+          </div>
+          <p style="margin:0 0 14px;color:var(--text-2);font-size:13px;line-height:1.7">
+            2 的内容/交易占比<b style="color:var(--text)">由"用户是否点击展开"决定</b>。首屏看到的是被压扁的版本；想了解更多时，点击展开把内容补足。<br>
+            <b style="color:var(--text)">权重调节者 = 用户自己</b>。
+          </p>
+          <div style="display:flex;gap:10px;align-items:flex-start">
+            <div style="flex:1;background:var(--surface-2);border:1px solid var(--line);border-radius:10px;padding:10px;display:flex;flex-direction:column;gap:6px">
+              <span style="font-family:var(--font-mono);font-size:9.5px;color:var(--text-3);letter-spacing:.06em">FOLDED · 默认</span>
+              <div style="height:14px;border-radius:4px;background:rgba(255,255,255,.08)"></div>
+              <div style="height:10px;border-radius:4px;background:rgba(37,244,238,.18)"></div>
+              <div style="height:10px;border-radius:4px;background:rgba(254,44,85,.3)"></div>
+              <div style="height:6px;border-radius:3px;background:rgba(255,255,255,.04);border:1px dashed rgba(255,255,255,.12);text-align:center;font-family:var(--font-mono);font-size:8.5px;color:var(--text-4);padding:1px 0">▾</div>
+            </div>
+            <div style="align-self:center;font-size:18px;color:var(--text-3)">→</div>
+            <div style="flex:1;background:var(--surface-2);border:1px solid var(--line);border-radius:10px;padding:10px;display:flex;flex-direction:column;gap:6px">
+              <span style="font-family:var(--font-mono);font-size:9.5px;color:var(--text-3);letter-spacing:.06em">EXPANDED · 用户主动</span>
+              <div style="height:14px;border-radius:4px;background:rgba(255,255,255,.08)"></div>
+              <div style="height:24px;border-radius:4px;background:rgba(37,244,238,.22)"></div>
+              <div style="height:18px;border-radius:4px;background:rgba(254,44,85,.32)"></div>
+              <div style="height:12px;border-radius:4px;background:rgba(255,255,255,.06)"></div>
+            </div>
+          </div>
+          <p style="margin:14px 0 0;font-size:11.5px;color:var(--text-3);line-height:1.6"><b style="color:var(--text)">占比公式：</b>占比由「折叠状态」决定。同一个用户、同一张卡，可能展开前是 30/40/30，展开后是 30/55/15。</p>
+        </div>
+
+        <!-- 策略 3 · 跨卡调节 -->
+        <div style="background:var(--surface);border:1px solid var(--line);border-radius:var(--radius-content);padding:20px 22px">
+          <div style="display:flex;align-items:center;gap:8px;margin-bottom:12px">
+            <span style="width:24px;height:24px;border-radius:7px;background:linear-gradient(135deg,var(--brand),#ff7194);color:#fff;font-weight:700;font-size:11px;display:flex;align-items:center;justify-content:center">3</span>
+            <span style="font-size:12.5px;font-weight:600">在<b style="color:#7befe8">结果页层面</b>调节</span>
+          </div>
+          <p style="margin:0 0 14px;color:var(--text-2);font-size:13px;line-height:1.7">
+            3 的内容/交易占比<b style="color:var(--text)">由"用户搜索意图 + 排序策略"决定</b>。意图偏交易 → 交易卡前置、内容卡后置；意图偏看看 → 反过来。<br>
+            <b style="color:var(--text)">权重调节者 = 排序系统/规则</b>。
+          </p>
+          <div style="display:flex;gap:10px;align-items:flex-start">
+            <div style="flex:1;background:var(--surface-2);border:1px solid var(--line);border-radius:10px;padding:10px;display:flex;flex-direction:column;gap:6px">
+              <span style="font-family:var(--font-mono);font-size:9.5px;color:var(--text-3);letter-spacing:.06em">INTENT · 偏交易</span>
+              <div style="height:10px;border-radius:4px;background:rgba(255,255,255,.08)"></div>
+              <div style="height:18px;border-radius:4px;background:rgba(254,44,85,.35)"></div>
+              <div style="height:10px;border-radius:4px;background:rgba(37,244,238,.18)"></div>
+              <div style="height:8px;border-radius:4px;background:rgba(37,244,238,.12)"></div>
+            </div>
+            <div style="align-self:center;font-size:18px;color:var(--text-3)">↔</div>
+            <div style="flex:1;background:var(--surface-2);border:1px solid var(--line);border-radius:10px;padding:10px;display:flex;flex-direction:column;gap:6px">
+              <span style="font-family:var(--font-mono);font-size:9.5px;color:var(--text-3);letter-spacing:.06em">INTENT · 偏看看</span>
+              <div style="height:10px;border-radius:4px;background:rgba(255,255,255,.08)"></div>
+              <div style="height:18px;border-radius:4px;background:rgba(37,244,238,.32)"></div>
+              <div style="height:14px;border-radius:4px;background:rgba(37,244,238,.22)"></div>
+              <div style="height:8px;border-radius:4px;background:rgba(254,44,85,.18)"></div>
+            </div>
+          </div>
+          <p style="margin:14px 0 0;font-size:11.5px;color:var(--text-3);line-height:1.6"><b style="color:var(--text)">占比公式：</b>占比由「排序系统挑哪几张卡 + 顺序」决定。两个不同用户搜同一个 POI，可能看到的卡完全不同。</p>
+        </div>
+      </div>
+
+      <!-- 一句话总结 -->
+      <div style="margin-top:18px;padding:14px 18px;background:rgba(37,244,238,.06);border:1px solid rgba(37,244,238,.2);border-radius:var(--radius-content);font-size:13.5px;line-height:1.7;color:var(--text)">
+        <b style="color:#7befe8">一句话区分：</b>
+        <b>策略 2</b> 把"占比怎么变"交给<b>用户的折叠/展开</b>；<b>策略 3</b> 把"占比怎么变"交给<b>结果页的排序与编排系统</b>。
+        前者是"<b>同一张卡的两个状态</b>"，后者是"<b>多张独立卡的不同组合</b>"。
+      </div>
+    </div>
+  </div>
+
   <!-- ============ Stage 4 ============ -->
   <article class="stage" id="stage-4">
     <div class="stage-head">
@@ -1478,9 +1567,9 @@
               <li>不存在传统意义上的"融合卡" —— 卡的边界让位于内容流。</li>
             </ul>
           </dd>
-          <dt>定位</dt>
-          <dd>位于光谱<b>最右端</b>——离 TT 原生内容最近、离传统货架最远。屏占合理性最容易成立，但转化承接力最弱。</dd>
-          <dt>风险与边界</dt>
+          <dt>边界</dt>
+          <dd>它是 4 个策略里<b>内容权重最大、交易权重最小的</b>那一种——结果页就是 TT 原生内容容器，<b>不存在"一张融合卡"这件事</b>。和策略 3 的差异：3 还会在 feed 里独立出"交易卡"作为一种供给单元；本策略连交易卡都没有，转化只剩底部一条挂件。</dd>
+          <dt>风险与代价</dt>
           <dd>
             <ul>
               <li>对素材质量与内容相关性要求最高；内容不足时，形式感会大于实际价值。</li>
@@ -1535,8 +1624,8 @@
       <div class="num-badge" style="background:linear-gradient(135deg,#25f4ee,#7befe8);color:#000;box-shadow:0 6px 18px rgba(37,244,238,.3)">05</div>
       <div>
         <span class="index">Spectrum at a glance</span>
-        <h2 style="margin-top:6px">把 4 个结构放回一根光谱看</h2>
-        <p class="sub">同一根光谱：左端货架电商卡，右端 TT 原生内容流。每一站都是结构关系的一次让步。</p>
+        <h2 style="margin-top:6px">把 4 个结构放回同一根轴上看</h2>
+        <p class="sub">同一根从左到右的轴：左端货架电商卡，右端 TT 原生内容流。每一站都是结构关系的一次让步——交易让出一点、内容拿走一点。</p>
       </div>
     </div>
   </div>
