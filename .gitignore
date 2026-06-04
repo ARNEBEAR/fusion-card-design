@@ -11,3 +11,6 @@ __pycache__/
 # screenshot exports
 exports/
 package-lock.json
+
+# nested deploy repo (Pages site has its own remote: ARNEBEAR/fusion-card)
+designs/standalone/

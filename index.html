@@ -1,2040 +1,363 @@
 <!doctype html>
 <html lang="zh-CN">
 <head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
-<title>地点精搜融合卡设计探索 · POI Exact Search Fusion Card</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Fusion Card · 4 Strategies · Side-by-Side</title>
 <style>
-  /* =========================================================
-     TikTok Design System tokens (semantic, dark surface)
-     ========================================================= */
   :root{
     --bg:#0a0a0b;
-    --bg-2:#0f0f12;
+    --bg-2:#101013;
     --surface:#16171a;
-    --surface-2:#1d1e22;
-    --surface-3:#26272c;
-    --line:rgba(255,255,255,.08);
-    --line-2:rgba(255,255,255,.14);
+    --surface-2:#1c1d21;
+    --line:rgba(255,255,255,.07);
+    --line-2:rgba(255,255,255,.13);
     --text:#fafafa;
-    --text-2:rgba(255,255,255,.78);
-    --text-3:rgba(255,255,255,.55);
-    --text-4:rgba(255,255,255,.38);
-    --brand:#fe2c55;
-    --brand-2:#25f4ee;
-    --gold:#ffb038;
-    --green:#22c55e;
-    --blue:#5b9cff;
-    --radius-card:18px;
-    --radius-content:12px;
-    --radius-pill:999px;
-    --shadow-1:0 4px 14px rgba(0,0,0,.28);
-    --shadow-2:0 12px 36px rgba(0,0,0,.45);
-    --font:'Inter','SF Pro Text',-apple-system,BlinkMacSystemFont,'Helvetica Neue','PingFang SC','Hiragino Sans GB','Microsoft YaHei',sans-serif;
-    --font-mono:'JetBrains Mono','SF Mono',ui-monospace,Menlo,Consolas,monospace;
+    --text-2:rgba(255,255,255,.74);
+    --text-3:rgba(255,255,255,.5);
+    --text-4:rgba(255,255,255,.3);
+    --accent:#fe2c55;
+    --font:'Inter','SF Pro Text',-apple-system,BlinkMacSystemFont,'Helvetica Neue','PingFang SC',sans-serif;
+    --font-mono:'JetBrains Mono','SF Mono',ui-monospace,Menlo,monospace;
+    --font-display:'Inter','SF Pro Display',-apple-system,sans-serif;
   }
-
   *{box-sizing:border-box}
-  html,body{margin:0;padding:0;background:var(--bg);color:var(--text);font-family:var(--font);-webkit-font-smoothing:antialiased;line-height:1.6;}
-  a{color:#ff5e7e;text-decoration:none}
-  a:hover{text-decoration:underline}
+  html,body{margin:0;padding:0;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+  body{font-family:var(--font);color:var(--text);background:var(--bg);min-height:100vh}
 
-  /* Scroll reveal */
-  ::selection{background:rgba(254,44,85,.35)}
-
-  /* =========================================================
-     Page chrome
-     ========================================================= */
+  /* ===== top bar ===== */
   .topbar{
     position:sticky;top:0;z-index:50;
-    backdrop-filter:blur(20px) saturate(140%);
-    -webkit-backdrop-filter:blur(20px) saturate(140%);
-    background:rgba(10,10,11,.72);
-    border-bottom:1px solid var(--line);
+    backdrop-filter:blur(24px) saturate(140%);-webkit-backdrop-filter:blur(24px) saturate(140%);
+    background:rgba(10,10,11,.7);border-bottom:1px solid var(--line);
+    padding:14px 32px;display:flex;align-items:center;gap:14px;font-size:13px;color:var(--text-2);
   }
-  .topbar-inner{max-width:1280px;margin:0 auto;padding:14px 28px;display:flex;align-items:center;gap:16px;}
-  .logo{
-    width:28px;height:28px;border-radius:8px;
-    background:linear-gradient(135deg,var(--brand),#ff7194);
-    display:flex;align-items:center;justify-content:center;color:#fff;font-weight:800;font-size:13px;
-    box-shadow:0 2px 8px rgba(254,44,85,.45);
-  }
-  .topbar h1{font-size:14px;margin:0;font-weight:600;letter-spacing:-.005em}
-  .topbar .meta{font-size:12px;color:var(--text-3);margin-left:auto}
+  .topbar .dot{width:6px;height:6px;border-radius:50%;background:var(--accent);box-shadow:0 0 12px var(--accent)}
+  .topbar .t{font-weight:600;color:var(--text);letter-spacing:-.005em}
+  .topbar .meta{margin-left:auto;font-family:var(--font-mono);font-size:11px;color:var(--text-4);letter-spacing:.04em}
 
-  /* =========================================================
-     Hero
-     ========================================================= */
-  .hero{
-    max-width:1280px;margin:0 auto;padding:80px 28px 48px;
-    position:relative;overflow:hidden;
-  }
-  .hero::before{
-    content:"";position:absolute;inset:-20% -10% 0;
-    background:
-      radial-gradient(60% 40% at 20% 20%, rgba(254,44,85,.18), transparent 60%),
-      radial-gradient(50% 40% at 80% 30%, rgba(37,244,238,.12), transparent 60%);
-    pointer-events:none;z-index:0;
-  }
-  .hero > *{position:relative;z-index:1}
-  .hero .eyebrow{
-    display:inline-flex;align-items:center;gap:8px;
-    padding:6px 12px;border-radius:var(--radius-pill);
-    background:rgba(254,44,85,.12);color:#ff7894;
-    font-size:12px;font-weight:600;letter-spacing:.04em;
-    border:1px solid rgba(254,44,85,.25);
+  /* ===== hero ===== */
+  .hero{padding:64px 40px 8px;max-width:1760px;margin:0 auto}
+  .hero .pre{
+    display:inline-flex;align-items:center;gap:8px;padding:6px 12px;border-radius:999px;
+    background:var(--surface);border:1px solid var(--line-2);color:var(--text-3);
+    font-family:var(--font-mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;
   }
   .hero h1{
-    font-size:clamp(32px,4.6vw,56px);line-height:1.08;letter-spacing:-.02em;
-    margin:18px 0 16px;font-weight:700;
-    background:linear-gradient(180deg,#fff,rgba(255,255,255,.65));
-    -webkit-background-clip:text;background-clip:text;color:transparent;
+    margin:24px 0 14px;font-family:var(--font-display);font-size:60px;line-height:1.02;
+    letter-spacing:-.028em;font-weight:700;color:#fff;
   }
-  .hero .lead{font-size:clamp(15px,1.4vw,18px);color:var(--text-2);max-width:760px;line-height:1.6}
-  .hero .core{
-    margin-top:28px;display:flex;flex-wrap:wrap;gap:10px;
+  .hero h1 em{font-style:normal;color:var(--text-3);font-weight:600}
+  .hero p{margin:0;color:var(--text-2);font-size:15.5px;line-height:1.6;max-width:840px}
+  .hero p b{color:var(--text);font-weight:600}
+  .hero .keyrow{margin-top:24px;display:flex;flex-wrap:wrap;gap:8px}
+  .hero .keyrow span{
+    padding:6px 11px;border-radius:6px;background:var(--surface);border:1px solid var(--line);
+    font-family:var(--font-mono);font-size:11px;letter-spacing:.04em;color:var(--text-3);
   }
-  .hero .core .tag{
-    padding:8px 14px;border-radius:var(--radius-pill);
-    background:var(--surface-2);border:1px solid var(--line);
-    font-size:13px;color:var(--text);
-  }
-  .hero .core .tag b{color:#ff7894;margin-right:4px}
+  .hero .keyrow span b{color:var(--text);font-weight:600}
 
-  /* =========================================================
-     Industry observation
-     ========================================================= */
-  .industry-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}
-  @media (max-width:900px){.industry-grid{grid-template-columns:1fr}}
-  .industry{
-    background:var(--surface);border:1px solid var(--line);
-    border-radius:var(--radius-card);padding:20px 22px;
-    position:relative;
+  /* ===== 4-up compare ===== */
+  .compare{
+    max-width:1760px;margin:0 auto;padding:48px 40px 24px;
   }
-  .industry .ind-tag{
-    display:inline-flex;align-items:center;gap:6px;
-    padding:3px 10px;border-radius:var(--radius-pill);
-    font-size:11px;font-weight:600;letter-spacing:.04em;
-    background:rgba(37,244,238,.12);color:#7ff7f1;
-    border:1px solid rgba(37,244,238,.25);margin-bottom:10px;
+  .compare-head{
+    display:flex;align-items:flex-end;justify-content:space-between;gap:24px;
+    padding-bottom:18px;border-bottom:1px solid var(--line);margin-bottom:36px;
   }
-  .industry h4{margin:0 0 4px;font-size:16px;letter-spacing:-.005em}
-  .industry .reps{font-size:11.5px;color:var(--text-3);margin:0 0 14px}
-  .industry .ind-block{margin-top:12px;padding-top:12px;border-top:1px dashed var(--line)}
-  .industry .ind-block h5{margin:0 0 6px;font-size:12px;color:var(--text-3);text-transform:uppercase;letter-spacing:.06em;font-weight:600}
-  .industry .ind-block ul{margin:0;padding-left:18px;color:var(--text-2);font-size:13px;line-height:1.65}
-  .industry .ind-block ul li{margin:3px 0}
-  .industry .ind-block ul li b{color:#fff}
+  .compare-head h2{
+    margin:0;font-family:var(--font-display);font-size:30px;letter-spacing:-.018em;font-weight:700;color:#fff;
+  }
+  .compare-head h2 em{color:var(--text-3);font-style:normal;font-weight:600}
+  .compare-head p{margin:8px 0 0;color:var(--text-3);font-size:13.5px;line-height:1.55;max-width:760px}
+  .compare-head .legend{
+    flex-shrink:0;font-family:var(--font-mono);font-size:11px;color:var(--text-4);letter-spacing:.05em;text-align:right;line-height:1.7;
+  }
+  .compare-head .legend b{color:var(--text-2);font-weight:600}
 
-  .reasoning-flow{
-    margin-top:32px;background:var(--surface);
-    border:1px solid var(--line);border-radius:var(--radius-card);
-    padding:24px 26px;
+  .grid4{
+    display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:32px;
   }
-  .reasoning-flow h3{margin:0 0 6px;font-size:17px;letter-spacing:-.005em;display:flex;align-items:center;gap:8px}
-  .reasoning-flow .lead{margin:0 0 18px;color:var(--text-3);font-size:13px}
-  .constraints{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:18px}
-  @media (max-width:760px){.constraints{grid-template-columns:1fr}}
-  .constraint{
-    background:var(--surface-2);border:1px solid var(--line);
-    border-radius:var(--radius-content);padding:14px 16px;
-    position:relative;
-  }
-  .constraint .num{
-    position:absolute;top:-10px;left:14px;
-    width:22px;height:22px;border-radius:50%;
-    background:var(--brand);color:#fff;font-size:11px;font-weight:800;
-    display:flex;align-items:center;justify-content:center;
-    box-shadow:0 2px 8px rgba(254,44,85,.5);
-  }
-  .constraint h5{margin:6px 0 4px;font-size:13.5px;font-weight:700}
-  .constraint p{margin:0;color:var(--text-2);font-size:12px;line-height:1.6}
+  @media (max-width:1280px){.grid4{grid-template-columns:repeat(2,minmax(0,1fr))}}
+  @media (max-width:680px){.grid4{grid-template-columns:1fr}}
 
-  .arrow-down{
-    text-align:center;color:var(--brand);font-size:18px;
-    margin:14px 0;letter-spacing:4px;
-  }
-  .questions{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:14px}
-  @media (max-width:760px){.questions{grid-template-columns:1fr}}
-  .question{
-    background:linear-gradient(180deg,rgba(254,44,85,.08),transparent 80%);
-    border:1px solid rgba(254,44,85,.25);
-    border-radius:var(--radius-content);padding:14px 16px;
-  }
-  .question .q-num{
-    font-family:var(--font-mono);font-size:11px;color:var(--brand);
-    font-weight:700;margin-bottom:6px;letter-spacing:.04em;
-  }
-  .question p{margin:0;color:var(--text);font-size:13px;line-height:1.55;font-weight:500}
-
-  .conclusion-list{margin-top:14px;display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
-  @media (max-width:760px){.conclusion-list{grid-template-columns:1fr}}
-  .conc-item{
-    display:flex;align-items:center;gap:12px;
-    padding:12px 14px;border-radius:var(--radius-content);
-    background:var(--surface-2);border:1px solid var(--line);
-  }
-  .conc-item .dir{
-    flex:0 0 auto;width:28px;height:28px;border-radius:8px;
-    background:linear-gradient(135deg,var(--brand),#ff7194);color:#fff;
-    font-weight:800;font-size:12px;
-    display:flex;align-items:center;justify-content:center;
-  }
-  .conc-item .text{flex:1;min-width:0}
-  .conc-item .text b{display:block;font-size:13px;color:#fff}
-  .conc-item .text span{display:block;font-size:11.5px;color:var(--text-3);margin-top:2px}
-
-  /* =========================================================
-     Generic section
-     ========================================================= */
-  section.block{max-width:1280px;margin:0 auto;padding:80px 28px;border-top:1px solid var(--line);position:relative}
-  section.block::before{
-    content:"";position:absolute;left:50%;top:0;width:64px;height:1px;
-    background:linear-gradient(90deg,transparent,var(--brand),transparent);
-    transform:translateX(-50%);
-  }
-  .section-head{display:flex;align-items:flex-end;justify-content:space-between;gap:20px;margin-bottom:36px;flex-wrap:wrap}
-  .section-head h2{font-size:30px;letter-spacing:-.015em;margin:0 0 8px;font-weight:700;line-height:1.2}
-  .section-head .sub{color:var(--text-3);font-size:14px;margin:0;max-width:780px;line-height:1.7}
-  .section-head .index{
-    font-family:var(--font-mono);font-size:11px;color:var(--brand);
-    padding:4px 10px;border:1px solid rgba(254,44,85,.35);border-radius:var(--radius-pill);
-    background:rgba(254,44,85,.08);letter-spacing:.06em;text-transform:uppercase;
-    display:inline-block;
+  .col{
+    display:flex;flex-direction:column;gap:18px;min-width:0;
   }
 
-  /* =========================================================
-     Decision-flow table
-     ========================================================= */
-  .flow-table{
+  /* card meta header */
+  .col-head{
+    display:flex;flex-direction:column;gap:10px;padding:0 4px;
+  }
+  .col-head .top{
+    display:flex;align-items:center;gap:8px;
+  }
+  .col-head .num{
+    font-family:var(--font-mono);font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;
+    padding:4px 8px;border-radius:5px;background:var(--surface);color:var(--text-2);
+    border:1px solid var(--line-2);font-weight:700;
+  }
+  .col-head .num.s1{background:rgba(254,44,85,.14);color:#ff7898;border-color:rgba(254,44,85,.32)}
+  .col-head .num.s2{background:rgba(244,180,0,.12);color:#f5c450;border-color:rgba(244,180,0,.3)}
+  .col-head .num.s3{background:rgba(26,178,107,.12);color:#5fd49a;border-color:rgba(26,178,107,.3)}
+  .col-head .num.s4{background:rgba(168,109,255,.14);color:#c8a6ff;border-color:rgba(168,109,255,.32)}
+  .col-head .ref{
+    font-family:var(--font-mono);font-size:10.5px;letter-spacing:.06em;color:var(--text-4);
+    margin-left:auto;text-transform:uppercase;
+  }
+  .col-head h3{
+    margin:0;font-family:var(--font-display);font-size:22px;letter-spacing:-.018em;font-weight:700;color:#fff;line-height:1.18;
+  }
+  .col-head .desc{
+    margin:0;font-size:13px;color:var(--text-3);line-height:1.55;font-weight:400;
+  }
+
+  /* phone */
+  .phone-wrap{
+    width:100%;aspect-ratio:390 / 844;position:relative;background:transparent;
+    border-radius:42px;overflow:hidden;
+    box-shadow:
+      0 30px 70px rgba(0,0,0,.55),
+      0 12px 28px rgba(0,0,0,.4),
+      0 0 0 1px rgba(255,255,255,.04),
+      inset 0 0 0 1px rgba(255,255,255,.04);
+  }
+  .phone-screen{position:relative;width:100%;height:100%;border-radius:42px;overflow:hidden;background:#fff}
+  .phone-screen iframe{width:390px;height:844px;border:0;display:block;background:#fff;transform-origin:top left}
+
+  /* mechanics list */
+  .mech{
+    margin-top:6px;display:flex;flex-direction:column;gap:8px;padding:14px 14px;
+    background:var(--surface);border:1px solid var(--line);border-radius:14px;
+  }
+  .mech .row{
+    display:flex;gap:10px;align-items:flex-start;font-size:12px;line-height:1.5;color:var(--text-2);
+  }
+  .mech .row .lbl{
+    flex:0 0 60px;font-family:var(--font-mono);font-size:10px;letter-spacing:.1em;
+    text-transform:uppercase;color:var(--text-4);font-weight:700;padding-top:1px;
+  }
+  .mech .row .val{flex:1;min-width:0}
+  .mech .row .val b{color:var(--text);font-weight:600}
+
+  /* ===== summary table ===== */
+  .summary{
+    max-width:1760px;margin:0 auto;padding:48px 40px 32px;
+  }
+  .summary h3{
+    margin:0 0 18px;font-family:var(--font-display);font-size:18px;letter-spacing:-.005em;font-weight:600;color:var(--text-2);
+    display:flex;align-items:center;gap:10px;
+  }
+  .summary h3::before{content:"";width:4px;height:14px;border-radius:2px;background:var(--text-3)}
+  .stable{
     width:100%;border-collapse:separate;border-spacing:0;
-    background:var(--surface);border:1px solid var(--line);border-radius:var(--radius-card);overflow:hidden;
+    background:var(--surface);border:1px solid var(--line);border-radius:14px;overflow:hidden;
+    font-size:13px;
   }
-  .flow-table th,.flow-table td{
-    padding:16px 18px;text-align:left;font-size:14px;vertical-align:top;
-    border-bottom:1px solid var(--line);
+  .stable th, .stable td{
+    text-align:left;padding:14px 18px;border-bottom:1px solid var(--line);vertical-align:top;
   }
-  .flow-table th{
-    background:var(--surface-2);font-weight:600;color:var(--text);
-    font-size:13px;letter-spacing:.02em;
+  .stable th{
+    font-family:var(--font-mono);font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;
+    color:var(--text-4);font-weight:700;background:var(--surface-2);
   }
-  .flow-table th:first-child{width:22%;color:var(--text-3);font-weight:500}
-  .flow-table tr:last-child td{border-bottom:0}
-  .flow-table .step{
-    display:inline-flex;align-items:center;gap:6px;
-    padding:3px 9px;border-radius:var(--radius-pill);
-    font-size:11px;font-weight:600;letter-spacing:.03em;
-    background:rgba(254,44,85,.14);color:#ff7894;
-    border:1px solid rgba(254,44,85,.25);
+  .stable tr:last-child td{border-bottom:0}
+  .stable td:first-child{
+    font-family:var(--font-mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;
+    color:var(--text-2);font-weight:700;width:120px;
   }
-  .flow-arrow{
-    display:flex;align-items:center;justify-content:center;gap:18px;
-    margin:32px 0 18px;color:var(--text);font-size:14px;flex-wrap:wrap;
-  }
-  .flow-arrow .pill{
-    padding:14px 22px;background:linear-gradient(180deg,var(--surface),var(--surface-2));
-    border:1px solid var(--line-2);border-radius:16px;color:var(--text);
-    display:inline-flex;align-items:center;gap:10px;font-weight:600;
-    box-shadow:0 4px 14px rgba(0,0,0,.25);min-width:180px;justify-content:center;
-  }
-  .flow-arrow .pill .step{
-    display:inline-flex;align-items:center;justify-content:center;
-    width:28px;height:28px;border-radius:9px;
-    background:linear-gradient(135deg,var(--brand),#ff7194);
-    color:#fff;font-size:13px;font-weight:800;letter-spacing:0;
-    box-shadow:0 2px 8px rgba(254,44,85,.45);border:0;
-  }
-  .flow-arrow .arrow{color:var(--brand);font-weight:800;font-size:22px}
-  @media (max-width:760px){.flow-arrow .pill{min-width:0;padding:10px 14px;font-size:13px}.flow-arrow .arrow{font-size:18px}}
+  .stable td{color:var(--text-3);line-height:1.55}
+  .stable td b{color:var(--text);font-weight:600}
 
-  /* =========================================================
-     Principle / decoupling cards
-     ========================================================= */
-  .principle-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
-  @media (max-width:900px){.principle-grid{grid-template-columns:1fr}}
-  .principle{
-    background:var(--surface);border:1px solid var(--line);
-    border-radius:var(--radius-card);padding:18px 18px 20px;
-    position:relative;overflow:hidden;
-  }
-  .principle::before{
-    content:"";position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--brand);
-  }
-  .principle h4{margin:0 0 8px;font-size:15px}
-  .principle p{margin:0;color:var(--text-2);font-size:13px;line-height:1.6}
-
-  /* =========================================================
-     Skeleton / wireframe primitives (for abstract prototypes)
-     ========================================================= */
-  .sk-card{
-    background:var(--surface);border:1px solid var(--line);
-    border-radius:var(--radius-card);overflow:hidden;
-  }
-  .sk-zone{
-    position:relative;
-    background:linear-gradient(180deg,var(--surface-2),var(--surface));
-    border:1px dashed rgba(255,255,255,.08);
-    border-radius:var(--radius-content);
-  }
-  .sk-zone .zone-tag{
-    position:absolute;top:6px;left:6px;
-    font-family:var(--font-mono);font-size:8.5px;
-    color:rgba(255,255,255,.45);
-    letter-spacing:.08em;text-transform:uppercase;
-    pointer-events:none;
-  }
-  .sk-bar{
-    height:8px;border-radius:4px;
-    background:linear-gradient(90deg,rgba(255,255,255,.08),rgba(255,255,255,.14),rgba(255,255,255,.08));
-    background-size:200% 100%;
-    animation:shimmer 2.4s ease-in-out infinite;
-  }
-  .sk-bar.h-6{height:6px}
-  .sk-bar.h-10{height:10px}
-  .sk-bar.h-12{height:12px}
-  .sk-bar.h-14{height:14px}
-  .sk-bar.h-18{height:18px}
-  .sk-bar.w-30{width:30%}
-  .sk-bar.w-40{width:40%}
-  .sk-bar.w-50{width:50%}
-  .sk-bar.w-60{width:60%}
-  .sk-bar.w-70{width:70%}
-  .sk-bar.w-80{width:80%}
-  .sk-bar.w-90{width:90%}
-  .sk-bar.w-full{width:100%}
-  .sk-bar.brand{background:linear-gradient(90deg,rgba(254,44,85,.35),rgba(254,44,85,.6),rgba(254,44,85,.35));background-size:200% 100%}
-  .sk-circle{
-    width:28px;height:28px;border-radius:50%;
-    background:linear-gradient(135deg,rgba(255,255,255,.14),rgba(255,255,255,.06));
-    border:1px solid rgba(255,255,255,.06);
-    flex:0 0 auto;
-  }
-  .sk-thumb{
-    border-radius:var(--radius-content);
-    background:
-      linear-gradient(135deg,rgba(255,255,255,.06),rgba(255,255,255,.02)),
-      repeating-linear-gradient(45deg,rgba(255,255,255,.04) 0 8px,transparent 8px 16px);
-    border:1px solid rgba(255,255,255,.06);
-    flex:0 0 auto;position:relative;
-  }
-  .sk-thumb::after{
-    content:"";position:absolute;inset:0;
-    background:radial-gradient(60% 60% at 50% 40%,rgba(254,44,85,.10),transparent 70%);
-    pointer-events:none;
-  }
-  .sk-pill{
-    display:inline-flex;align-items:center;height:22px;
-    padding:0 10px;border-radius:var(--radius-pill);
-    font-family:var(--font-mono);font-size:9.5px;
-    letter-spacing:.06em;color:rgba(255,255,255,.55);
-    background:rgba(255,255,255,.06);
-    border:1px solid rgba(255,255,255,.08);
-  }
-  .sk-pill.brand{background:rgba(254,44,85,.16);color:#ff7894;border-color:rgba(254,44,85,.3)}
-  .sk-pill.solid{background:var(--brand);color:#fff;border-color:var(--brand);font-weight:600}
-  .sk-pill.outline{background:transparent;color:var(--text-2);border-color:rgba(255,255,255,.18)}
-  .sk-cta{
-    display:inline-flex;align-items:center;justify-content:center;
-    height:30px;padding:0 14px;border-radius:var(--radius-pill);
-    background:var(--brand);color:#fff;font-size:11px;font-weight:600;
-    letter-spacing:.04em;
-  }
-  .sk-cta.ghost{background:transparent;border:1px solid rgba(255,255,255,.18);color:var(--text)}
-  .sk-cta.lg{height:36px;padding:0 16px;font-size:12px}
-  .sk-cta.sm{height:24px;padding:0 10px;font-size:10px;border-radius:999px}
-  .sk-divider{height:1px;background:var(--line)}
-  /* simplified block: only conveys module boundary + relative footprint */
-  .sk-block{
-    position:relative;
-    border:1px solid rgba(255,255,255,.08);
-    border-radius:14px;
-    background:linear-gradient(180deg,rgba(255,255,255,.04),rgba(255,255,255,.015));
-    overflow:hidden;
-  }
-  /* identity / metadata block */
-  .sk-block.identity{
-    background:linear-gradient(180deg,rgba(255,255,255,.06),rgba(255,255,255,.02));
-    border-color:rgba(255,255,255,.12);
-  }
-  /* content-bearing block (image / video / UGC surface) */
-  .sk-block.content{
-    background:
-      linear-gradient(135deg,rgba(37,244,238,.08),rgba(37,244,238,.02)),
-      repeating-linear-gradient(45deg,rgba(255,255,255,.045) 0 10px,transparent 10px 20px);
-    border-color:rgba(37,244,238,.22);
-  }
-  /* conversion / commerce block */
-  .sk-block.conversion{
-    background:linear-gradient(180deg,rgba(254,44,85,.16),rgba(254,44,85,.05));
-    border-color:rgba(254,44,85,.4);
-  }
-  /* light auxiliary / collapsed */
-  .sk-block.aux{
-    background:rgba(255,255,255,.025);
-    border-style:dashed;
-    border-color:rgba(255,255,255,.1);
-    opacity:.85;
-  }
-  /* glass overlay (used in immersive) */
-  .sk-block.glass{
-    background:rgba(20,20,22,.55);
-    backdrop-filter:blur(14px) saturate(140%);
-    -webkit-backdrop-filter:blur(14px) saturate(140%);
-    border-color:rgba(255,255,255,.16);
-  }
-  /* keep legacy .sk-block.brand alias mapping to .conversion look */
-  .sk-block.brand{
-    background:linear-gradient(180deg,rgba(254,44,85,.16),rgba(254,44,85,.05));
-    border-color:rgba(254,44,85,.4);
-  }
-  .sk-block .tag{
-    position:absolute;left:14px;top:50%;transform:translateY(-50%);
-    font-family:var(--font-mono);font-size:10.5px;
-    color:rgba(255,255,255,.7);letter-spacing:.1em;text-transform:uppercase;
-    pointer-events:none;font-weight:500;
-  }
-  .sk-block.content .tag{color:#7befe8}
-  .sk-block.conversion .tag,.sk-block.brand .tag{color:#ff7894}
-  .sk-block .tag.tl{top:14px;transform:none}
-  .sk-block .tag.center{left:50%;transform:translate(-50%,-50%);text-align:center}
-  /* shared identity unit: keeps Header consistent across all 4 strategies */
-  .sk-identity{display:flex;gap:10px;align-items:center}
-  .sk-identity .sk-thumb{width:44px;height:44px}
-  .sk-identity .sk-meta{flex:1;min-width:0;display:flex;flex-direction:column;gap:5px}
-  /* legacy: OTA-style helpers, kept but no longer used by skeletons */
-  .sk-selector{display:flex;align-items:center;gap:0;border:1px solid var(--line);border-radius:12px;overflow:hidden;background:var(--surface-2)}
-  .sk-selector > div{flex:1;padding:8px 10px;display:flex;flex-direction:column;gap:4px;border-right:1px solid var(--line)}
-  .sk-selector > div:last-child{border-right:0}
-  /* OTA-style room row */
-  .sk-room{display:flex;gap:10px;padding:10px;border:1px solid var(--line);border-radius:12px;background:var(--surface-2);align-items:center}
-  .sk-room .sk-thumb{width:64px;height:64px}
-  .sk-room .sk-room-meta{flex:1;min-width:0;display:flex;flex-direction:column;gap:5px}
-  .sk-room .sk-room-cta{display:flex;flex-direction:column;align-items:flex-end;gap:4px}
-  .sk-icon{
-    width:18px;height:18px;border-radius:5px;
-    background:rgba(255,255,255,.1);
-    flex:0 0 auto;
-  }
-  .sk-icon.round{border-radius:50%}
-  .sk-label{
-    font-family:var(--font-mono);font-size:9px;
-    color:rgba(255,255,255,.42);letter-spacing:.1em;
-    text-transform:uppercase;
-  }
-  @keyframes shimmer{
-    0%{background-position:200% 0}
-    100%{background-position:-200% 0}
-  }
-
-  /* =========================================================
-     4-stage overview cards
-     ========================================================= */
-  .stages{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-top:8px}
-  @media (max-width:1100px){.stages{grid-template-columns:repeat(2,1fr)}}
-  @media (max-width:600px){.stages{grid-template-columns:1fr}}
-  .stage-mini{
-    background:var(--surface);border:1px solid var(--line);
-    border-radius:var(--radius-card);padding:18px;
-    transition:transform .25s ease,border-color .25s ease;
-    cursor:pointer;
-  }
-  .stage-mini:hover{transform:translateY(-2px);border-color:var(--line-2)}
-  .stage-mini .num{
-    width:32px;height:32px;border-radius:10px;
-    background:linear-gradient(135deg,var(--brand),#ff7194);
-    color:#fff;font-weight:700;font-size:14px;
-    display:flex;align-items:center;justify-content:center;
-    box-shadow:0 4px 12px rgba(254,44,85,.3);
-  }
-  .stage-mini h3{margin:14px 0 6px;font-size:15px}
-  .stage-mini p{margin:0;color:var(--text-3);font-size:12.5px;line-height:1.55}
-
-  /* =========================================================
-     Stage detail block (大块)
-     ========================================================= */
-  .stage{
-    margin:48px 0 0;
-    background:var(--bg-2);
-    border:1px solid var(--line);
-    border-radius:24px;
-    overflow:hidden;
-  }
-  .stage-head{
-    padding:28px 32px 22px;
-    display:flex;gap:20px;align-items:flex-start;
-    border-bottom:1px solid var(--line);
-    background:linear-gradient(180deg,rgba(254,44,85,.08),transparent);
-  }
-  .stage-head .badge{
-    flex:0 0 auto;width:48px;height:48px;border-radius:14px;
-    background:linear-gradient(135deg,var(--brand),#ff7194);
-    color:#fff;font-size:18px;font-weight:800;
-    display:flex;align-items:center;justify-content:center;
-    box-shadow:0 6px 18px rgba(254,44,85,.4);
-  }
-  .stage-head .title{flex:1;min-width:0}
-  .stage-head h3{margin:0 0 6px;font-size:22px;letter-spacing:-.005em}
-  .stage-head .kicker{font-size:12.5px;color:var(--text-3);text-transform:uppercase;letter-spacing:.06em;margin-bottom:6px}
-  .stage-head .lead{margin:0;color:var(--text-2);font-size:14px;line-height:1.6;max-width:780px}
-
-  .stage-body{
-    display:grid;grid-template-columns:minmax(0,1fr) 320px;gap:0;
-  }
-  @media (max-width:980px){.stage-body{grid-template-columns:1fr}}
-  .stage-body .text{padding:28px 32px;border-right:1px solid var(--line)}
-  @media (max-width:980px){.stage-body .text{border-right:0;border-bottom:1px solid var(--line)}}
-  /* Info-card style for strategy details */
-  .stage-body .text dl{margin:0;display:flex;flex-direction:column;gap:12px}
-  .stage-body .text dt{
-    display:none;
-  }
-  .stage-body .text dd{
-    margin:0;background:var(--surface-2);border:1px solid var(--line);
-    border-radius:var(--radius-content);padding:14px 18px;
-    color:var(--text);font-size:13.5px;line-height:1.7;
-    border-left:3px solid var(--surface-3);
-    position:relative;
-  }
-  /* labeled sections inside dl - use nth-of-type to colour & label */
-  .stage-body .text dl > dd:nth-of-type(1){border-left-color:var(--brand)}
-  .stage-body .text dl > dd:nth-of-type(2){border-left-color:var(--brand-2)}
-  .stage-body .text dl > dd:nth-of-type(3){border-left-color:var(--gold)}
-  .stage-body .text dl > dd:nth-of-type(1)::before{
-    content:"模块构成 · STRUCTURE";color:#ff7894;
-    display:block;font-family:var(--font-mono);font-size:10.5px;
-    letter-spacing:.08em;font-weight:600;margin-bottom:8px;
-  }
-  .stage-body .text dl > dd:nth-of-type(2)::before{
-    content:"和其他策略的边界 · BOUNDARY";color:#7befe8;
-    display:block;font-family:var(--font-mono);font-size:10.5px;
-    letter-spacing:.08em;font-weight:600;margin-bottom:8px;
-  }
-  .stage-body .text dl > dd:nth-of-type(3)::before{
-    content:"风险与代价 · RISK";color:var(--gold);
-    display:block;font-family:var(--font-mono);font-size:10.5px;
-    letter-spacing:.08em;font-weight:600;margin-bottom:8px;
-  }
-  .stage-body .text dd ul{margin:0;padding-left:18px;color:var(--text-2)}
-  .stage-body .text dd li{margin:4px 0}
-  .stage-body .text dd li b{color:#fff}
-  .stage-body .text dd .chip{
-    display:inline-block;font-size:11.5px;padding:2px 9px;
-    border-radius:var(--radius-pill);background:var(--surface-3);color:var(--text-2);
-    margin:0 4px 4px 0;
-  }
-
-  .stage-body .visual{
-    padding:24px;display:flex;align-items:flex-start;justify-content:center;
-    background:radial-gradient(80% 60% at 50% 0%, rgba(254,44,85,.06), transparent 70%);
-  }
-
-  /* =========================================================
-     Phone preview (high fidelity mock)
-     ========================================================= */
-  .phone{
-    width:280px;aspect-ratio:9/19;
-    background:#050507;border-radius:34px;
-    border:1px solid #1d1e21;overflow:hidden;
-    position:relative;
-    box-shadow:var(--shadow-2),inset 0 0 0 5px #050506;
-  }
-  .phone .screen{position:absolute;inset:0;display:flex;flex-direction:column;background:var(--bg)}
-  .notch{position:absolute;top:8px;left:50%;transform:translateX(-50%);width:90px;height:22px;background:#000;border-radius:14px;z-index:5}
-  .status{display:flex;justify-content:space-between;align-items:center;padding:10px 22px 4px;font-size:11px;font-weight:600;flex:0 0 auto}
-  .status .right{display:flex;gap:5px;align-items:center;font-size:10px}
-  .ic-batt{width:18px;height:9px;border:1px solid var(--text);border-radius:2px;position:relative;padding:1px}
-  .ic-batt::after{content:"";position:absolute;right:-3px;top:2px;bottom:2px;width:1.5px;background:var(--text);border-radius:1px}
-  .ic-batt span{display:block;height:100%;width:75%;background:var(--text);border-radius:1px}
-
-  .search{display:flex;align-items:center;gap:10px;padding:6px 14px 10px;flex:0 0 auto}
-  .search .back{width:22px;height:22px;display:flex;align-items:center;justify-content:center;color:var(--text);font-size:18px}
-  .search .input{flex:1;height:32px;background:var(--surface-2);border-radius:var(--radius-pill);display:flex;align-items:center;padding:0 12px;gap:8px;font-size:12px;color:var(--text)}
-  .search .input svg{flex:0 0 auto;opacity:.7}
-  .search .cancel{font-size:12.5px;color:var(--text);font-weight:500}
-
-  .tabs{display:flex;gap:18px;padding:0 14px 8px;font-size:12px;color:var(--text-3);overflow-x:auto;flex:0 0 auto;scrollbar-width:none}
-  .tabs::-webkit-scrollbar{display:none}
-  .tabs span{padding:6px 0;flex:0 0 auto;white-space:nowrap}
-  .tabs .active{color:var(--text);font-weight:600;position:relative}
-  .tabs .active::after{content:"";position:absolute;left:0;right:0;bottom:0;height:2px;background:var(--text);border-radius:2px}
-
-  .scroll{flex:1 1 auto;overflow-y:auto;padding:8px 12px 24px;scrollbar-width:none}
-  .scroll::-webkit-scrollbar{display:none}
-
-  /* atoms */
-  .pill{display:inline-flex;align-items:center;gap:5px;height:24px;padding:0 9px;border-radius:var(--radius-pill);background:var(--surface-3);font-size:11px;color:var(--text-2)}
-  .pill.brand{background:rgba(254,44,85,.16);color:#ff5e7e}
-  .pill.solid{background:var(--brand);color:#fff;font-weight:600}
-  .pill.success{background:rgba(34,197,94,.16);color:#5fe095}
-  .pill.ai{background:linear-gradient(135deg,rgba(254,44,85,.18),rgba(37,244,238,.18));color:#fff;border:1px solid rgba(255,255,255,.1)}
-  .star{color:var(--gold);font-size:11px}
-  .cta{display:inline-flex;align-items:center;justify-content:center;gap:6px;height:34px;padding:0 14px;border-radius:var(--radius-pill);font-size:12.5px;font-weight:600;background:var(--brand);color:#fff;border:0;cursor:pointer}
-  .cta.ghost{background:transparent;border:1px solid rgba(255,255,255,.18);color:var(--text)}
-
-  /* cover gradients = stand-in for video poster */
-  .cover{position:relative;overflow:hidden;color:#fff}
-  .cover.hotel{background:radial-gradient(70% 60% at 80% 30%,rgba(255,200,120,.55),transparent 60%),linear-gradient(150deg,#0e1a3a,#102a52 50%,#0a3460)}
-  .cover.food{background:radial-gradient(70% 70% at 30% 80%,rgba(255,120,80,.6),transparent 60%),linear-gradient(150deg,#3a1a10,#5a230c 60%,#3a0c04)}
-  .cover.attr{background:radial-gradient(70% 60% at 50% 20%,rgba(120,180,255,.55),transparent 60%),linear-gradient(150deg,#0a2030,#0a3a4a 60%,#103040)}
-  .cover.night{background:radial-gradient(60% 50% at 30% 30%,rgba(180,120,255,.45),transparent 60%),linear-gradient(150deg,#1a0e2a,#3a0e4e 60%,#1c0428)}
-  .cover.warm{background:radial-gradient(70% 60% at 70% 70%,rgba(255,160,100,.55),transparent 60%),linear-gradient(150deg,#3a0a1a,#4a0e1c 60%,#2a060a)}
-  .cover::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,transparent 40%,rgba(0,0,0,.5));pointer-events:none}
-
-  .videos{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-top:10px}
-  .vid{aspect-ratio:9/14;border-radius:var(--radius-content);position:relative;overflow:hidden}
-  .vid .meta{position:absolute;left:8px;right:8px;bottom:8px;display:flex;align-items:center;justify-content:space-between;font-size:10.5px;color:#fff;text-shadow:0 1px 2px rgba(0,0,0,.5);z-index:2}
-  .vid .meta .left{display:flex;align-items:center;gap:5px}
-  .vid .av{width:18px;height:18px;border-radius:50%;background:#fff;color:#222;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700}
-  .play-badge{position:absolute;top:8px;left:8px;background:rgba(0,0,0,.4);border-radius:4px;padding:2px 5px;font-size:9.5px;color:#fff;backdrop-filter:blur(4px);z-index:2;display:flex;align-items:center;gap:3px}
-
-  /* ========== Stage 1 fusion card ========== */
-  .s1-card{background:var(--surface);border-radius:var(--radius-card);overflow:hidden;border:1px solid var(--line)}
-  .s1-head{display:flex;gap:12px;padding:12px}
-  .s1-head .thumb{width:80px;height:80px;border-radius:var(--radius-content);flex:0 0 auto}
-  .s1-head h3{font-size:14.5px;margin:0 0 4px;line-height:1.25}
-  .s1-head .sub{font-size:11px;color:var(--text-2);display:flex;flex-wrap:wrap;gap:6px;margin-bottom:4px}
-  .s1-head .meta{font-size:11px;color:var(--text-3);display:flex;align-items:center;gap:6px;flex-wrap:wrap}
-  .s1-stat{display:flex;justify-content:space-between;padding:8px 12px;border-top:1px solid var(--line);border-bottom:1px solid var(--line);font-size:11px;color:var(--text-2)}
-  .s1-stat span b{color:var(--text);font-weight:600}
-  .s1-review{padding:10px 12px;font-size:11.5px;color:var(--text-2);line-height:1.5}
-  .s1-review q{color:var(--text);quotes:none}
-  .s1-review q::before{content:"“"}.s1-review q::after{content:"”"}
-  .s1-cta{display:flex;gap:8px;align-items:center;padding:10px 12px 12px;border-top:1px solid var(--line)}
-  .s1-cta .price{flex:1;display:flex;flex-direction:column;line-height:1.15}
-  .s1-cta .price small{font-size:10px;color:var(--text-3)}
-  .s1-cta .price b{font-size:13.5px;color:var(--text)}
-  .saver{color:var(--green);font-size:10px;margin-left:6px;font-weight:600}
-  .price-strike{color:var(--text-3);text-decoration:line-through;font-size:10px;margin-left:6px;font-weight:400}
-
-  /* ========== Stage 2 folded card ========== */
-  .s2-card{background:var(--surface);border-radius:var(--radius-card);overflow:hidden;border:1px solid var(--line)}
-  .s2-id{display:flex;align-items:center;gap:10px;padding:10px 12px}
-  .s2-id .thumb{width:38px;height:38px;border-radius:10px;flex:0 0 auto}
-  .s2-id .name{flex:1;min-width:0;font-size:13px;font-weight:600;line-height:1.2}
-  .s2-id .name span{display:block;font-size:10.5px;color:var(--text-3);font-weight:400;margin-top:2px}
-  .s2-id .price-quick{text-align:right;line-height:1.15}
-  .s2-id .price-quick small{display:block;font-size:9px;color:var(--text-3)}
-  .s2-id .price-quick b{font-size:12.5px;color:#ff7894}
-  .s2-chips{display:flex;gap:6px;padding:0 12px 10px;overflow-x:auto;scrollbar-width:none}
-  .s2-chips::-webkit-scrollbar{display:none}
-  .s2-chips .pill{flex:0 0 auto;height:28px;font-size:11.5px}
-  .s2-ai{display:flex;align-items:flex-start;gap:8px;padding:10px 12px;border-top:1px solid var(--line);font-size:11.5px;color:var(--text-2);line-height:1.5}
-  .s2-ai .badge{flex:0 0 auto;height:18px;padding:0 7px;border-radius:6px;font-size:9.5px;font-weight:700;display:inline-flex;align-items:center;background:linear-gradient(135deg,var(--brand),var(--brand-2));color:#fff}
-  .s2-expand{display:flex;justify-content:center;align-items:center;height:26px;font-size:11px;color:var(--text-3);border-top:1px solid var(--line);background:var(--surface-2)}
-
-  /* ========== Stage 3 atomic ========== */
-  .s3-atom{position:relative;background:var(--surface);border-radius:var(--radius-card);padding:10px 12px 10px 16px;border:1px solid var(--line);margin-bottom:8px}
-  .s3-atom::before{content:"";position:absolute;left:0;top:14px;bottom:14px;width:3px;background:var(--brand);border-radius:0 3px 3px 0}
-  .s3-atom h4{margin:0 0 4px;font-size:13px}
-  .s3-atom .row{display:flex;align-items:center;gap:8px;font-size:11px;color:var(--text-2)}
-  .s3-tag{font-size:9.5px;color:var(--text-3);text-transform:uppercase;letter-spacing:.06em;margin-bottom:3px;font-weight:600}
-  .s3-atom.identity{display:flex;gap:10px;align-items:center}
-  .s3-atom.identity .thumb{width:40px;height:40px;border-radius:10px;flex:0 0 auto}
-  .s3-atom.review .quote{font-size:12px;color:var(--text);line-height:1.45;margin:4px 0 6px}
-  .s3-atom.book{display:flex;align-items:center;gap:10px}
-  .s3-atom.book .price{flex:1;line-height:1.15}
-  .s3-atom.book .price small{font-size:10px;color:var(--text-3);display:block}
-  .s3-atom.book .price b{font-size:14px}
-
-  /* ========== Stage 4 immersive ========== */
-  .s4-card{position:relative;border-radius:var(--radius-card);overflow:hidden;aspect-ratio:9/13;border:1px solid var(--line)}
-  .s4-bg{position:absolute;inset:0}
-  .s4-bg::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,.45) 0%,transparent 25%,transparent 55%,rgba(0,0,0,.78) 100%)}
-  .s4-top{position:absolute;left:10px;top:10px;right:10px;z-index:2;display:flex;justify-content:space-between;align-items:flex-start;gap:8px}
-  .s4-id{
-    backdrop-filter:blur(18px) saturate(140%);-webkit-backdrop-filter:blur(18px) saturate(140%);
-    background:rgba(20,20,22,.42);
-    border:1px solid rgba(255,255,255,.12);
-    border-radius:14px;padding:7px 10px;display:flex;gap:8px;align-items:center;max-width:80%;
-  }
-  .s4-id .thumb{width:30px;height:30px;border-radius:8px;flex:0 0 auto}
-  .s4-id .name{font-size:12.5px;font-weight:600;line-height:1.15}
-  .s4-id .sub{font-size:10.5px;color:rgba(255,255,255,.85);display:flex;gap:6px;align-items:center}
-  .s4-icon{width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:rgba(255,255,255,.16);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);color:#fff}
-
-  .s4-pager{position:absolute;left:0;right:0;top:50%;transform:translateY(-50%);display:flex;justify-content:center;gap:4px;z-index:2}
-  .s4-pager i{width:5px;height:5px;border-radius:50%;background:rgba(255,255,255,.4)}
-  .s4-pager i.on{background:#fff;width:14px;border-radius:3px}
-
-  .s4-side{position:absolute;right:10px;bottom:88px;z-index:2;display:flex;flex-direction:column;gap:14px;align-items:center;color:#fff}
-  .s4-side .item{display:flex;flex-direction:column;align-items:center;gap:2px;font-size:9.5px}
-  .s4-side .ic{width:32px;height:32px;border-radius:50%;background:rgba(255,255,255,.18);backdrop-filter:blur(10px);display:flex;align-items:center;justify-content:center}
-
-  .s4-bottom{position:absolute;left:10px;right:10px;bottom:10px;z-index:2;
-    background:rgba(20,20,22,.5);
-    backdrop-filter:blur(20px) saturate(140%);-webkit-backdrop-filter:blur(20px) saturate(140%);
-    border:1px solid rgba(255,255,255,.12);
-    border-radius:14px;padding:8px 10px;display:flex;align-items:center;gap:10px;
-  }
-  .s4-bottom .price{flex:1;color:#fff;line-height:1.15}
-  .s4-bottom .price small{display:block;font-size:9.5px;color:rgba(255,255,255,.7)}
-  .s4-bottom .price b{font-size:13px}
-  .s4-bottom .cta{height:30px;padding:0 12px;font-size:12px}
-  .s4-play{position:absolute;left:50%;top:42%;transform:translate(-50%,-50%);width:50px;height:50px;border-radius:50%;background:rgba(0,0,0,.32);backdrop-filter:blur(8px);display:flex;align-items:center;justify-content:center;color:#fff;font-size:20px;z-index:2}
-
-  /* =========================================================
-     Composability matrix
-     ========================================================= */
-  .matrix{
-    display:grid;grid-template-columns:repeat(4,1fr);gap:14px;
-  }
-  @media (max-width:900px){.matrix{grid-template-columns:repeat(2,1fr)}}
-  @media (max-width:520px){.matrix{grid-template-columns:1fr}}
-  .matrix .axis{
-    background:var(--surface);border:1px solid var(--line);
-    border-radius:var(--radius-card);padding:18px;
-    position:relative;
-  }
-  .matrix .axis h4{margin:0 0 4px;font-size:14.5px}
-  .matrix .axis .hint{margin:0 0 14px;color:var(--text-3);font-size:12px;line-height:1.5}
-  .matrix .axis .scale{display:flex;align-items:center;justify-content:space-between;font-size:11px;color:var(--text-3);margin-bottom:6px}
-  .matrix .axis .bar{height:6px;border-radius:3px;background:var(--surface-3);overflow:hidden;position:relative}
-  .matrix .axis .bar i{position:absolute;left:0;top:0;bottom:0;width:50%;background:linear-gradient(90deg,var(--brand-2),var(--brand))}
-  .matrix .axis .map{margin-top:12px;font-size:11.5px;color:var(--text-2)}
-  .matrix .axis .map b{color:var(--text)}
-
-  /* =========================================================
-     Appendix
-     ========================================================= */
-  .reminders{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}
-  @media (max-width:760px){.reminders{grid-template-columns:1fr}}
-  .reminder{
-    background:var(--surface);border:1px solid var(--line);
-    border-radius:var(--radius-card);padding:18px 20px;
-  }
-  .reminder .num{
-    width:24px;height:24px;border-radius:8px;background:var(--surface-3);
-    color:var(--text);font-size:11px;font-weight:700;
-    display:inline-flex;align-items:center;justify-content:center;margin-bottom:10px;
-  }
-  .reminder h4{margin:0 0 6px;font-size:14.5px}
-  .reminder p{margin:0;color:var(--text-2);font-size:13px;line-height:1.6}
-  .reminder a{color:#ff7894}
-
-  /* =========================================================
-     Footer
-     ========================================================= */
+  /* ===== footer ===== */
   footer{
-    max-width:1280px;margin:0 auto;padding:48px 28px 80px;
-    border-top:1px solid var(--line);color:var(--text-3);font-size:12.5px;line-height:1.7;
+    max-width:1760px;margin:48px auto 0;padding:28px 40px 56px;border-top:1px solid var(--line);
+    display:flex;justify-content:space-between;align-items:center;
+    color:var(--text-4);font-family:var(--font-mono);font-size:11px;letter-spacing:.05em;
   }
-  footer code{background:var(--surface-2);padding:1px 6px;border-radius:4px;color:var(--text-2);font-family:var(--font-mono)}
-
-  /* =========================================================
-     Smooth in-view fade
-     ========================================================= */
-  .fade-up{opacity:0;transform:translateY(8px);animation:up .6s ease both}
-  .fade-up.delay-1{animation-delay:.05s}
-  .fade-up.delay-2{animation-delay:.12s}
-  @keyframes up{to{opacity:1;transform:none}}
-
-  /* =========================================================
-     v2 · Story rail (top-of-page logical path)
-     ========================================================= */
-  .story-rail{
-    max-width:1280px;margin:0 auto;padding:24px 28px 8px;
-    position:relative;
-  }
-  .story-rail .rail-head{
-    display:flex;align-items:center;gap:10px;
-    font-family:var(--font-mono);font-size:11px;color:var(--text-3);
-    letter-spacing:.12em;text-transform:uppercase;margin-bottom:14px;
-  }
-  .story-rail .rail-head::after{
-    content:"";flex:1;height:1px;background:linear-gradient(90deg,var(--line),transparent);
-  }
-  .story-rail .rail{
-    display:grid;grid-template-columns:repeat(5,1fr);gap:0;align-items:stretch;
-    background:var(--surface);border:1px solid var(--line);border-radius:var(--radius-card);
-    overflow:hidden;position:relative;
-  }
-  @media (max-width:980px){.story-rail .rail{grid-template-columns:repeat(2,1fr)}.story-rail .rail::before{display:none}.story-rail .stop{border-bottom:1px solid var(--line)}}
-  .story-rail .rail::before{
-    content:"";position:absolute;left:6%;right:6%;top:51px;height:2px;
-    background:linear-gradient(90deg,
-      rgba(254,44,85,.7) 0%,
-      rgba(254,44,85,.45) 25%,
-      rgba(255,255,255,.18) 50%,
-      rgba(37,244,238,.45) 75%,
-      rgba(37,244,238,.7) 100%);
-    z-index:0;
-  }
-  .story-rail .stop{
-    position:relative;padding:18px 16px 18px;display:flex;flex-direction:column;
-    align-items:flex-start;gap:8px;text-decoration:none;color:inherit;
-    border-right:1px solid var(--line);transition:background .25s;
-  }
-  .story-rail .stop:last-child{border-right:0}
-  .story-rail .stop:hover{background:var(--surface-2)}
-  .story-rail .stop .dot{
-    width:22px;height:22px;border-radius:50%;
-    background:var(--surface-3);border:4px solid var(--bg);
-    box-shadow:0 0 0 1px var(--line-2);
-    margin-left:30%;z-index:1;position:relative;
-    transition:transform .25s ease,box-shadow .25s ease;
-  }
-  .story-rail .stop:hover .dot{transform:scale(1.1)}
-  .story-rail .stop[data-tone=brand] .dot{
-    background:var(--brand);
-    box-shadow:0 0 0 1px rgba(254,44,85,.6),0 0 18px rgba(254,44,85,.55);
-  }
-  .story-rail .stop[data-tone=cyan] .dot{
-    background:var(--brand-2);
-    box-shadow:0 0 0 1px rgba(37,244,238,.6),0 0 18px rgba(37,244,238,.45);
-  }
-  .story-rail .stop[data-tone=mid] .dot{
-    background:#999;
-    box-shadow:0 0 0 1px rgba(255,255,255,.35),0 0 12px rgba(255,255,255,.18);
-  }
-  .story-rail .stop .num{
-    font-family:var(--font-mono);font-size:10.5px;color:var(--text-3);letter-spacing:.08em;
-  }
-  .story-rail .stop b{font-size:14px;color:var(--text);letter-spacing:-.005em}
-  .story-rail .stop em{font-style:normal;font-size:12px;color:var(--text-3);line-height:1.5}
-
-  /* =========================================================
-     v2 · Section number badge
-     ========================================================= */
-  .section-head .num-badge{
-    width:46px;height:46px;border-radius:14px;
-    background:linear-gradient(135deg,var(--brand),#ff7194);
-    color:#fff;font-weight:800;font-size:18px;
-    display:flex;align-items:center;justify-content:center;
-    box-shadow:0 6px 18px rgba(254,44,85,.35);
-    flex:0 0 auto;
-  }
-  .section-head .head-left{display:flex;gap:18px;align-items:center;flex:1;min-width:0}
-
-  /* =========================================================
-     v2 · Reasoning visual (constraint → question → direction)
-     ========================================================= */
-  .reasoning-board{
-    margin-top:32px;background:var(--surface);
-    border:1px solid var(--line);border-radius:var(--radius-card);
-    padding:30px 30px 28px;position:relative;overflow:hidden;
-  }
-  .reasoning-board::before{
-    content:"";position:absolute;inset:0;
-    background:
-      radial-gradient(50% 40% at 12% 0%,rgba(254,44,85,.08),transparent 60%),
-      radial-gradient(50% 40% at 88% 100%,rgba(37,244,238,.06),transparent 60%);
-    pointer-events:none;
-  }
-  .reasoning-board > *{position:relative;z-index:1}
-  .reasoning-board h3{
-    margin:0 0 6px;font-size:18px;letter-spacing:-.005em;
-    display:flex;align-items:center;gap:10px;
-  }
-  .reasoning-board h3 .step-tag{
-    font-family:var(--font-mono);font-size:10.5px;color:var(--brand);
-    padding:3px 8px;border-radius:var(--radius-pill);
-    background:rgba(254,44,85,.1);border:1px solid rgba(254,44,85,.3);
-    letter-spacing:.06em;text-transform:uppercase;font-weight:600;
-  }
-  .reasoning-board .lead{margin:0 0 22px;color:var(--text-3);font-size:13px}
-  .reasoning-board .stage-spacer{height:24px;display:flex;align-items:center;justify-content:center;color:var(--text-4);font-size:14px;letter-spacing:8px}
-
-  /* =========================================================
-     v2 · Strategy detail compact info-cards
-     ========================================================= */
-  .strat-info{
-    display:grid;grid-template-columns:1fr;gap:12px;
-  }
-  .strat-info-card{
-    background:var(--surface-2);border:1px solid var(--line);
-    border-radius:var(--radius-content);padding:14px 16px;
-  }
-  .strat-info-card.spec{border-left:3px solid var(--brand)}
-  .strat-info-card.position{border-left:3px solid var(--brand-2)}
-  .strat-info-card.risk{border-left:3px solid var(--gold)}
-  .strat-info-card .label{
-    font-family:var(--font-mono);font-size:10.5px;color:var(--text-3);
-    letter-spacing:.08em;text-transform:uppercase;font-weight:600;
-    margin-bottom:8px;display:flex;align-items:center;gap:6px;
-  }
-  .strat-info-card.spec .label{color:#ff7894}
-  .strat-info-card.position .label{color:#7befe8}
-  .strat-info-card.risk .label{color:#ffb038}
-  .strat-info-card ul{margin:0;padding-left:18px;color:var(--text-2);font-size:13px;line-height:1.7}
-  .strat-info-card ul li{margin:3px 0}
-  .strat-info-card ul li b{color:#fff}
-  .strat-info-card p{margin:0;color:var(--text-2);font-size:13px;line-height:1.7}
-
-  /* mini spectrum locator */
-  .mini-spectrum{
-    margin-top:16px;padding:14px 16px;background:var(--surface-2);
-    border:1px solid var(--line);border-radius:var(--radius-content);
-  }
-  .mini-spectrum .ms-head{
-    font-family:var(--font-mono);font-size:10.5px;color:var(--text-3);
-    letter-spacing:.08em;text-transform:uppercase;margin-bottom:12px;
-    display:flex;justify-content:space-between;
-  }
-  .mini-spectrum .ms-bar{
-    height:4px;border-radius:2px;
-    background:linear-gradient(90deg,
-      rgba(254,44,85,.6) 0%,
-      rgba(254,44,85,.3) 30%,
-      rgba(255,255,255,.15) 50%,
-      rgba(37,244,238,.3) 70%,
-      rgba(37,244,238,.6) 100%);
-    position:relative;
-  }
-  .mini-spectrum .ms-bar i{
-    position:absolute;top:50%;transform:translate(-50%,-50%);
-    width:14px;height:14px;border-radius:50%;
-    background:#fff;border:3px solid var(--bg);
-    box-shadow:0 0 0 2px rgba(255,255,255,.55);
-  }
-  .mini-spectrum .ms-stops{
-    display:grid;grid-template-columns:repeat(4,1fr);
-    margin-top:10px;font-size:10.5px;color:var(--text-4);font-family:var(--font-mono);
-  }
-  .mini-spectrum .ms-stops span:nth-child(1){text-align:left}
-  .mini-spectrum .ms-stops span:nth-child(2),
-  .mini-spectrum .ms-stops span:nth-child(3){text-align:center}
-  .mini-spectrum .ms-stops span:nth-child(4){text-align:right}
-
-  /* =========================================================
-     v2 · Reminders → do/don't cards
-     ========================================================= */
-  .reminder-card{
-    background:var(--surface);border:1px solid var(--line);
-    border-radius:var(--radius-card);padding:18px 20px;
-    position:relative;overflow:hidden;
-  }
-  .reminder-card::before{
-    content:"";position:absolute;left:0;top:0;bottom:0;width:3px;
-    background:var(--gold);
-  }
-  .reminder-card .r-head{display:flex;align-items:center;gap:10px;margin-bottom:10px}
-  .reminder-card .r-num{
-    font-family:var(--font-mono);font-size:10.5px;color:var(--gold);
-    padding:3px 8px;border-radius:6px;background:rgba(255,176,56,.1);
-    border:1px solid rgba(255,176,56,.3);letter-spacing:.04em;font-weight:700;
-  }
-  .reminder-card .r-tag{
-    font-family:var(--font-mono);font-size:10px;color:var(--text-3);
-    letter-spacing:.06em;text-transform:uppercase;
-  }
-  .reminder-card h4{margin:0 0 8px;font-size:14.5px;line-height:1.4}
-  .reminder-card p{margin:0;color:var(--text-2);font-size:12.5px;line-height:1.65}
-  .reminder-card a{color:#ff7894;font-size:12px}
-
-  /* 05 schematic rows responsive */
-  @media (max-width:1100px){
-    section[id=sec-spectrum] [style*="grid-template-columns:repeat(4,1fr)"]{grid-template-columns:repeat(2,1fr) !important;gap:18px !important}
-  }
-  @media (max-width:600px){
-    section[id=sec-spectrum] [style*="grid-template-columns:repeat(4,1fr)"]{grid-template-columns:1fr !important}
-  }
-
-  /* =========================================================
-     v3 · Refined mini phone schematics for §05
-     ========================================================= */
-  .mp{
-    background:linear-gradient(180deg,#0c0c0e,#08080a);
-    border:1px solid var(--line);border-radius:16px;
-    padding:8px;display:flex;flex-direction:column;gap:6px;
-    box-shadow:0 4px 14px rgba(0,0,0,.3);
-  }
-  .mp .mp-status{
-    display:flex;align-items:center;justify-content:space-between;
-    height:10px;font-family:var(--font-mono);font-size:7px;color:var(--text-3);
-    padding:0 4px;
-  }
-  .mp .mp-status .mp-time{letter-spacing:0;color:var(--text-2);font-weight:600;font-size:7.5px}
-  .mp .mp-status .mp-bars{display:inline-flex;gap:1.5px}
-  .mp .mp-status .mp-bars i{display:inline-block;width:1.5px;height:5px;background:var(--text-3);border-radius:1px}
-  .mp .mp-status .mp-bars i:nth-child(1){height:2px}.mp .mp-status .mp-bars i:nth-child(2){height:3px}.mp .mp-status .mp-bars i:nth-child(3){height:4px}
-  .mp .mp-search{
-    display:flex;align-items:center;gap:5px;
-    height:18px;border-radius:9px;background:rgba(255,255,255,.07);
-    padding:0 7px;
-  }
-  .mp .mp-search svg{flex:0 0 auto;color:rgba(255,255,255,.5)}
-  .mp .mp-search .mp-q{flex:1;height:5px;border-radius:2px;background:rgba(255,255,255,.18);max-width:50%}
-  .mp .mp-search .mp-cancel{font-family:var(--font-mono);font-size:6.5px;color:var(--text-3);letter-spacing:.04em}
-  .mp .mp-tabs{display:flex;gap:6px;padding:0 4px;font-family:var(--font-mono);font-size:6.5px;color:var(--text-3);letter-spacing:.04em}
-  .mp .mp-tabs span{position:relative;padding-bottom:2px}
-  .mp .mp-tabs .on{color:var(--text);font-weight:700}
-  .mp .mp-tabs .on::after{content:"";position:absolute;left:0;right:0;bottom:-1px;height:1.5px;background:var(--text);border-radius:1px}
-
-  /* Reusable POI thumb (identity image) */
-  .mp-thumb{
-    width:24px;height:24px;border-radius:5px;flex:0 0 auto;
-    background:
-      linear-gradient(135deg,rgba(91,156,255,.35),rgba(91,156,255,.12)),
-      repeating-linear-gradient(45deg,rgba(255,255,255,.08) 0 3px,transparent 3px 6px);
-    border:1px solid rgba(255,255,255,.15);
-  }
-  /* Identity title block (inside header row) */
-  .mp-id-title{flex:1;display:flex;flex-direction:column;gap:3px;min-width:0}
-  .mp-id-title .l1{height:5.5px;border-radius:2px;background:rgba(255,255,255,.85);width:72%}
-  .mp-id-title .l2{height:4px;border-radius:2px;background:rgba(255,255,255,.4);width:46%}
-  .mp-id-title .meta{display:flex;align-items:center;gap:3px;margin-top:1px}
-  .mp-id-title .meta .star{color:#ffb038;font-size:6.5px;line-height:1}
-  .mp-id-title .meta .rate{font-family:var(--font-mono);font-size:6.5px;color:var(--text-2);font-weight:700}
-  .mp-id-title .meta .dot{width:2px;height:2px;border-radius:50%;background:var(--text-3)}
-  .mp-id-title .meta .dist{font-family:var(--font-mono);font-size:6px;color:var(--text-3)}
-
-  /* Content visual (cyan tint, video-like) */
-  .mp-content{
-    background:
-      linear-gradient(135deg,rgba(37,244,238,.32),rgba(37,244,238,.1) 60%,rgba(37,244,238,.04)),
-      repeating-linear-gradient(45deg,rgba(255,255,255,.05) 0 4px,transparent 4px 8px);
-    border:1px solid rgba(37,244,238,.4);
-    border-radius:5px;position:relative;overflow:hidden;
-  }
-  .mp-content::after{
-    content:"▶";position:absolute;left:50%;top:50%;
-    transform:translate(-50%,-50%);
-    width:14px;height:14px;border-radius:50%;
-    background:rgba(0,0,0,.45);color:#fff;font-size:6px;
-    display:flex;align-items:center;justify-content:center;
-    backdrop-filter:blur(2px);
-  }
-  .mp-content.no-play::after{display:none}
-
-  /* Commerce row (price + CTA) */
-  .mp-commerce{
-    display:flex;align-items:center;gap:5px;padding:4px 5px;
-    background:rgba(254,44,85,.12);border:1px solid rgba(254,44,85,.4);
-    border-radius:5px;
-  }
-  .mp-commerce .price{
-    color:#ff5e7e;font-family:var(--font-mono);font-size:7.5px;font-weight:800;letter-spacing:0;
-  }
-  .mp-commerce .price .cur{font-size:6px;font-weight:600;margin-right:1px}
-  .mp-commerce .price .strike{color:var(--text-4);text-decoration:line-through;font-size:6px;margin-left:3px;font-weight:500}
-  .mp-commerce .spacer{flex:1}
-  .mp-commerce .cta{
-    background:linear-gradient(180deg,#ff2c55,#ff5e7e);color:#fff;font-family:var(--font);
-    font-size:7px;font-weight:700;padding:3px 8px;border-radius:8px;letter-spacing:.04em;
-    box-shadow:0 1px 4px rgba(254,44,85,.45);
-  }
-
-  /* Native feed thumbs */
-  .mp-feed{display:grid;grid-template-columns:1fr 1fr;gap:4px}
-  .mp-feed-cell{
-    aspect-ratio:9/14;border-radius:4px;position:relative;overflow:hidden;
-    border:1px solid rgba(255,255,255,.08);
-    background:repeating-linear-gradient(45deg,rgba(255,255,255,.06) 0 4px,transparent 4px 8px);
-  }
-  .mp-feed-cell::before{
-    content:"";position:absolute;inset:0;
-    background:linear-gradient(135deg,rgba(255,255,255,.08),rgba(255,255,255,.02));
-  }
-  .mp-feed-cell::after{
-    content:"";position:absolute;left:4px;right:4px;bottom:4px;height:2.5px;border-radius:1px;
-    background:rgba(255,255,255,.45);
-  }
-
-  /* Phone bracket label (融合卡范围) */
-  .mp-wrap{position:relative}
-  .mp-bracket{
-    position:absolute;left:-10px;width:6px;border:1.5px solid var(--brand);border-right:0;border-radius:3px 0 0 3px;
-  }
-  .mp-bracket.b-cyan{border-color:rgba(37,244,238,.6)}
-  .mp-bracket.b-dim{border:1.5px dashed rgba(255,255,255,.18);border-right:0}
-  .mp-bracket-label{
-    position:absolute;left:-44px;font-family:var(--font-mono);font-size:8.5px;
-    letter-spacing:.08em;text-transform:uppercase;writing-mode:vertical-rl;
-    transform:rotate(180deg);white-space:nowrap;color:#ff7894;font-weight:700;
-  }
-  .mp-bracket-label.l-cyan{color:#7befe8}
-  .mp-bracket-label.l-dim{color:var(--text-4);font-weight:500}
+  footer span b{color:var(--text-2);font-weight:600}
+  footer a{color:var(--text-3);text-decoration:none;border-bottom:1px solid var(--line-2);padding-bottom:1px}
+  footer a:hover{color:var(--text)}
 </style>
 </head>
 <body>
 
-<div class="topbar">
-  <div class="topbar-inner">
-    <div class="logo">T</div>
-    <h1>地点精搜融合卡设计探索 · POI Exact Search Fusion Card</h1>
-    <span class="meta">TikTok · Local Services · 设计专项</span>
-  </div>
-</div>
-
-<!-- =========================================================
-     HERO
-     ========================================================= -->
-<header class="hero">
-  <span class="eyebrow fade-up">● 设计专项 · 4 个结构策略</span>
-  <h1 class="fade-up delay-1">在 TikTok 搜索结果页，<br>把识别 · 了解 · 转化装进同一张卡。</h1>
-  <p class="lead fade-up delay-2">
-    地点精搜融合卡，是面向明确 POI 搜索，在结果页整合内容与交易能力的结构化地点卡。它要回答的问题只有一个：<b style="color:#fff;">识别、了解、交易转化三类信息，如何分配空间与先后关系。</b>
-  </p>
-  <div class="core fade-up delay-2">
-    <span class="tag"><b>意图：</b>用户目标明确指向单一 POI</span>
-    <span class="tag"><b>任务：</b>识别 + 理解 + 承接交易</span>
-    <span class="tag"><b>品类：</b>酒店 / 餐饮 / 景点</span>
-    <span class="tag"><b>市场：</b>EN · 印尼 · 日本</span>
-  </div>
+<header class="topbar">
+  <span class="dot"></span>
+  <span class="t">POI Exact Search · Fusion Card</span>
+  <span style="color:var(--text-3)">v4 · Hotel · 4 strategies side-by-side</span>
+  <span class="meta">iPhone 390 × 844 · 2026.06</span>
 </header>
 
-<!-- =========================================================
-     STORY RAIL · 全文逻辑推演主线（5 站）
-     ========================================================= -->
-<div class="story-rail fade-up delay-2">
-  <div class="rail-head">逻辑推演主线 · How this doc reasons</div>
-  <div class="rail">
-    <a class="stop" href="#sec-framework" data-tone="brand">
-      <span class="num">01 · FRAMEWORK</span>
-      <span class="dot"></span>
-      <b>定义判断动线</b>
-      <em>识别 → 了解 → 转化</em>
-    </a>
-    <a class="stop" href="#sec-industry" data-tone="brand">
-      <span class="num">02 · INDUSTRY</span>
-      <span class="dot"></span>
-      <b>看行业 4 类范式</b>
-      <em>OTA / 地图 / 双入口 / 综搜</em>
-    </a>
-    <a class="stop" href="#sec-constraint" data-tone="mid">
-      <span class="num">03 · CONSTRAINT</span>
-      <span class="dot"></span>
-      <b>叠加 TT 平台约束</b>
-      <em>3 约束 · 3 问题</em>
-    </a>
-    <a class="stop" href="#sec-strategies" data-tone="cyan">
-      <span class="num">04 · 4 STRATEGIES</span>
-      <span class="dot"></span>
-      <b>收束 4 个结构策略</b>
-      <em>从货架卡 → 原生内容</em>
-    </a>
-    <a class="stop" href="#sec-spectrum" data-tone="cyan">
-      <span class="num">05 · SPECTRUM</span>
-      <span class="dot"></span>
-      <b>4 个策略的连续关系</b>
-      <em>权重 / 边界 / 选型</em>
-    </a>
+<section class="hero">
+  <span class="pre">4 strategies × 1 representative each</span>
+  <h1>Four structural takes,<br><em>one hotel.</em></h1>
+  <p>同一个酒店、同一组核心信息，仅在 <b>识别 / 理解 / 交易</b> 三段的结构与权重上做差异化。每个策略只保留一个最能体现精髓的方案 —— 一句话说清为什么贴合该策略。</p>
+  <div class="keyrow">
+    <span><b>iPhone</b> · 390 × 844</span>
+    <span><b>Hotel</b> · Bangkok Marriott Marquis</span>
+    <span><b>3 phases</b> · Identify → Understand → Transact</span>
   </div>
-</div>
+</section>
 
-<!-- =========================================================
-     SECTION · 业务定义与判断动线
-     ========================================================= -->
-<section class="block" id="sec-framework">
-  <div class="section-head">
-    <div class="head-left">
-      <div class="num-badge">01</div>
-      <div>
-        <span class="index">Framework</span>
-        <h2 style="margin-top:6px">先理清用户的判断动线</h2>
-        <p class="sub">这张卡要解决的不是"放什么"，而是"用户怎么读它"——识别 → 了解 → 转化的判断顺序。</p>
-      </div>
+<section class="compare">
+  <div class="compare-head">
+    <div>
+      <h2>Side-by-side <em>· same data, four shapes</em></h2>
+      <p>从左到右：<b>识别即转化 → 折叠分层 → 解耦排版 → 内容沉浸</b>。每一列下方一句话解释它为什么是该策略最纯粹的形态。</p>
+    </div>
+    <div class="legend">
+      Light viewport · BW palette<br>
+      <b>Hotel</b>: Bangkok Marriott Marquis<br>
+      Source: figma POI exact search v3
     </div>
   </div>
 
-  <div class="flow-arrow">
-    <span class="pill"><span class="step">1</span><span>识别信息</span></span>
-    <span class="arrow">→</span>
-    <span class="pill"><span class="step">2</span><span>了解信息</span></span>
-    <span class="arrow">→</span>
-    <span class="pill"><span class="step">3</span><span>交易转化</span></span>
-  </div>
+  <div class="grid4">
 
-  <table class="flow-table">
+    <!-- ====== STAGE 1 · TIGHT ====== -->
+    <div class="col">
+      <div class="col-head">
+        <div class="top">
+          <span class="num s1">Stage 1</span>
+          <span class="ref">REF · Google · Booking</span>
+        </div>
+        <h3>Identity-led Single Card</h3>
+        <p class="desc">S1 与 S2 <b>共用同一个识别头</b>（左图右文 + 2 行原声 + 跳转箭头）。S1 把<b>交易</b>收敛为<b>单一最优供应商</b>，让用户"看完即下单"。</p>
+      </div>
+      <div class="phone-wrap"><div class="phone-screen"><iframe src="designs/s1-a-hotel-hero-stack.html" loading="lazy" scrolling="no"></iframe></div></div>
+      <div class="mech">
+        <div class="row"><span class="lbl">Why fit</span><span class="val">识别头一致 · 仅用 <b>1 个最优供应商 + 一个全宽 CTA</b> 收口交易 —— 转化最纯粹。</span></div>
+      </div>
+    </div>
+
+    <!-- ====== STAGE 2 · FOLDED ====== -->
+    <div class="col">
+      <div class="col-head">
+        <div class="top">
+          <span class="num s2">Stage 2</span>
+          <span class="ref">REF · iOS Music</span>
+        </div>
+        <h3>Folded Tabs Card</h3>
+        <p class="desc">沿用 S1 的识别头，下方加 <b>Deals / Reviews / What people say / Location</b> 四段 segment：交易、理解、内容、地理位置按需展开，每个 tab 可独立沉浸。</p>
+      </div>
+      <div class="phone-wrap"><div class="phone-screen"><iframe src="designs/s2-a-hotel-tabbed-card.html" loading="lazy" scrolling="no"></iframe></div></div>
+      <div class="mech">
+        <div class="row"><span class="lbl">Why fit</span><span class="val">识别头一致 · 用 <b>segmented 折叠</b>承载多视图，理解维度按需展开 —— 折叠分层最纯粹。</span></div>
+      </div>
+    </div>
+
+    <!-- ====== STAGE 3 · DECOUPLED ====== -->
+    <div class="col">
+      <div class="col-head">
+        <div class="top">
+          <span class="num s3">Stage 3</span>
+          <span class="ref">REF · App Store</span>
+        </div>
+        <h3>Decoupled Modules</h3>
+        <p class="desc">把识别 / 交易 / 理解 / 推荐拆成 <b>4 张完全独立的小卡</b>（Identity · Deals · Reviews · You may also like），灰底卡间隙 + 双列 native feed 穿插，每张可独立 ranking、独立竞价、独立沉浸。</p>
+      </div>
+      <div class="phone-wrap"><div class="phone-screen"><iframe src="designs/s3-a-hotel-modules-split.html" loading="lazy" scrolling="no"></iframe></div></div>
+      <div class="mech">
+        <div class="row"><span class="lbl">Why fit</span><span class="val">灰底 + 卡间隙强调"模块可重排"<b> · 每个模块都能单独做实验</b> —— 解耦排版最纯粹。</span></div>
+      </div>
+    </div>
+
+    <!-- ====== STAGE 4 · IMMERSIVE ====== -->
+    <div class="col">
+      <div class="col-head">
+        <div class="top">
+          <span class="num s4">Stage 4</span>
+          <span class="ref">REF · TikTok FYP</span>
+        </div>
+        <h3>Content-Mounted Video</h3>
+        <p class="desc">9:13 横滑视频卡片做主体容器，<b>识别</b>压在顶部头条行，<b>交易</b>以白色聚合卡反向挂载在视频底部。</p>
+      </div>
+      <div class="phone-wrap"><div class="phone-screen"><iframe src="designs/s4-a-hotel-video-first.html" loading="lazy" scrolling="no"></iframe></div></div>
+      <div class="mech">
+        <div class="row"><span class="lbl">Why fit</span><span class="val">视频本体即理解过程 · POI mount 几乎不打断观看 —— <b>"先看再买"内容沉浸最纯粹</b>。</span></div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<section class="summary">
+  <h3>Decision matrix · 三段结构权重</h3>
+  <table class="stable">
     <thead>
       <tr>
-        <th>判断环节</th>
-        <th>识别信息</th>
-        <th>了解信息</th>
-        <th>交易转化</th>
+        <th></th>
+        <th>S1 · Identity-led</th>
+        <th>S2 · Folded</th>
+        <th>S3 · Decoupled</th>
+        <th>S4 · Immersive</th>
       </tr>
     </thead>
     <tbody>
       <tr>
-        <td>用户在问什么</td>
-        <td>这是不是我搜的那个地点？</td>
-        <td>它到底怎么样，值不值得继续看？</td>
-        <td>现在有没有值得点的交易信息？</td>
+        <td>识别</td>
+        <td>左图右文 + 原声</td>
+        <td>左图右文 + tabs</td>
+        <td>独立 Identity 卡</td>
+        <td>视频本体即识别</td>
       </tr>
       <tr>
-        <td>典型信息</td>
-        <td>地点基础档案<br><span style="color:var(--text-3);font-size:12.5px">名称 / 地址 / 基础评分等</span></td>
-        <td>主客观环境与口碑证据<br><span style="color:var(--text-3);font-size:12.5px">UGC 视频 / 评价 / 官方相册 / 特色总结等</span></td>
-        <td>履约供给与行动入口<br><span style="color:var(--text-3);font-size:12.5px">核心报价 / 具体服务供给 / 转化按钮等</span></td>
+        <td>理解</td>
+        <td>2 行原声 · 极简</td>
+        <td>tabs 切换</td>
+        <td>独立 Reviews 卡 + 横滑 clip 轨</td>
+        <td><b>视频内容承载</b></td>
+      </tr>
+      <tr>
+        <td>交易</td>
+        <td><b>1 个最优供应商</b></td>
+        <td>3 行 OTA + See more (4)</td>
+        <td>独立 Deals 卡</td>
+        <td>底部 POI mount</td>
+      </tr>
+      <tr>
+        <td>Best for</td>
+        <td>明确酒店意图 · 即买</td>
+        <td>需多角度比较</td>
+        <td>多 ranking 自由组合</td>
+        <td>探索型 · 内容驱动</td>
+      </tr>
+      <tr>
+        <td>Risk</td>
+        <td>供应商选择被收敛</td>
+        <td>层级隐藏导致首屏认知不全</td>
+        <td>整卡感弱 · 易碎片</td>
+        <td>转化路径长</td>
       </tr>
     </tbody>
   </table>
-
-  <p style="color:var(--text-2);margin:22px 0 0;font-size:14px;line-height:1.7">
-    这三步描述的是<b style="color:#fff">用户判断顺序</b>，不是三个固定模块。在 TikTok 地点搜索里，用户常先靠内容形成判断，再决定是否进入交易。
-  </p>
-</section>
-
-<!-- =========================================================
-     SECTION · 结构解耦原则
-     ========================================================= -->
-<section class="block" id="sec-principle">
-  <div class="section-head">
-    <div class="head-left">
-      <div class="num-badge" style="background:linear-gradient(135deg,#888,#bbb);box-shadow:0 6px 18px rgba(255,255,255,.12)">02</div>
-      <div>
-        <span class="index">Principle</span>
-        <h2 style="margin-top:6px">结构应先服务判断，再服务转化</h2>
-        <p class="sub">同一类信息可以承担不同角色——结构不是机械切分，而是为信息匹配位置与时机。</p>
-      </div>
-    </div>
-  </div>
-
-  <div class="principle-grid">
-    <div class="principle">
-      <h4>用户先判断 · 再理解模块</h4>
-      <p>用户先回答“是不是它”“值不值得继续看”“要不要进入下一步”，不会先理解 Header / 内容 / 交易的边界。</p>
-    </div>
-    <div class="principle">
-      <h4>结构 ≠ 机械切分</h4>
-      <p>结构设计不是机械切分 Header、内容、交易，而是为不同信息匹配合适的位置与时机。</p>
-    </div>
-    <div class="principle">
-      <h4>内容是判断的主入口</h4>
-      <p>对 TikTok 来说，内容往往不是交易前的陪衬，而是用户形成地点判断的主入口。</p>
-    </div>
-  </div>
-</section>
-
-<!-- =========================================================
-     SECTION · 行业结构观察 + TT 约束 + 3 个问题推理
-     ========================================================= -->
-<section class="block" id="sec-industry">
-  <div class="section-head">
-    <div class="head-left">
-      <div class="num-badge">03</div>
-      <div>
-        <span class="index">Industry → Constraint → Reasoning</span>
-        <h2 style="margin-top:6px">行业 4 类范式 → 叠加 TT 约束 → 收束 4 个方向</h2>
-        <p class="sub">这是整篇文档的<b style="color:#fff">核心推演链</b>。从行业里已经稳定存在的 4 类组织逻辑出发，叠加 TT 平台的 3 条约束，再回答 3 个结构问题，自然收束出 4 个结构方向。</p>
-      </div>
-    </div>
-  </div>
-
-  <div class="industry-grid">
-    <div class="industry">
-      <span class="ind-tag">A · 预订型</span>
-      <h4>OTA / 酒店预订平台</h4>
-      <p class="reps">Tripadvisor · Agoda · Google Hotel · 酒店预订产品</p>
-      <div class="ind-block">
-        <h5>稳定存在的结构习惯</h5>
-        <ul>
-          <li><b>先订再深看</b>：日期 / 人数 / 筛选 / 价格前置。</li>
-          <li><b>结果卡做摘要</b>：评分、位置、权益同层出现。</li>
-        </ul>
-      </div>
-      <div class="ind-block">
-        <h5>客观观察</h5>
-        <ul>
-          <li><b>首层只放高决策信号</b>：地点识别、可订性、基础信任。</li>
-          <li><b>深信息后移</b>：房型、设施、评价、地图进入详情 / 折叠。</li>
-        </ul>
-      </div>
-    </div>
-
-    <div class="industry">
-      <span class="ind-tag">B · 地图探索型</span>
-      <h4>地图 / 本地探索平台</h4>
-      <p class="reps">Google Maps · Yelp · 地图探索产品</p>
-      <div class="ind-block">
-        <h5>稳定存在的结构习惯</h5>
-        <ul>
-          <li><b>地图先定范围</b>：先看在哪一片、附近有什么。</li>
-          <li><b>地点卡保持轻量</b>：名称、评分、距离、价格、少量图片即可。</li>
-        </ul>
-      </div>
-      <div class="ind-block">
-        <h5>客观观察</h5>
-        <ul>
-          <li><b>高屏效</b>靠地图 + 聚类 + 底卡。</li>
-          <li><b>深信息默认二跳</b>：先缩小候选，再点开单点。</li>
-        </ul>
-      </div>
-    </div>
-
-    <div class="industry">
-      <span class="ind-tag">C · 交易 / 内容双入口</span>
-      <h4>本地生活交易 / 内容社区平台</h4>
-      <p class="reps">GrabFood · 内容导向地点产品</p>
-      <div class="ind-block">
-        <h5>稳定存在的结构习惯</h5>
-        <ul>
-          <li><b>双入口并存</b>：交易短链路 vs 内容先种草。</li>
-          <li><b>首屏就抢主判断位</b>：不是只做地点信息补充。</li>
-        </ul>
-      </div>
-      <div class="ind-block">
-        <h5>客观观察</h5>
-        <ul>
-          <li><b>交易型</b>：门店、优惠、商品、动作压进一屏。</li>
-          <li><b>内容型</b>：先给氛围 / 口碑，再挂轻行动入口。</li>
-        </ul>
-      </div>
-    </div>
-
-    <div class="industry">
-      <span class="ind-tag">D · 高屏效 · 防打扰</span>
-      <h4>综合搜索 / 信息流平台</h4>
-      <p class="reps">Google Local Pack · 小红书双列内容流 · 综合搜索结果页</p>
-      <div class="ind-block">
-        <h5>稳定存在的结构习惯</h5>
-        <ul>
-          <li><b>信息先压平</b>：短卡、浮层、局部展开。</li>
-          <li><b>只留最低必要信号</b>：识别、评分、品类、距离等。</li>
-        </ul>
-      </div>
-      <div class="ind-block">
-        <h5>客观观察</h5>
-        <ul>
-          <li><b>目标是不断流</b>：维持浏览连续性，不用高卡打断主内容。</li>
-          <li><b>更多解释后移</b>：评论、交易、路线进入二跳 / 轻浮层。</li>
-        </ul>
-      </div>
-    </div>
-  </div>
-
-  <p style="color:var(--text-2);margin:22px 0 0;font-size:14px;line-height:1.7">
-    它们虽然长相不同，但都在回答同一个问题：<b style="color:#fff">识别、了解、交易三类信息，谁先出现，谁被压缩，谁承担主判断入口。</b>
-  </p>
-
-  <!-- TT 平台 3 大约束 + 3 问题推理 + 4 方向收束 -->
-  <div class="reasoning-board" id="sec-constraint">
-    <h3><span class="step-tag">Step A</span> 叠加 TikTok 平台约束</h3>
-    <p class="lead">同样的结构问题，落到 TT 上必须先满足这 3 条硬约束。</p>
-
-    <div class="constraints">
-      <div class="constraint">
-        <span class="num">1</span>
-        <h5>高屏效</h5>
-        <p>结果页首先服务连续浏览，卡片高度必须对首屏效率负责。</p>
-      </div>
-      <div class="constraint">
-        <span class="num">2</span>
-        <h5>不打断原生消费</h5>
-        <p>卡片不能把用户从双列视频的原生节奏里硬拽出来。</p>
-      </div>
-      <div class="constraint">
-        <span class="num">3</span>
-        <h5>内容优势优先</h5>
-        <p>TT 的核心长板不是堆货架，而是用原生内容更快帮用户判断。</p>
-      </div>
-    </div>
-
-    <div class="stage-spacer">▼ ▼ ▼</div>
-
-    <h3><span class="step-tag">Step B</span> 回答 3 个结构问题</h3>
-    <p class="lead">这 3 个问题决定了识别、了解、交易三类信息在 TT 结果页里如何重新落位。</p>
-
-    <div class="questions">
-      <div class="question">
-        <div class="q-num">Q1</div>
-        <p>哪些信息<b style="color:#ff7894">必须立即出现</b>，才能完成地点确认？</p>
-      </div>
-      <div class="question">
-        <div class="q-num">Q2</div>
-        <p>哪些判断信息可以前置，但必须<b style="color:#ff7894">更轻地</b>进入结果页？</p>
-      </div>
-      <div class="question">
-        <div class="q-num">Q3</div>
-        <p>哪些内容不只是补充，而可以<b style="color:#ff7894">直接承担主判断</b>？</p>
-      </div>
-    </div>
-
-    <div class="stage-spacer">▼ ▼ ▼</div>
-
-    <h3><span class="step-tag">Step C</span> 4 个结构方向自然收束</h3>
-    <p class="lead">围绕"商家身份 / 内容 / 交易"三者的结构关系，4 个策略其实是<b>一根从左到右的连续轴</b>：从"货架卡"一路退向"原生内容"。</p>
-    <div class="conclusion-list">
-      <div class="conc-item">
-        <div class="dir">1</div>
-        <div class="text"><b>重交易一体卡</b><span>一张紧凑的整卡，内容压成 1–2 句话，交易模块视觉权重最大。</span></div>
-      </div>
-      <div class="conc-item">
-        <div class="dir">2</div>
-        <div class="text"><b>信息折叠一体卡</b><span>依然是单张卡片，但通过折叠和横滑把次要信息藏起、压缩高度。</span></div>
-      </div>
-      <div class="conc-item">
-        <div class="dir">3</div>
-        <div class="text"><b>模块拆分排版</b><span>打破单卡限制——内容组件和交易组件彻底解绑，在搜索流里分开排布。</span></div>
-      </div>
-      <div class="conc-item">
-        <div class="dir">4</div>
-        <div class="text"><b>纯内容挂载</b><span>仍是一张卡，但卡内的内容被强化为主体，身份与交易作为浮层 / 挂载嵌入内容。</span></div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- =========================================================
-     SECTION · 4 策略总览
-     ========================================================= -->
-<section class="block" id="sec-strategies">
-  <div class="section-head">
-    <div class="head-left">
-      <div class="num-badge">04</div>
-      <div>
-        <span class="index">4 Strategies</span>
-        <h2 style="margin-top:6px">从「货架卡」一路退向「原生内容」的 4 个结构策略</h2>
-        <p class="sub">围绕<b style="color:var(--text-2)">"商家身份 / 内容 / 交易"</b>三者的结构关系，4 个策略是<b style="color:var(--text-2)">一根从左到右的连续轴</b>。从策略 1 的"重交易一体卡（交易主导整卡）"，一步步走到策略 4 的"纯内容挂载（仍是一张卡，但卡内内容主导）"。<b style="color:var(--text-2)">这 4 个策略并置可选，不是按时间顺序推进的产品规划。</b></p>
-      </div>
-    </div>
-  </div>
-
-  <div class="stages">
-    <a class="stage-mini" href="#stage-1"><div class="num">1</div><h3>重交易一体卡</h3><p>意图直达型——一张紧凑的整卡，内容压成 1–2 句话，交易模块视觉权重最大。</p></a>
-    <a class="stage-mini" href="#stage-2"><div class="num">2</div><h3>信息折叠一体卡</h3><p>降噪折叠型——依然是单张卡片，靠折叠 / 横滑把次要信息藏起、压缩高度。</p></a>
-    <a class="stage-mini" href="#stage-3"><div class="num">3</div><h3>模块拆分排版</h3><p>路径解耦型——打破单卡限制，内容组件与交易组件彻底解绑，在搜索流里分开排布。</p></a>
-    <a class="stage-mini" href="#stage-4"><div class="num">4</div><h3>纯内容挂载</h3><p>内容沉浸型——仍是一张卡，但卡内的内容被强化为主体，身份和交易作为浮层 / 挂载嵌入内容。</p></a>
-  </div>
-
-  <!-- ===== 屏效说明 ===== -->
-  <div style="margin-top:36px;background:var(--surface);border:1px solid var(--line);border-radius:var(--radius-card);padding:22px 24px">
-    <h3 style="margin:0 0 8px;font-size:16px">屏效是交互架构选择的前置变量</h3>
-    <p style="margin:0;color:var(--text-2);font-size:13.5px;line-height:1.7">
-      在搜索结果页里，卡片高度不是纯界面参数。它直接影响用户是否继续消费原生视频、是否愿意停下来理解一张卡，以及理解后是继续下滑、点击承接，还是返回改词。<b style="color:#fff">高卡不是零成本。</b>
-      但屏效也不等于“越矮越好”——如果更高的卡能显著提升识别效率、判断效率，或直接给出更强的转化理由，这部分空间就是值得的。反过来，若增加的高度只是重复信息，它就在与 TikTok 的原生内容流争夺注意力。
-    </p>
-  </div>
-
-  <!-- ============ Stage 1 ============ -->
-  <article class="stage" id="stage-1">
-    <div class="stage-head">
-      <div class="badge">1</div>
-      <div class="title">
-        <div class="kicker">策略 1 · 意图直达型</div>
-        <h3>重交易一体卡 — 紧凑的整卡，内容收成 1–2 句话，交易模块视觉权重最大</h3>
-        <p class="lead">把识别 / 内容 / 交易塞进<b>一张紧凑的整卡</b>里：商家身份、1–2 句内容摘要、价格 + 强 CTA 共享同一个矩形外框，交易模块视觉权重明显占主导。最贴近 Trip.com / Agoda 的整卡列表形态。</p>
-      </div>
-    </div>
-    <div class="stage-body">
-      <div class="text">
-        <dl>
-          <dt>结构特征</dt>
-          <dd>
-            <ul>
-              <li><b>Identity · header</b>：地点档案 + 评分 + 关键 meta，作为第一锚点。</li>
-              <li><b>Content · 1-line summary</b>：1–2 句话 AI / UGC 概要，承担基础信任。</li>
-              <li><b>Conversion · offerings + price</b>：核心模块——核心供给概览 + 价格组合，是该形态的"重头戏"。</li>
-              <li><b>Primary CTA</b>：终态主操作，让用户在卡内即可完成下一步。</li>
-            </ul>
-          </dd>
-          <dt>边界</dt>
-          <dd>它是 4 个策略里<b>交易模块视觉权重最大</b>的一种——单张紧凑整卡，内容只剩 1–2 句话。<b>和策略 2 的差异：</b>2 还需要折叠 / 横滑去藏次级信息让卡更矮；本策略不藏，但因为内容已经被精简到极致，整卡仍然是紧凑的列表型，不会过高。</dd>
-          <dt>风险与代价</dt>
-          <dd>
-            <ul>
-              <li>对供给完整度依赖最高，供给不全时整卡显得空。</li>
-              <li>偏离 TT 内容优势，必须靠强转化数据证明屏效合理。</li>
-              <li>过度堆砌会让卡片像独立 Mini App，与原生流割裂。</li>
-            </ul>
-          </dd>
-        </dl>
-      </div>
-      <div class="visual">
-        <div class="phone"><div class="screen">
-          <div class="notch"></div>
-          <div class="status"><span>9:41</span><div class="right"><span>5G</span><div class="ic-batt"><span></span></div></div></div>
-          <div class="search">
-            <span class="back">‹</span>
-            <div class="input">
-              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
-              <span style="opacity:.55">Search query</span>
-            </div>
-            <span class="cancel" style="opacity:.6">Cancel</span>
-          </div>
-          <div class="tabs"><span>All</span><span class="active">Place</span><span>Video</span><span>User</span><span>LIVE</span><span>Shop</span></div>
-          <div class="scroll">
-
-            <!-- ============ STRATEGY 1 SKELETON · all-in-one commerce-led card ============ -->
-            <div class="sk-card" style="padding:10px;display:flex;flex-direction:column;gap:10px;background:var(--surface)">
-              <div class="sk-block identity" style="height:62px"><span class="tag">Identity · header</span></div>
-              <div class="sk-block content" style="height:30px"><span class="tag">Content · 1-line summary</span></div>
-              <div class="sk-block conversion" style="height:120px"><span class="tag tl">Conversion · offerings + price</span></div>
-              <div class="sk-block conversion" style="height:54px"><span class="tag">Primary CTA</span></div>
-            </div>
-
-            <!-- Native dual-column video grid below -->
-            <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-top:10px">
-              <div class="sk-thumb" style="aspect-ratio:9/14"></div>
-              <div class="sk-thumb" style="aspect-ratio:9/14"></div>
-            </div>
-          </div>
-        </div></div>
-      </div>
-    </div>
-  </article>
-
-  <!-- ============ Stage 2 ============ -->
-  <article class="stage" id="stage-2">
-    <div class="stage-head">
-      <div class="badge">2</div>
-      <div class="title">
-        <div class="kicker">策略 2 · 降噪折叠型</div>
-        <h3>信息折叠一体卡 — 依然是单张卡片，但通过折叠 / 横滑把次要信息藏起、压缩高度</h3>
-        <p class="lead">和策略 1 同源，<b>卡片这个容器物理边界仍然完整</b>——内容和交易在<b>同一个卡片背景框里</b>。区别在于：策略 1 直接铺开，策略 2 把次要信息折叠藏起、让卡变矮。此时内容与交易可能是 5:5 均等，但物理空间被极度压缩。</p>
-      </div>
-    </div>
-    <div class="stage-body">
-      <div class="text">
-        <dl>
-          <dt>结构特征</dt>
-          <dd>
-            <ul>
-              <li><b>Identity · header</b>：保留与策略 1 一致的识别强度。</li>
-              <li><b>Content · folded summary</b>：内容被压成精炼摘要，复杂部分折叠。</li>
-              <li><b>Conversion · inline</b>：转化退到与内容并列、而非主导，体量更轻。</li>
-              <li><b>Expand</b>：展开入口在卡末，让感兴趣的用户主动获取更多。</li>
-            </ul>
-          </dd>
-          <dt>边界</dt>
-          <dd>
-            <b>和策略 1：</b>1 是"单张卡铺开所有信息、卡很高"；本策略是"<b>同一张卡片背景框</b>里仍装着内容和交易，但靠折叠 / 横滑把次要信息藏起、让卡变矮"。<b>容器物理边界完全一致，区别在卡内的密度</b>。<br>
-            <b>和策略 3：</b>本策略<b>卡片的边框还在</b>——内容和交易仍然在同一个矩形容器里；策略 3 则<b>彻底打破了卡片这个边框</b>，把内容和交易拆成两个独立组件，谁先谁后由 feed 决定。
-          </dd>
-          <dt>风险与代价</dt>
-          <dd>
-            <ul>
-              <li>压缩过度会削弱信息主次，用户反而更难判断先看什么。</li>
-              <li>折叠 / 切换 / 滑动都会增加操作成本，<b>不能用交互替代结构清晰度</b>。</li>
-              <li>折叠的信息真正被用上多少，需要事件级数据回看。</li>
-            </ul>
-          </dd>
-        </dl>
-      </div>
-      <div class="visual">
-        <div class="phone"><div class="screen">
-          <div class="notch"></div>
-          <div class="status"><span>9:41</span><div class="right"><span>5G</span><div class="ic-batt"><span></span></div></div></div>
-          <div class="search">
-            <span class="back">‹</span>
-            <div class="input">
-              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
-              <span style="opacity:.55">Search query</span>
-            </div>
-            <span class="cancel" style="opacity:.6">Cancel</span>
-          </div>
-          <div class="tabs"><span>All</span><span class="active">Place</span><span>Video</span><span>User</span><span>LIVE</span><span>Shop</span></div>
-          <div class="scroll">
-
-            <!-- ============ STRATEGY 2 SKELETON · folded compact card ============ -->
-            <div class="sk-card" style="padding:10px;display:flex;flex-direction:column;gap:10px;background:var(--surface)">
-              <div class="sk-block identity" style="height:62px"><span class="tag">Identity · header</span></div>
-              <div class="sk-block content" style="height:48px"><span class="tag">Content · folded summary</span></div>
-              <div class="sk-block conversion" style="height:54px"><span class="tag">Conversion · inline</span></div>
-              <div class="sk-block aux" style="height:28px"><span class="tag center">Expand for more  ▾</span></div>
-            </div>
-
-            <!-- Native dual-column video grid below -->
-            <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-top:10px">
-              <div class="sk-thumb" style="aspect-ratio:9/14"></div>
-              <div class="sk-thumb" style="aspect-ratio:9/14"></div>
-              <div class="sk-thumb" style="aspect-ratio:9/14"></div>
-              <div class="sk-thumb" style="aspect-ratio:9/14"></div>
-            </div>
-          </div>
-        </div></div>
-      </div>
-    </div>
-  </article>
-
-  <!-- ============ Stage 3 ============ -->
-  <article class="stage" id="stage-3">
-    <div class="stage-head">
-      <div class="badge">3</div>
-      <div class="title">
-        <div class="kicker">策略 3 · 路径解耦型</div>
-        <h3>模块拆分排版 — 打破单卡限制，内容组件和交易组件彻底解绑，在搜索流里分开排布</h3>
-        <p class="lead">这一策略<b>彻底打破了"单张卡片"的概念</b>——把视频 / 图文（内容模块）和货架（交易模块）<b>拆成两个独立的组件</b>。既然解绑了，就可以在搜索流里灵活决定谁先谁后（比如内容放第一层，货架作为附属卡跟在下面）。</p>
-      </div>
-    </div>
-    <div class="stage-body">
-      <div class="text">
-        <dl>
-          <dt>结构特征</dt>
-          <dd>
-            <ul>
-              <li><b>Identity card</b>：地点档案独立成卡，作为"是这家"的轻量确认。</li>
-              <li><b>Commerce card</b>：货架供给单独一张卡，专门承接交易。</li>
-              <li><b>Content card</b>：内容（视频 / 评论 / 图集）单独一张卡，纯内容判断。</li>
-              <li><b>Native feed 穿插</b>：原生双列内容流仍贯穿全程，不被卡片打断。</li>
-            </ul>
-          </dd>
-          <dt>边界</dt>
-          <dd>
-            <b>和策略 2：</b>2 仍然在<b>同一个卡片背景框</b>里塞内容和交易，靠折叠/横滑收高度——容器边界还在；本策略<b>彻底打破"单张卡"的概念</b>，内容（视频 / 图文）和货架（交易）拆成两个独立组件，分别成卡，<b>不再共享一个矩形外框</b>。<br>
-            <b>和策略 4：</b>4 是"内容彻底主导，交易只剩底部一条挂载"；本策略仍然有完整的<b>交易组件作为独立卡</b>存在，只是它<b>不强制和内容捆绑在同一张卡里</b>——既然解绑了，就可以在搜索流里灵活决定谁先谁后。
-          </dd>
-          <dt>风险与代价</dt>
-          <dd>
-            <ul>
-              <li>编排规则不稳定时，页面会显得零散，用户难以形成稳定预期。</li>
-              <li>信息单元可拆，但<b>决策路径不能断</b>。</li>
-              <li>对工程能力、排序策略与交互一致性要求最高，短期投入也最大。</li>
-            </ul>
-          </dd>
-        </dl>
-      </div>
-      <div class="visual">
-        <div class="phone"><div class="screen">
-          <div class="notch"></div>
-          <div class="status"><span>9:41</span><div class="right"><span>5G</span><div class="ic-batt"><span></span></div></div></div>
-          <div class="search">
-            <span class="back">‹</span>
-            <div class="input">
-              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
-              <span style="opacity:.55">Search query</span>
-            </div>
-            <span class="cancel" style="opacity:.6">Cancel</span>
-          </div>
-          <div class="tabs"><span>All</span><span class="active">Place</span><span>Video</span><span>User</span><span>LIVE</span><span>Shop</span></div>
-          <div class="scroll">
-
-            <!-- ============ STRATEGY 3 SKELETON · decoupled cards woven into feed ============ -->
-            <div style="display:flex;flex-direction:column;gap:10px">
-              <div class="sk-block identity" style="height:60px"><span class="tag">Identity card</span></div>
-              <div class="sk-block conversion" style="height:80px"><span class="tag tl">Commerce card · offerings</span></div>
-              <!-- native feed row interleaved -->
-              <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
-                <div class="sk-thumb" style="aspect-ratio:9/13"></div>
-                <div class="sk-thumb" style="aspect-ratio:9/13"></div>
-              </div>
-              <div class="sk-block content" style="height:80px"><span class="tag tl">Content card · review / video</span></div>
-              <!-- native feed row interleaved -->
-              <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
-                <div class="sk-thumb" style="aspect-ratio:9/13"></div>
-                <div class="sk-thumb" style="aspect-ratio:9/13"></div>
-              </div>
-            </div>
-          </div>
-        </div></div>
-      </div>
-    </div>
-  </article>
-
-  <!-- ============ 2 vs 3 边界专题对照 ============ -->
-  <div style="max-width:1280px;margin:0 auto;padding:20px 28px 0">
-    <div style="background:linear-gradient(180deg,rgba(255,255,255,.025),transparent);border:1px solid var(--line);border-radius:var(--radius-card);padding:28px 32px">
-      <div style="display:flex;align-items:center;gap:10px;margin-bottom:8px">
-        <span style="font-family:var(--font-mono);font-size:10.5px;color:#7befe8;padding:3px 10px;border-radius:var(--radius-pill);background:rgba(37,244,238,.1);border:1px solid rgba(37,244,238,.3);letter-spacing:.06em;font-weight:600">边界专题 · 2 vs 3</span>
-      </div>
-      <h3 style="margin:0 0 8px;font-size:20px;letter-spacing:-.01em">策略 2 和 策略 3：差异不是"内容/交易占比"，而是"卡片这个容器还存不存在"</h3>
-      <p style="margin:0 0 22px;color:var(--text-3);font-size:13.5px;line-height:1.7;max-width:920px">
-        2 和 3 的根本差异<b style="color:var(--text)">不在内容与交易的权重比例</b>——而在<b style="color:var(--text)">"容器物理边界"</b>是否存在。
-        策略 2 仍然是<b style="color:var(--text)">单张卡片</b>（卡的边框还在），内容和交易共用一个矩形外框；
-        策略 3 则<b style="color:var(--text)">彻底打破单卡限制</b>，把内容组件和交易组件拆成两张独立的卡，不再共享外框。
-      </p>
-
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px">
-
-        <!-- 策略 2 · 一体卡（容器边框还在） -->
-        <div style="background:var(--surface);border:1px solid var(--line);border-radius:var(--radius-content);padding:20px 22px">
-          <div style="display:flex;align-items:center;gap:8px;margin-bottom:12px">
-            <span style="width:24px;height:24px;border-radius:7px;background:linear-gradient(135deg,var(--brand),#ff7194);color:#fff;font-weight:700;font-size:11px;display:flex;align-items:center;justify-content:center">2</span>
-            <span style="font-size:12.5px;font-weight:600">策略 2 · 信息折叠一体卡 — <b style="color:#ff7894">一个容器</b></span>
-          </div>
-          <p style="margin:0 0 14px;color:var(--text-2);font-size:13px;line-height:1.7">
-            <b style="color:var(--text)">内容和交易在同一个卡片背景框里。</b>只是为了让卡变矮，把次要信息通过折叠 / 横滑藏起来。此时内容与交易可能是 5:5 均等，但<b style="color:var(--text)">物理空间被极度压缩</b>。
-          </p>
-          <!-- 示意：一个完整的卡边框，内含内容 + 交易模块 -->
-          <div style="background:var(--surface-2);border:2px solid rgba(254,44,85,.4);border-radius:12px;padding:12px;display:flex;flex-direction:column;gap:8px;position:relative">
-            <span style="position:absolute;top:-9px;left:14px;background:var(--surface);padding:0 8px;font-family:var(--font-mono);font-size:9.5px;color:#ff7894;letter-spacing:.06em">CARD CONTAINER · 卡片边框完整</span>
-            <div style="height:14px;border-radius:4px;background:rgba(255,255,255,.1)"></div>
-            <div style="height:18px;border-radius:4px;background:rgba(37,244,238,.22)"></div>
-            <div style="height:18px;border-radius:4px;background:rgba(254,44,85,.32)"></div>
-            <div style="height:8px;border-radius:3px;background:rgba(255,255,255,.04);border:1px dashed rgba(255,255,255,.18);text-align:center;font-family:var(--font-mono);font-size:9px;color:var(--text-4);padding:1px 0">折叠区 ▾  /  横滑 →</div>
-          </div>
-          <p style="margin:14px 0 0;font-size:11.5px;color:var(--text-3);line-height:1.6"><b style="color:var(--text)">关键事实：</b>身份 / 内容 / 交易共用<b>一个矩形外框</b>。卡内可以折叠、横滑、压缩高度——但容器本身没拆。</p>
-        </div>
-
-        <!-- 策略 3 · 模块拆分（容器拆成两个） -->
-        <div style="background:var(--surface);border:1px solid var(--line);border-radius:var(--radius-content);padding:20px 22px">
-          <div style="display:flex;align-items:center;gap:8px;margin-bottom:12px">
-            <span style="width:24px;height:24px;border-radius:7px;background:linear-gradient(135deg,var(--brand),#ff7194);color:#fff;font-weight:700;font-size:11px;display:flex;align-items:center;justify-content:center">3</span>
-            <span style="font-size:12.5px;font-weight:600">策略 3 · 模块拆分排版 — <b style="color:#7befe8">两个独立容器</b></span>
-          </div>
-          <p style="margin:0 0 14px;color:var(--text-2);font-size:13px;line-height:1.7">
-            <b style="color:var(--text)">内容（视频 / 图文）和货架（交易）被拆成两个独立组件。</b>既然解绑了，就可以在搜索流里灵活决定谁先谁后——比如内容放第一层，货架作为附属卡跟在下面。
-          </p>
-          <!-- 示意：两张分离的独立组件卡 -->
-          <div style="display:flex;flex-direction:column;gap:10px">
-            <div style="background:var(--surface-2);border:2px solid rgba(37,244,238,.4);border-radius:12px;padding:10px;display:flex;flex-direction:column;gap:6px;position:relative">
-              <span style="position:absolute;top:-9px;left:14px;background:var(--surface);padding:0 8px;font-family:var(--font-mono);font-size:9.5px;color:#7befe8;letter-spacing:.06em">CONTENT · 内容组件</span>
-              <div style="height:14px;border-radius:4px;background:rgba(255,255,255,.1)"></div>
-              <div style="height:24px;border-radius:4px;background:rgba(37,244,238,.28)"></div>
-            </div>
-            <div style="background:var(--surface-2);border:2px solid rgba(254,44,85,.4);border-radius:12px;padding:10px;display:flex;flex-direction:column;gap:6px;position:relative">
-              <span style="position:absolute;top:-9px;left:14px;background:var(--surface);padding:0 8px;font-family:var(--font-mono);font-size:9.5px;color:#ff7894;letter-spacing:.06em">COMMERCE · 货架组件</span>
-              <div style="height:14px;border-radius:4px;background:rgba(255,255,255,.1)"></div>
-              <div style="height:18px;border-radius:4px;background:rgba(254,44,85,.32)"></div>
-            </div>
-          </div>
-          <p style="margin:14px 0 0;font-size:11.5px;color:var(--text-3);line-height:1.6"><b style="color:var(--text)">关键事实：</b>没有"一张大卡"——内容和交易<b>各自有自己的矩形外框</b>，可以分开在 feed 里排布。</p>
-        </div>
-      </div>
-
-      <!-- 一句话总结 -->
-      <div style="margin-top:18px;padding:14px 18px;background:rgba(37,244,238,.06);border:1px solid rgba(37,244,238,.2);border-radius:var(--radius-content);font-size:13.5px;line-height:1.7;color:var(--text)">
-        <b style="color:#7befe8">一句话区分：</b>
-        <b>策略 2</b> 仍是<b>一张卡片</b>——容器边框完整，靠卡内的折叠 / 横滑收缩高度；
-        <b>策略 3</b> 是<b>两个独立组件</b>——容器边框被打破，内容和交易分别成卡，由 feed 决定谁先谁后。
-      </div>
-    </div>
-  </div>
-
-  <!-- ============ Stage 4 ============ -->
-  <article class="stage" id="stage-4">
-    <div class="stage-head">
-      <div class="badge">4</div>
-      <div class="title">
-        <div class="kicker">策略 4 · 内容沉浸型</div>
-        <h3>纯内容挂载 — 仍是一张卡，但卡内的内容被强化为主体，身份与交易作为浮层 / 挂载嵌入</h3>
-        <p class="lead">仍是<b>一张独立的融合卡</b>——但卡内的内容模块（视频 / 图文）被放大为主角，几乎占满卡身；商家身份与交易承接<b>退到浮层 / 底部挂载</b>，叠加在内容之上。最贴近 TT 原生内容流的语态。</p>
-      </div>
-    </div>
-    <div class="stage-body">
-      <div class="text">
-        <dl>
-          <dt>结构特征</dt>
-          <dd>
-            <ul>
-              <li><b>Content · primary surface</b>：卡内的内容模块（视频 / 图文）被放大为主角，几乎占满卡身。</li>
-              <li><b>Floating identity</b>：商家身份退到内容顶部，作为浮层叠加。</li>
-              <li><b>Floating commerce</b>：交易承接退到内容底部，作为浮层 / 挂载条出现。</li>
-              <li>仍然是<b>一张独立的融合卡</b>，只是卡内主次结构被反转。</li>
-            </ul>
-          </dd>
-          <dt>边界</dt>
-          <dd>它是 4 个策略里<b>内容主导最强</b>的一种——卡内的视频 / 图文几乎占满卡身，身份与交易作为浮层嵌入。<b>和策略 3 的差异：</b>3 是把内容卡和交易卡<b>拆成两张独立的卡</b>分开排布；本策略<b>仍是一张卡</b>，只是卡内的内容模块被强化为主体。<b>和策略 1 的差异：</b>1 是交易主导（视觉权重最大），本策略是内容主导（视觉权重最大）。</dd>
-          <dt>风险与代价</dt>
-          <dd>
-            <ul>
-              <li>对素材质量与内容相关性要求最高；内容不足时，形式感会大于实际价值。</li>
-              <li>在强交易场景下，用户未必希望先看内容，仍可能偏好更直接的承接路径。</li>
-              <li>浮层层级、出现时机与手势关系处理不当，会同时伤害内容消费与转化承接。</li>
-            </ul>
-          </dd>
-        </dl>
-      </div>
-      <div class="visual">
-        <div class="phone"><div class="screen">
-          <div class="notch"></div>
-          <div class="status"><span>9:41</span><div class="right"><span>5G</span><div class="ic-batt"><span></span></div></div></div>
-          <div class="search">
-            <span class="back">‹</span>
-            <div class="input">
-              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
-              <span style="opacity:.55">Search query</span>
-            </div>
-            <span class="cancel" style="opacity:.6">Cancel</span>
-          </div>
-          <div class="tabs"><span>All</span><span class="active">Place</span><span>Video</span><span>User</span><span>LIVE</span><span>Shop</span></div>
-          <div class="scroll">
-
-            <!-- ============ STRATEGY 4 SKELETON · pure content immersion + appendix ============ -->
-            <div class="sk-block content" style="position:relative;aspect-ratio:9/14;overflow:hidden">
-              <span class="tag center" style="font-size:11.5px;color:#7befe8">Content surface · primary container</span>
-              <!-- bottom-attached conversion appendix -->
-              <div class="sk-block conversion" style="position:absolute;left:10px;right:10px;bottom:10px;height:40px">
-                <span class="tag">Conversion · appendix</span>
-              </div>
-            </div>
-
-            <!-- Native dual-column video grid below -->
-            <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-top:10px">
-              <div class="sk-thumb" style="aspect-ratio:9/14"></div>
-              <div class="sk-thumb" style="aspect-ratio:9/14"></div>
-            </div>
-          </div>
-        </div></div>
-      </div>
-    </div>
-  </article>
-</section>
-
-<!-- =========================================================
-     SECTION · 4 策略结构对比骨架（一眼看清差异）
-     ========================================================= -->
-<section class="block" id="sec-spectrum">
-  <div class="section-head">
-    <div class="head-left">
-      <div class="num-badge" style="background:linear-gradient(135deg,#25f4ee,#7befe8);color:#000;box-shadow:0 6px 18px rgba(37,244,238,.3)">05</div>
-      <div>
-        <span class="index">Spectrum at a glance</span>
-        <h2 style="margin-top:6px">把 4 个结构放回同一根轴上看</h2>
-        <p class="sub">同一根从左到右的轴：左端「重交易整卡」，右端「内容主导的整卡」。<b>4 个策略都还是融合卡</b>，差别在于卡内"交易 vs 内容"的视觉权重，以及卡是不是被拆开。</p>
-      </div>
-    </div>
-  </div>
-
-  <!-- ===== spectrum bar ===== -->
-  <div style="margin-top:8px;padding:24px 14px 18px;background:var(--surface);border:1px solid var(--line);border-radius:var(--radius-card);position:relative">
-    <div style="display:flex;justify-content:space-between;align-items:center;font-family:var(--font-mono);font-size:11px;color:var(--text-3);letter-spacing:.08em;text-transform:uppercase;margin-bottom:14px">
-      <span style="color:#ff7894">◀ Commerce-led</span>
-      <span style="color:#7befe8">Native content ▶</span>
-    </div>
-    <div style="height:6px;border-radius:3px;background:linear-gradient(90deg,rgba(254,44,85,.85) 0%,rgba(254,44,85,.45) 30%,rgba(255,255,255,.18) 50%,rgba(37,244,238,.45) 70%,rgba(37,244,238,.85) 100%);position:relative">
-      <i style="position:absolute;left:6%;top:50%;transform:translate(-50%,-50%);width:14px;height:14px;border-radius:50%;background:#ff2c55;border:3px solid var(--bg);box-shadow:0 0 0 1px rgba(254,44,85,.6)"></i>
-      <i style="position:absolute;left:36%;top:50%;transform:translate(-50%,-50%);width:14px;height:14px;border-radius:50%;background:#ff2c55;border:3px solid var(--bg);box-shadow:0 0 0 1px rgba(254,44,85,.4);opacity:.85"></i>
-      <i style="position:absolute;left:64%;top:50%;transform:translate(-50%,-50%);width:14px;height:14px;border-radius:50%;background:#25f4ee;border:3px solid var(--bg);box-shadow:0 0 0 1px rgba(37,244,238,.4);opacity:.85"></i>
-      <i style="position:absolute;left:94%;top:50%;transform:translate(-50%,-50%);width:14px;height:14px;border-radius:50%;background:#25f4ee;border:3px solid var(--bg);box-shadow:0 0 0 1px rgba(37,244,238,.6)"></i>
-    </div>
-    <div style="display:grid;grid-template-columns:repeat(4,1fr);margin-top:10px;font-size:11px;color:var(--text-2)">
-      <span style="text-align:left">1 · 重交易一体卡</span>
-      <span style="text-align:center">2 · 信息折叠一体卡</span>
-      <span style="text-align:center">3 · 模块拆分排版</span>
-      <span style="text-align:right">4 · 纯内容挂载</span>
-    </div>
-  </div>
-
-  <!-- ===== 4 列纯文字对比卡（高度抽象，可比较） ===== -->
-  <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-top:18px">
-
-    <!-- ============ 1 重交易一体卡 ============ -->
-    <div style="background:linear-gradient(180deg,rgba(254,44,85,.06),rgba(254,44,85,.015));border:1px solid rgba(254,44,85,.3);border-radius:var(--radius-card);padding:22px 20px;display:flex;flex-direction:column;gap:14px">
-      <div style="display:flex;align-items:center;gap:10px">
-        <span style="width:34px;height:34px;border-radius:10px;background:linear-gradient(135deg,#ff2c55,#ff7194);color:#fff;font-weight:800;font-size:15px;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 12px rgba(254,44,85,.4);flex:0 0 auto">1</span>
-        <div style="min-width:0">
-          <div style="font-size:14.5px;color:var(--text);font-weight:700;letter-spacing:-.005em;line-height:1.25">重交易一体卡</div>
-          <div style="font-size:9.5px;color:#ff7894;font-family:var(--font-mono);letter-spacing:.06em;text-transform:uppercase;margin-top:3px">All-in-one · Commerce-led</div>
-        </div>
-      </div>
-      <div style="font-size:12.5px;color:var(--text-2);line-height:1.6;padding-bottom:14px;border-bottom:1px dashed var(--line)">把识别 / 内容 / 交易塞进一张紧凑的整卡里，内容收成 1–2 句话，交易模块视觉权重最大。最贴近 Trip.com / Agoda 的整卡列表形态。</div>
-      <div style="display:flex;flex-direction:column;gap:10px;font-size:12px">
-        <div><span style="font-family:var(--font-mono);font-size:9.5px;color:#ff7894;letter-spacing:.06em;text-transform:uppercase;display:block;margin-bottom:3px">卡的边界</span><span style="color:var(--text)">完整的<b style="color:#ff7894">一张卡</b></span></div>
-        <div><span style="font-family:var(--font-mono);font-size:9.5px;color:#ff7894;letter-spacing:.06em;text-transform:uppercase;display:block;margin-bottom:3px">内容的呈现</span><span style="color:var(--text)">压缩成 1–2 句话摘要</span></div>
-        <div><span style="font-family:var(--font-mono);font-size:9.5px;color:#ff7894;letter-spacing:.06em;text-transform:uppercase;display:block;margin-bottom:3px">交易的呈现</span><span style="color:var(--text)"><b>视觉主体</b>，价格 + 强 CTA</span></div>
-        <div><span style="font-family:var(--font-mono);font-size:9.5px;color:#ff7894;letter-spacing:.06em;text-transform:uppercase;display:block;margin-bottom:3px">卡身高度</span><span style="color:var(--text)">中 · 紧凑列表型</span></div>
-        <div><span style="font-family:var(--font-mono);font-size:9.5px;color:#ff7894;letter-spacing:.06em;text-transform:uppercase;display:block;margin-bottom:3px">和原生流的关系</span><span style="color:var(--text)">割裂感强（货架语态）</span></div>
-      </div>
-    </div>
-
-    <!-- ============ 2 信息折叠一体卡 ============ -->
-    <div style="background:linear-gradient(180deg,rgba(254,44,85,.035),rgba(254,44,85,.01));border:1px solid rgba(254,44,85,.2);border-radius:var(--radius-card);padding:22px 20px;display:flex;flex-direction:column;gap:14px">
-      <div style="display:flex;align-items:center;gap:10px">
-        <span style="width:34px;height:34px;border-radius:10px;background:linear-gradient(135deg,#ff2c55,#ff7194);color:#fff;font-weight:800;font-size:15px;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 12px rgba(254,44,85,.4);flex:0 0 auto">2</span>
-        <div style="min-width:0">
-          <div style="font-size:14.5px;color:var(--text);font-weight:700;letter-spacing:-.005em;line-height:1.25">信息折叠一体卡</div>
-          <div style="font-size:9.5px;color:var(--text-3);font-family:var(--font-mono);letter-spacing:.06em;text-transform:uppercase;margin-top:3px">Folded · Compact</div>
-        </div>
-      </div>
-      <div style="font-size:12.5px;color:var(--text-2);line-height:1.6;padding-bottom:14px;border-bottom:1px dashed var(--line)">仍是同一张融合卡，但通过折叠和横滑把次要信息藏起，让卡变矮。容器边框还在，密度变了。</div>
-      <div style="display:flex;flex-direction:column;gap:10px;font-size:12px">
-        <div><span style="font-family:var(--font-mono);font-size:9.5px;color:var(--text-3);letter-spacing:.06em;text-transform:uppercase;display:block;margin-bottom:3px">卡的边界</span><span style="color:var(--text)">仍是<b>一张卡</b>（更矮）</span></div>
-        <div><span style="font-family:var(--font-mono);font-size:9.5px;color:var(--text-3);letter-spacing:.06em;text-transform:uppercase;display:block;margin-bottom:3px">内容的呈现</span><span style="color:var(--text)">横滑 / 折叠展开</span></div>
-        <div><span style="font-family:var(--font-mono);font-size:9.5px;color:var(--text-3);letter-spacing:.06em;text-transform:uppercase;display:block;margin-bottom:3px">交易的呈现</span><span style="color:var(--text)">收成行内一条价格 + chip</span></div>
-        <div><span style="font-family:var(--font-mono);font-size:9.5px;color:var(--text-3);letter-spacing:.06em;text-transform:uppercase;display:block;margin-bottom:3px">卡身高度</span><span style="color:var(--text)">中</span></div>
-        <div><span style="font-family:var(--font-mono);font-size:9.5px;color:var(--text-3);letter-spacing:.06em;text-transform:uppercase;display:block;margin-bottom:3px">和原生流的关系</span><span style="color:var(--text)">割裂感中</span></div>
-      </div>
-    </div>
-
-    <!-- ============ 3 模块拆分排版 ============ -->
-    <div style="background:linear-gradient(180deg,rgba(37,244,238,.04),rgba(37,244,238,.01));border:1px solid rgba(37,244,238,.22);border-radius:var(--radius-card);padding:22px 20px;display:flex;flex-direction:column;gap:14px">
-      <div style="display:flex;align-items:center;gap:10px">
-        <span style="width:34px;height:34px;border-radius:10px;background:linear-gradient(135deg,#ff2c55,#ff7194);color:#fff;font-weight:800;font-size:15px;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 12px rgba(254,44,85,.4);flex:0 0 auto">3</span>
-        <div style="min-width:0">
-          <div style="font-size:14.5px;color:var(--text);font-weight:700;letter-spacing:-.005em;line-height:1.25">模块拆分排版</div>
-          <div style="font-size:9.5px;color:#7befe8;font-family:var(--font-mono);letter-spacing:.06em;text-transform:uppercase;margin-top:3px">Decoupled Modules</div>
-        </div>
-      </div>
-      <div style="font-size:12.5px;color:var(--text-2);line-height:1.6;padding-bottom:14px;border-bottom:1px dashed var(--line)">打破"一张卡"——内容组件和交易组件拆成独立的卡，由 feed 排序系统决定它们在搜索流里的先后位置。</div>
-      <div style="display:flex;flex-direction:column;gap:10px;font-size:12px">
-        <div><span style="font-family:var(--font-mono);font-size:9.5px;color:#7befe8;letter-spacing:.06em;text-transform:uppercase;display:block;margin-bottom:3px">卡的边界</span><span style="color:var(--text)"><b>2 张独立卡</b>（不再共享外框）</span></div>
-        <div><span style="font-family:var(--font-mono);font-size:9.5px;color:#7befe8;letter-spacing:.06em;text-transform:uppercase;display:block;margin-bottom:3px">内容的呈现</span><span style="color:var(--text)">独立内容卡 · 完整呈现</span></div>
-        <div><span style="font-family:var(--font-mono);font-size:9.5px;color:#7befe8;letter-spacing:.06em;text-transform:uppercase;display:block;margin-bottom:3px">交易的呈现</span><span style="color:var(--text)">独立交易卡 · 完整呈现</span></div>
-        <div><span style="font-family:var(--font-mono);font-size:9.5px;color:#7befe8;letter-spacing:.06em;text-transform:uppercase;display:block;margin-bottom:3px">卡身高度</span><span style="color:var(--text)">单卡矮 / 总数多</span></div>
-        <div><span style="font-family:var(--font-mono);font-size:9.5px;color:#7befe8;letter-spacing:.06em;text-transform:uppercase;display:block;margin-bottom:3px">和原生流的关系</span><span style="color:var(--text)">穿插共存</span></div>
-      </div>
-    </div>
-
-    <!-- ============ 4 纯内容挂载 ============ -->
-    <div style="background:linear-gradient(180deg,rgba(37,244,238,.07),rgba(37,244,238,.02));border:1px solid rgba(37,244,238,.4);border-radius:var(--radius-card);padding:22px 20px;display:flex;flex-direction:column;gap:14px">
-      <div style="display:flex;align-items:center;gap:10px">
-        <span style="width:34px;height:34px;border-radius:10px;background:linear-gradient(135deg,#25f4ee,#7befe8);color:#000;font-weight:800;font-size:15px;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 12px rgba(37,244,238,.35);flex:0 0 auto">4</span>
-        <div style="min-width:0">
-          <div style="font-size:14.5px;color:var(--text);font-weight:700;letter-spacing:-.005em;line-height:1.25">纯内容挂载</div>
-          <div style="font-size:9.5px;color:#7befe8;font-family:var(--font-mono);letter-spacing:.06em;text-transform:uppercase;margin-top:3px">Content Immersive</div>
-        </div>
-      </div>
-      <div style="font-size:12.5px;color:var(--text-2);line-height:1.6;padding-bottom:14px;border-bottom:1px dashed var(--line)">仍是<b>一张独立的融合卡</b>，但卡内的内容模块（视频 / 图文）被强化为主体——身份和交易作为浮层 / 挂载条嵌入内容之上。</div>
-      <div style="display:flex;flex-direction:column;gap:10px;font-size:12px">
-        <div><span style="font-family:var(--font-mono);font-size:9.5px;color:#7befe8;letter-spacing:.06em;text-transform:uppercase;display:block;margin-bottom:3px">卡的边界</span><span style="color:var(--text)">完整的<b style="color:#7befe8">一张卡</b></span></div>
-        <div><span style="font-family:var(--font-mono);font-size:9.5px;color:#7befe8;letter-spacing:.06em;text-transform:uppercase;display:block;margin-bottom:3px">内容的呈现</span><span style="color:var(--text)"><b>主体 · 占满卡身</b></span></div>
-        <div><span style="font-family:var(--font-mono);font-size:9.5px;color:#7befe8;letter-spacing:.06em;text-transform:uppercase;display:block;margin-bottom:3px">交易的呈现</span><span style="color:var(--text)">浮层 / 底部挂载条</span></div>
-        <div><span style="font-family:var(--font-mono);font-size:9.5px;color:#7befe8;letter-spacing:.06em;text-transform:uppercase;display:block;margin-bottom:3px">卡身高度</span><span style="color:var(--text)">高（内容主导，9:13 比例）</span></div>
-        <div><span style="font-family:var(--font-mono);font-size:9.5px;color:#7befe8;letter-spacing:.06em;text-transform:uppercase;display:block;margin-bottom:3px">和原生流的关系</span><span style="color:var(--text)">最贴近原生内容流</span></div>
-      </div>
-    </div>
-
-  </div>
-
-
-  <!-- ===== 3-axis matrix (内容 / 交易 / 卡片高度) ===== -->
-  <div style="margin-top:18px;padding:18px 22px;background:var(--surface);border:1px solid var(--line);border-radius:var(--radius-card)">
-    <div style="display:grid;grid-template-columns:140px repeat(4,1fr);gap:0;font-size:13px">
-      <div style="padding:10px 10px;color:var(--text-3);font-family:var(--font-mono);font-size:11px;text-transform:uppercase;letter-spacing:.08em">轴向</div>
-      <div style="padding:10px 10px;color:var(--text-2);font-family:var(--font-mono);font-size:11px;text-transform:uppercase">策略 1</div>
-      <div style="padding:10px 10px;color:var(--text-2);font-family:var(--font-mono);font-size:11px;text-transform:uppercase">策略 2</div>
-      <div style="padding:10px 10px;color:var(--text-2);font-family:var(--font-mono);font-size:11px;text-transform:uppercase">策略 3</div>
-      <div style="padding:10px 10px;color:var(--text-2);font-family:var(--font-mono);font-size:11px;text-transform:uppercase">策略 4</div>
-
-      <div style="padding:14px 10px;border-top:1px solid var(--line);color:var(--text-2)">交易权重</div>
-      <div style="padding:14px 10px;border-top:1px solid var(--line)"><span style="display:inline-block;height:8px;width:90%;background:linear-gradient(90deg,#ff2c55,#ff7194);border-radius:4px"></span></div>
-      <div style="padding:14px 10px;border-top:1px solid var(--line)"><span style="display:inline-block;height:8px;width:50%;background:linear-gradient(90deg,#ff2c55,#ff7194);border-radius:4px"></span></div>
-      <div style="padding:14px 10px;border-top:1px solid var(--line)"><span style="display:inline-block;height:8px;width:35%;background:linear-gradient(90deg,#ff2c55,#ff7194);border-radius:4px"></span></div>
-      <div style="padding:14px 10px;border-top:1px solid var(--line)"><span style="display:inline-block;height:8px;width:15%;background:linear-gradient(90deg,#ff2c55,#ff7194);border-radius:4px"></span></div>
-
-      <div style="padding:14px 10px;border-top:1px solid var(--line);color:var(--text-2)">内容权重</div>
-      <div style="padding:14px 10px;border-top:1px solid var(--line)"><span style="display:inline-block;height:8px;width:25%;background:linear-gradient(90deg,#25f4ee,#7befe8);border-radius:4px"></span></div>
-      <div style="padding:14px 10px;border-top:1px solid var(--line)"><span style="display:inline-block;height:8px;width:35%;background:linear-gradient(90deg,#25f4ee,#7befe8);border-radius:4px"></span></div>
-      <div style="padding:14px 10px;border-top:1px solid var(--line)"><span style="display:inline-block;height:8px;width:55%;background:linear-gradient(90deg,#25f4ee,#7befe8);border-radius:4px"></span></div>
-      <div style="padding:14px 10px;border-top:1px solid var(--line)"><span style="display:inline-block;height:8px;width:95%;background:linear-gradient(90deg,#25f4ee,#7befe8);border-radius:4px"></span></div>
-
-      <div style="padding:14px 10px;border-top:1px solid var(--line);color:var(--text-2)">卡片屏占</div>
-      <div style="padding:14px 10px;border-top:1px solid var(--line);color:var(--text)">中 · 紧凑列表</div>
-      <div style="padding:14px 10px;border-top:1px solid var(--line);color:var(--text)">最矮 · 折叠收高</div>
-      <div style="padding:14px 10px;border-top:1px solid var(--line);color:var(--text)">单卡矮 / 总数多</div>
-      <div style="padding:14px 10px;border-top:1px solid var(--line);color:var(--text)">最高 · 内容主导</div>
-
-      <div style="padding:14px 10px;border-top:1px solid var(--line);color:var(--text-2)">承接路径</div>
-      <div style="padding:14px 10px;border-top:1px solid var(--line);color:var(--text)">卡内即决</div>
-      <div style="padding:14px 10px;border-top:1px solid var(--line);color:var(--text)">展开 → 卡内</div>
-      <div style="padding:14px 10px;border-top:1px solid var(--line);color:var(--text)">跨卡组合 → 决策</div>
-      <div style="padding:14px 10px;border-top:1px solid var(--line);color:var(--text)">先看内容 → 触发挂载</div>
-
-      <div style="padding:14px 10px;border-top:1px solid var(--line);color:var(--text-2)">和原生流的关系</div>
-      <div style="padding:14px 10px;border-top:1px solid var(--line);color:var(--text)">割裂感强（货架语态）</div>
-      <div style="padding:14px 10px;border-top:1px solid var(--line);color:var(--text)">割裂感中</div>
-      <div style="padding:14px 10px;border-top:1px solid var(--line);color:var(--text)">穿插共存</div>
-      <div style="padding:14px 10px;border-top:1px solid var(--line);color:var(--text)">最贴近原生内容流</div>
-    </div>
-  </div>
-</section>
-
-<!-- =========================================================
-     SECTION · 可组合性
-     ========================================================= -->
-<section class="block" id="sec-composability">
-  <div class="section-head">
-    <div class="head-left">
-      <div class="num-badge" style="background:linear-gradient(135deg,#25f4ee,#7befe8);color:#000;box-shadow:0 6px 18px rgba(37,244,238,.3)">06</div>
-      <div>
-        <span class="index">Composability</span>
-        <h2 style="margin-top:6px">这 4 个方向不是结论，而是一组可组合的工具</h2>
-        <p class="sub">同一套框架同时适配酒店、餐饮、景点。具体落到哪个方向，由这 4 条业务变量决定。</p>
-      </div>
-    </div>
-  </div>
-
-  <div class="matrix">
-    <div class="axis">
-      <h4>搜索确定性</h4>
-      <p class="hint">地点越明确，越需要缩短识别路径。</p>
-      <div class="scale"><span>模糊</span><span>明确</span></div>
-      <div class="bar"><i style="width:78%"></i></div>
-      <p class="map">高 → <b>方向 1 / 2</b> 缩短确认</p>
-    </div>
-    <div class="axis">
-      <h4>交易供给密度</h4>
-      <p class="hint">供给越强，越适合前置转化入口。</p>
-      <div class="scale"><span>低</span><span>高</span></div>
-      <div class="bar"><i style="width:62%"></i></div>
-      <p class="map">高 → <b>方向 1 / 3</b> 前置交易</p>
-    </div>
-    <div class="axis">
-      <h4>内容质量</h4>
-      <p class="hint">内容越强，越值得占据关键判断位。</p>
-      <div class="scale"><span>弱</span><span>强</span></div>
-      <div class="bar"><i style="width:88%"></i></div>
-      <p class="map">高 → <b>方向 4</b> 内容主容器</p>
-    </div>
-    <div class="axis">
-      <h4>意图强弱</h4>
-      <p class="hint">越偏快速成交越适合低学习成本架构；越偏先判断再决定越适合开放架构。</p>
-      <div class="scale"><span>弱</span><span>强</span></div>
-      <div class="bar"><i style="width:55%"></i></div>
-      <p class="map">弱 → <b>方向 3 / 4</b> 开放编排</p>
-    </div>
-  </div>
-</section>
-
-<!-- =========================================================
-     SECTION · 附录提醒
-     ========================================================= -->
-<section class="block" id="sec-appendix">
-  <div class="section-head">
-    <div class="head-left">
-      <div class="num-badge" style="background:linear-gradient(135deg,#888,#bbb);box-shadow:0 6px 18px rgba(255,255,255,.12)">07</div>
-      <div>
-        <span class="index">Appendix · Reminders</span>
-        <h2 style="margin-top:6px">轻量历史提醒（不进入主推演）</h2>
-        <p class="sub">边界提醒，避免重复踩坑——不为任何方向背书。</p>
-      </div>
-    </div>
-  </div>
-
-  <div class="reminders" style="display:grid;grid-template-columns:repeat(2,1fr);gap:14px">
-    <div class="reminder-card">
-      <div class="r-head">
-        <span class="r-num">PITFALL · 01</span>
-        <span class="r-tag">封面 · 识别效率</span>
-      </div>
-      <h4>封面相关性和识别效率要一起成立</h4>
-      <p>封面相关性提升但美观度下降，点击未必同步上涨。对精确地点搜索，封面先服务"认出它"，再服务"想点它"。<br><a href="#">参考：AI 精搜卡三期复盘</a></p>
-    </div>
-    <div class="reminder-card">
-      <div class="r-head">
-        <span class="r-num">PITFALL · 02</span>
-        <span class="r-tag">内容相关性</span>
-      </div>
-      <h4>内容相关性不足，会直接诱发重搜</h4>
-      <p>如果"了解信息"没回答用户真正关心的问题，用户会回去改词，而不是继续决策。<br><a href="#">参考：AI 精搜卡迭代需求</a></p>
-    </div>
-    <div class="reminder-card">
-      <div class="r-head">
-        <span class="r-num">PITFALL · 03</span>
-        <span class="r-tag">动效 · 自动起播</span>
-      </div>
-      <h4>自动起播不能替代结构价值</h4>
-      <p>自动起播只能放大已有价值，不能补结构短板。识别路径、信息组织、转化承接没理顺前，动效只会放大问题。<br><a href="#">参考：AI 精搜卡三期复盘</a></p>
-    </div>
-    <div class="reminder-card">
-      <div class="r-head">
-        <span class="r-num">PITFALL · 04</span>
-        <span class="r-tag">内容聚合</span>
-      </div>
-      <h4>聚合要先证明"真的能帮用户理解地点"</h4>
-      <p>UGC、标签、摘要不是越多越好。只有在确实缩短"要不要继续看 / 点"的判断路径时，才值得占用结果页空间。<br><a href="#">参考：AI 精搜卡合辑样式改造</a></p>
-    </div>
-    <div class="reminder-card">
-      <div class="r-head">
-        <span class="r-num">PITFALL · 05</span>
-        <span class="r-tag">屏占 · 卡片高度</span>
-      </div>
-      <h4>卡片不是越高越好</h4>
-      <p>统一拉高卡片、默认多露出不一定提升决策效率。内容价值未证明前，更高的占屏只会放大理解成本，甚至拖累点击和消费。<br><a href="#">参考：Search 2026 Q1 数据沉淀 / 脉络模块实验复盘</a></p>
-    </div>
-    <div class="reminder-card">
-      <div class="r-head">
-        <span class="r-num">PITFALL · 06</span>
-        <span class="r-tag">交互节点</span>
-      </div>
-      <h4>交互节点一多，用户不一定更愿意继续决策</h4>
-      <p>按钮、媒体区、查看更多入口同时增强时，用户注意力容易被拆散。入口变多不等于路径更清晰，反而可能把用户推向换词、切 tab、浅层点击。<br><a href="#">参考：Top1 问答卡按钮样式优化</a></p>
-    </div>
-  </div>
 </section>
 
 <footer>
-  <p>
-    <b style="color:var(--text)">设计契约 · </b>
-    所有视觉走 TikTok 语义 token：品牌色 <code>#fe2c55</code>、Cyan <code>#25f4ee</code>、Gold <code>#ffb038</code>。
-    Container 半径 <code>18px</code> · Content <code>12px</code> · Pill <code>999px</code>。Glassmorphism 使用 <code>backdrop-filter</code>，需提供回退底色。
-    所有时间文案（<code>23:00 关</code>、<code>2 天前</code>、<code>今晚起</code>）应通过 TUX formatter（<code>notation:"mid"</code>, <code>relative-time:true</code>）渲染。
-  </p>
-  <p style="margin-top:10px">
-    Source · <code>【专项】生服地点精搜融合卡设计探索-2.md</code> · TikTok Local Services Design Spec · 2026
-  </p>
+  <span><b>Fusion Card</b> · 4 strategies side-by-side · Hotel · 390 × 844</span>
+  <span>TikTok Local Services · 2026.06</span>
 </footer>
+
+<script>
+  function fitIframes(){
+    document.querySelectorAll('.phone-screen').forEach(scr=>{
+      const iframe = scr.querySelector('iframe');
+      if(!iframe) return;
+      const w = scr.clientWidth;
+      const h = scr.clientHeight;
+      const sx = w / 390;
+      const sy = h / 844;
+      const s = Math.min(sx, sy);
+      iframe.style.transform = `scale(${s})`;
+      iframe.style.width = (w/s) + 'px';
+      iframe.style.height = (h/s) + 'px';
+    });
+  }
+  window.addEventListener('load', fitIframes);
+  window.addEventListener('resize', fitIframes);
+  document.querySelectorAll('iframe').forEach(f=>f.addEventListener('load', fitIframes));
+</script>
 
 </body>
 </html>
