@@ -1,8 +1,8 @@
 <!doctype html>
 <html lang="en"><head>
 <meta charset="utf-8"><meta name="viewport" content="width=390,initial-scale=1">
-<title>S1·A · Tight · Identity-led</title>
-<link rel="stylesheet" href="_shared.css">
+<title>S1·A · Attraction · Dufan Ancol</title>
+<link rel="stylesheet" href="../_shared.css">
 <style>
   .viewport{background:#F5F5F5}
   .card{
@@ -35,12 +35,6 @@
     display:flex;align-items:center;gap:4px;font-size:13px;line-height:1.3;
     color:rgba(0,0,0,.65);font-weight:400;letter-spacing:-.005em;flex-wrap:wrap;
   }
-  .hero .location .pin-ic{
-    width:12px;height:12px;display:inline-block;flex:0 0 auto;color:rgba(0,0,0,.65);
-    background:currentColor;
-    -webkit-mask:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path d='M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5A2.5 2.5 0 1 1 12 6.5a2.5 2.5 0 0 1 0 5z'/></svg>") center/contain no-repeat;
-            mask:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path d='M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5A2.5 2.5 0 1 1 12 6.5a2.5 2.5 0 0 1 0 5z'/></svg>") center/contain no-repeat;
-  }
   .hero .location .sep{color:rgba(0,0,0,.45)}
   .hero .tags{display:flex;gap:5px;flex-wrap:wrap}
   .hero .tags .tg{
@@ -66,11 +60,7 @@
   }
   .voice .arr svg{width:11px;height:11px}
 
-  /* ===== 日期 + 人数 胶囊（货架顶部） ===== */
-  .date-bar-wrap{padding:12px 14px 4px;border-top:1px solid var(--line)}
-  .date-bar-wrap + .deal{border-top:0;padding-top:8px}
-
-  /* ===== 单一供应商 + 价格行（带 benefit）—— 价格区参考 S4 货架，From 浮在右上角 ===== */
+  /* ===== 单一供应商 + 价格行（带 benefit）—— 价格区参考 S4 货架 ===== */
   .deal{
     display:flex;align-items:center;justify-content:space-between;gap:10px;
     padding:12px 14px;border-top:1px solid var(--line);cursor:pointer;
@@ -90,10 +80,6 @@
   .deal .price-col{
     display:flex;flex-direction:column;align-items:flex-end;flex:0 0 auto;line-height:1;gap:2px;
   }
-  .deal .price-col .from{
-    font-size:9.5px;color:var(--text-4);font-family:var(--font-mono);
-    letter-spacing:.06em;text-transform:uppercase;font-weight:700;line-height:1;
-  }
   .deal .price-col .price{
     font-size:18px;font-weight:800;color:var(--text);letter-spacing:-.022em;line-height:1.1;
   }
@@ -104,30 +90,7 @@
     margin-top:1px;
   }
 
-  /* ===== See more 行（avatar stack + 数量），位于 CTA 下方 ===== */
-  .more-providers{
-    display:flex;align-items:center;justify-content:center;gap:8px;
-    padding:0 14px 12px;
-    font-size:13px;color:var(--text);font-weight:600;letter-spacing:-.005em;cursor:pointer;user-select:none;
-  }
-  .more-providers .av-stack{display:inline-flex;align-items:center}
-  .more-providers .av-stack .av{
-    width:20px;height:20px;border-radius:50%;
-    box-shadow:0 0 0 1.5px #fff;
-    display:inline-flex;align-items:center;justify-content:center;
-    color:#fff;font-size:9px;font-weight:800;letter-spacing:-.01em;
-  }
-  .more-providers .av-stack .av + .av{margin-left:-6px}
-  .more-providers .av-stack .av.bk{background:#003580}
-  .more-providers .av-stack .av.kk{background:#ff5722}
-  .more-providers .av-stack .av.ex{background:#fdd935;color:#0b1f4d}
-  .more-providers .av-stack .av.hc{background:#d63346}
-  .more-providers .ch{
-    width:14px;height:14px;display:inline-flex;align-items:center;justify-content:center;color:var(--text-3);
-  }
-  .more-providers .ch svg{width:11px;height:11px}
-
-  /* ===== 全宽 CTA —— 端内 Button：Subtle / Neutral（rgba(0,0,0,.05) + 8px 圆角 · figma 6955:138068）===== */
+  /* ===== 全宽 CTA ===== */
   .cta-wrap{padding:8px 12px 12px}
   .cta-wrap .cta-full{
     display:flex;align-items:center;justify-content:center;
@@ -137,6 +100,17 @@
   }
   .cta-wrap .cta-full:active{background:rgba(0,0,0,.08);transform:scale(.995)}
   .cta-wrap .cta-full .more{margin-left:8px;color:rgba(0,0,0,.55);font-weight:500;font-size:13px}
+
+  /* Attraction native feed overrides */
+  .viewport[data-strategy="s1"] .native-feed .v.b1 .pic{background-image:url("../assets/images/img_1513889961551-628c1e5e2ee9.jpg")}
+  .viewport[data-strategy="s1"] .native-feed .v.b2 .pic{background-image:url("../assets/images/img_1513889961551-628c1e5e2ee9.jpg")}
+  .viewport[data-strategy="s1"] .native-feed .v.b3 .pic{background-image:url("../assets/images/img_1513889961551-628c1e5e2ee9.jpg")}
+  .viewport[data-strategy="s1"] .native-feed .v.b4 .pic{background-image:url("../assets/images/img_1513889961551-628c1e5e2ee9.jpg")}
+
+  /* Brand mark colors */
+  .brand-mark.tv{background:#1f76ff}
+  .brand-mark.kk{background:#ff5722}
+  .brand-mark.tp{background:#235ce6;font-size:8px}
 </style></head>
 <body>
 <div class="iphone"><div class="ios">
@@ -149,7 +123,7 @@
     <span class="back"><svg width="11" height="18" viewBox="0 0 11 18" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M9 2 2 9l7 7"/></svg></span>
     <div class="input">
       <svg class="magnify" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
-      <span class="text">Bangkok Marriott Marquis City Star</span>
+      <span class="text">Dufan Ancol Theme Park</span>
       <span class="clear">×</span>
     </div>
     <span class="more"><svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><circle cx="5" cy="12" r="2"/><circle cx="12" cy="12" r="2"/><circle cx="19" cy="12" r="2"/></svg></span>
@@ -159,24 +133,24 @@
   <div class="viewport" data-strategy="s1">
     <div class="card">
       <div class="hero">
-        <div class="pic cover hotel-pool"></div>
+        <div class="pic" style="background-image:url('../assets/images/img_1513889961551-628c1e5e2ee9.jpg')"></div>
         <div class="body">
-          <div class="name">Bangkok Marriott Marquis City Star</div>
+          <div class="name">Dufan Ancol Theme Park</div>
           <div class="meta">
-            <span class="star">4.5</span><span>(1,288)</span>
-            <span class="dot"></span><span>5-star</span>
+            <span class="star">4.6</span><span>(54,218)</span>
+            <span class="dot"></span><span>Amusement park</span>
           </div>
           <div class="location">
-            <span>7.1km from city center</span>
+            <span>North Jakarta</span>
             <span class="sep">·</span>
-            <span>1.2km</span>
+            <span>12.4km</span>
           </div>
           <div class="tags">
-            <span class="tg">Private pool</span>
-            <span class="tg">Skyline view</span>
+            <span class="tg">Roller coaster</span>
+            <span class="tg">Family friendly</span>
           </div>
           <div class="voice">
-            <div class="txt">"<b>Quiet, spacious rooms</b> and a rooftop pool with skyline view — mentioned by <b>86% of 1,288 guests</b>."</div>
+            <div class="txt">"<b>Fast Track pass</b> is totally worth it — skip 2-hour lines on weekends, say <b>78% of 54,218 visitors</b>."</div>
             <span class="arr"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="m9 6 6 6-6 6"/></svg></span>
           </div>
         </div>
@@ -185,19 +159,44 @@
         <div class="l">
           <span class="brand-mark tv">tv</span>
           <div class="col">
-            <span class="who">Traveloka</span>
-            <span class="benefit">Free cancellation · Breakfast · Pay at hotel · Member rate · Late checkout</span>
+            <span class="who">1-Day All Access Pass</span>
+            <span class="benefit">Instant QR · Skip the line · Free cancellation · All rides included</span>
           </div>
         </div>
         <span class="price-col">
-          <span class="from">From</span>
-          <span class="price"><span class="cur">Rp</span>1,299,000</span>
-          <span class="strike">Rp1,580,000</span>
+          <span class="price"><span class="cur">Rp</span>275,000</span>
+          <span class="strike">Rp350,000</span>
+        </span>
+      </div>
+      <div class="deal">
+        <div class="l">
+          <span class="brand-mark kk">K</span>
+          <div class="col">
+            <span class="who">Fast Track + Entry Ticket</span>
+            <span class="benefit">Instant QR · Priority access to all rides · Free cancellation</span>
+          </div>
+        </div>
+        <span class="price-col">
+          <span class="price"><span class="cur">Rp</span>495,000</span>
+          <span class="strike">Rp600,000</span>
+        </span>
+      </div>
+      <div class="deal">
+        <div class="l">
+          <span class="brand-mark tp">Trip</span>
+          <div class="col">
+            <span class="who">Family Package (4 pax)</span>
+            <span class="benefit">Instant QR · 4 tickets + Free 2 meal vouchers · Free cancellation</span>
+          </div>
+        </div>
+        <span class="price-col">
+          <span class="price"><span class="cur">Rp</span>950,000</span>
+          <span class="strike">Rp1,400,000</span>
         </span>
       </div>
 
       <div class="cta-wrap">
-        <a class="cta-full">Book on Traveloka</a>
+        <a class="cta-full">View all tickets</a>
       </div>
     </div>
 
@@ -208,16 +207,16 @@
           <span class="dur">3:03</span>
         </div>
         <div class="info">
-          <div class="cap">Skyline-view <b>rooftop pool</b> at Marriott Marquis — golden hour magic</div>
+          <div class="cap"><b>Halilintar</b> front row POV — the scariest roller coaster in Indonesia</div>
           <div class="row">
             <div class="who">
               <span class="av cover creator-2"></span>
               <div class="col">
-                <div class="nm-row"><span class="nm">Aurelia</span><span class="vbadge"></span></div>
+                <div class="nm-row"><span class="nm">aditya.rollercoaster</span><span class="vbadge"></span></div>
                 <span class="date">Jul 20, 2024</span>
               </div>
             </div>
-            <span class="like">7.3K</span>
+            <span class="like">15.3K</span>
           </div>
         </div>
       </div>
@@ -226,16 +225,16 @@
           <span class="dur">1:24</span>
         </div>
         <div class="info">
-          <div class="cap">Inside the <b>executive lounge</b> — high tea with city views</div>
+          <div class="cap"><b>Family day</b> at Dufan — parade + 4D cinema experience</div>
           <div class="row">
             <div class="who">
               <span class="av cover creator-3"></span>
               <div class="col">
-                <div class="nm-row"><span class="nm">JesseLiu</span><span class="vbadge"></span></div>
+                <div class="nm-row"><span class="nm">siti.family</span><span class="vbadge"></span></div>
                 <span class="date">Jul 18, 2024</span>
               </div>
             </div>
-            <span class="like">5.7K</span>
+            <span class="like">11.2K</span>
           </div>
         </div>
       </div>
@@ -244,16 +243,16 @@
           <span class="dur">0:48</span>
         </div>
         <div class="info">
-          <div class="cap">Late-night <b>rooftop bar</b> — live jazz till 1am</div>
+          <div class="cap"><b>Fast Track</b> hack — how I skipped 2-hour lines on Saturday</div>
           <div class="row">
             <div class="who">
               <span class="av cover creator-4"></span>
               <div class="col">
-                <div class="nm-row"><span class="nm">nick.travel</span><span class="vbadge"></span></div>
+                <div class="nm-row"><span class="nm">bayu.hacks</span><span class="vbadge"></span></div>
                 <span class="date">Jul 16, 2024</span>
               </div>
             </div>
-            <span class="like">4.2K</span>
+            <span class="like">8.7K</span>
           </div>
         </div>
       </div>
@@ -262,16 +261,16 @@
           <span class="dur">2:42</span>
         </div>
         <div class="info">
-          <div class="cap">Honest <b>breakfast review</b> — Thai noodles &amp; egg station</div>
+          <div class="cap"><b>Night parade</b> at Dufan — the best part of the weekend</div>
           <div class="row">
             <div class="who">
               <span class="av cover creator-6"></span>
               <div class="col">
-                <div class="nm-row"><span class="nm">Foodie.bkk</span><span class="vbadge"></span></div>
+                <div class="nm-row"><span class="nm">lina.night</span><span class="vbadge"></span></div>
                 <span class="date">Jul 14, 2024</span>
               </div>
             </div>
-            <span class="like">3.8K</span>
+            <span class="like">6.4K</span>
           </div>
         </div>
       </div>
@@ -283,27 +282,23 @@
   document.querySelectorAll('.voice').forEach(el=>{
     el.addEventListener('click',()=>{
       el.style.opacity='.6';
-      setTimeout(()=>{el.style.opacity='';alert('Open hotel detail · review highlights');},120);
+      setTimeout(()=>{el.style.opacity='';alert('Open Dufan detail · review highlights');},120);
     });
   });
-  // 主 CTA → 跳 OTA
+  // 主 CTA → 查看所有门票
   document.querySelector('.cta-full')?.addEventListener('click',()=>{
-    alert('Continue to Traveloka — Bangkok Marriott Marquis · Rp1,299,000');
+    alert('View all tickets — Dufan Ancol');
   });
-  // 单 OTA 行 → 跳供应商
-  document.querySelector('.deal')?.addEventListener('click',()=>{
-    alert('Open Traveloka offer');
+  // 单 deal 行 → 跳供应商
+  document.querySelectorAll('.deal').forEach(d=>{
+    d.addEventListener('click',()=>{
+      const who=d.querySelector('.who')?.textContent||'Ticket';
+      alert('Open '+who+' booking');
+    });
   });
   // 双列 native feed → 跳视频详情
   document.querySelectorAll('.native-feed .v').forEach((v,i)=>{
     v.addEventListener('click',()=>alert('Play video #'+(i+1)));
-  });
-  // tabs 切换
-  document.querySelectorAll('.tabs .tab').forEach(t=>{
-    t.addEventListener('click',()=>{
-      document.querySelectorAll('.tabs .tab').forEach(x=>x.classList.remove('active'));
-      t.classList.add('active');
-    });
   });
 </script>
 </body></html>

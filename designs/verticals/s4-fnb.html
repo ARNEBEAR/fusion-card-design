@@ -1,8 +1,8 @@
 <!doctype html>
 <html lang="en"><head>
 <meta charset="utf-8"><meta name="viewport" content="width=390,initial-scale=1">
-<title>S4·A · Hotel · Video-First (Horizontal Swipe)</title>
-<link rel="stylesheet" href="_shared.css">
+<title>S4·A · F&amp;B</title>
+<link rel="stylesheet" href="../_shared.css">
 <style>
   .viewport{background:#F5F5F5}
 
@@ -12,11 +12,13 @@
     box-shadow:0 4px 16px rgba(0,0,0,.10),0 0 0 1px rgba(0,0,0,.04);
     isolation:isolate;
   }
-  /* 毛玻璃底图（取自当前激活视频的同一张图，放大模糊） */
+  /* 毛玻璃底图 — 联动当前横滑大封面 */
   .vshow .bg{
     position:absolute;inset:0;z-index:0;
-    background:#000 center/cover url("assets/images/img_1564501049412-61c2a3083791.jpg");
-    transform:scale(1.18);filter:blur(28px) saturate(1.15);
+    background-image:url('../assets/images/img_1495474472287-4d71bcdd2085.jpg');
+    background-size:cover;background-position:center;
+    filter:blur(26px) saturate(1.15) brightness(.55);
+    transform:scale(1.15);
   }
   .vshow .bg::after{
     content:"";position:absolute;inset:0;
@@ -24,16 +26,19 @@
   }
   .vshow .inner{position:relative;z-index:1;padding:14px 0 14px}
 
-  /* ===== 顶部 POI 标题行（hotel context）+ 右侧 view details 幽灵按钮 ===== */
+  /* ===== 顶部 POI 标题行 ===== */
   .head{padding:0 12px 12px;display:flex;align-items:center;gap:10px;color:#fff;position:relative}
   .head .th{width:34px;height:34px;border-radius:8px;background-size:cover;background-position:center;flex:0 0 auto;border:1px solid rgba(255,255,255,.2)}
+  /* F&B logo tile for thumbnail */
+  .fnb-logo-tile{display:flex!important;align-items:center;justify-content:center;background:#00704A!important;border:0!important;color:#fff;box-shadow:inset 0 0 0 1px rgba(255,255,255,.12);position:relative;overflow:hidden}
+  .fnb-logo-tile:before{display:none}
+  .fnb-logo-tile:after{content:"STARBUCKS"!important;position:relative!important;z-index:1!important;width:auto!important;height:auto!important;border-radius:0!important;background:transparent!important;color:#fff!important;box-shadow:none!important;display:block!important;font-size:4.5px!important;line-height:1!important;font-weight:900!important;letter-spacing:.06em!important;text-align:center!important}
   .head .body{flex:1;min-width:0;padding-right:96px}
   .head .body .nm{font-size:14.5px;font-weight:800;letter-spacing:-.014em;line-height:1.2;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
   .head .body .meta{margin-top:2px;font-size:11.5px;color:rgba(255,255,255,.78);font-weight:500;display:flex;align-items:center;gap:5px}
   .head .body .meta .star{color:#fff;font-weight:700}
   .head .body .meta .star::before{content:"★";color:#f4b400;margin-right:3px;font-size:12px}
   .head .body .meta .dot{width:3px;height:3px;border-radius:50%;background:rgba(255,255,255,.45);flex:0 0 auto}
-  /* view details 纯文本：去掉背景/边框/包边/阴影；垂直居中于左侧 34px 缩略图 */
   .head .view-details{
     position:absolute;right:12px;top:17px;transform:translateY(-50%);
     display:inline-flex;align-items:center;gap:3px;height:34px;padding:0;
@@ -42,7 +47,6 @@
   }
   .head .view-details svg{width:11px;height:11px;opacity:.92}
   .head .view-details:active{opacity:.7}
-  /* 优雅渐变分割线：把酒店信息与 segmented 隔开，左右带渐变淡出 */
   .head-divider{
     height:1px;margin:6px 18px 12px;
     background:linear-gradient(90deg,
@@ -53,7 +57,7 @@
       rgba(255,255,255,0) 100%);
   }
 
-  /* ===== 胶囊切换：水平居中 ===== */
+  /* ===== 胶囊切换 ===== */
   .toggle-wrap{display:flex;justify-content:center;margin:0 12px 14px}
   .toggle{
     display:inline-flex;height:34px;padding:3px;border-radius:99px;
@@ -81,14 +85,12 @@
     background:#222;scroll-snap-align:start;
     box-shadow:0 6px 18px rgba(0,0,0,.32);cursor:pointer;
   }
-  /* 视频底图层：单独抽出可做 Ken Burns 动效 */
   .swipe .card .bg-img{
     position:absolute;inset:0;z-index:0;
     background-size:cover;background-position:center;background-repeat:no-repeat;
     transform-origin:50% 50%;
     transition:transform .4s ease;
   }
-  /* 自动播放时，视频画面缓慢推拉与平移（Ken Burns），表示"正在自动播放" */
   @keyframes s4kb{
     0%{transform:scale(1.02) translate(0,0)}
     25%{transform:scale(1.08) translate(-1.4%,-.8%)}
@@ -113,7 +115,6 @@
     background:rgba(0,0,0,.62);backdrop-filter:blur(6px);
     color:#fff;font-size:11px;font-weight:700;font-family:var(--font-mono);
   }
-  /* 视频默认即视频，不再展示居中播放按钮；photo 体裁卡左上仅叠加图标（无底色） */
   .swipe .card .play{display:none}
   .swipe .card.photo::before{
     content:"";position:absolute;top:10px;left:10px;z-index:2;
@@ -123,8 +124,6 @@
             mask:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path d='M3 6h13v2H3zm0 5h13v2H3zm0 5h13v2H3zm15-9 4 3-4 3z'/></svg>") center/contain no-repeat;
     filter:drop-shadow(0 1px 2px rgba(0,0,0,.55));
   }
-  /* 自动播放视觉态：底部进度条 */
-  .swipe .card.playing .play{display:none}
   .swipe .card .progress{
     position:absolute;left:0;right:0;bottom:0;height:2px;z-index:3;
     background:rgba(255,255,255,.18);overflow:hidden;opacity:0;transition:opacity .2s;
@@ -138,7 +137,6 @@
     animation:s4progress 10s linear infinite;
   }
   @keyframes s4progress{0%{width:0%}100%{width:100%}}
-  /* 喇叭静音切换按钮（仅在播放中显示）—— 纯图标，无底色 */
   .swipe .card .sound{
     position:absolute;top:10px;right:10px;z-index:4;
     width:24px;height:24px;
@@ -182,40 +180,32 @@
     margin-top:6px;font-size:11.5px;font-weight:600;color:rgba(255,255,255,.96);line-height:1.36;letter-spacing:-.005em;
     display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;text-shadow:0 1px 2px rgba(0,0,0,.5);
   }
-  /* indicator dots */
   .dots{display:flex;justify-content:center;gap:5px;padding:14px 0 6px}
   .dots .d{width:5px;height:5px;border-radius:50%;background:rgba(255,255,255,.32)}
   .dots .d.on{width:18px;border-radius:99px;background:#fff}
 
-  /* ===== POI 底部 — 供应商单条（不再重复酒店） ===== */
+  /* ===== F&B 底部产品货架（S4 左图右文精简高度版） ===== */
   .mount-wrap{padding:10px 12px 0}
-  .mount{
-    background:rgba(255,255,255,.98);backdrop-filter:blur(20px);
-    border-radius:12px;padding:10px 10px 10px 12px;
-    display:flex;align-items:center;gap:10px;
-    box-shadow:0 12px 28px rgba(0,0,0,.28),0 0 0 1px rgba(0,0,0,.04);
-  }
-  .mount .ota{
-    width:32px;height:32px;border-radius:50%;flex:0 0 auto;
-    display:flex;align-items:center;justify-content:center;color:#fff;
-    font-size:12px;font-weight:800;letter-spacing:-.01em;
-  }
-  .mount .ota.tv{background:#1f76ff}
-  .mount .info{flex:1;min-width:0;display:flex;flex-direction:column;gap:2px}
-  .mount .nm{font-size:13.5px;font-weight:800;color:var(--text);letter-spacing:-.014em;line-height:1.2;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-  .mount .benefit{
-    font-size:11px;color:var(--text-3);font-weight:500;letter-spacing:-.005em;line-height:1.3;
-    white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
-  }
-  .mount .price{display:flex;flex-direction:column;align-items:flex-end;flex:0 0 auto;line-height:1}
-  .mount .price .now{font-size:14.5px;font-weight:800;color:var(--text);letter-spacing:-.022em;line-height:1.1;white-space:nowrap}
-  .mount .price .from{font-size:9.5px;color:var(--text-4);font-weight:700;letter-spacing:.06em;text-transform:uppercase;font-family:var(--font-mono);margin-bottom:2px}
-  .mount .cta{
-    height:34px;padding:0 14px;border-radius:8px;background:var(--text);color:#fff;
-    display:inline-flex;align-items:center;justify-content:center;flex:0 0 auto;
-    font-size:12.5px;font-weight:800;letter-spacing:-.005em;cursor:pointer;
-  }
-  .mount .cta:active{opacity:.85}
+  .product-shelf{display:flex;gap:10px;overflow-x:auto;scroll-snap-type:x mandatory;padding:0 0 14px;margin:0;scrollbar-width:none}
+  .product-shelf::-webkit-scrollbar{display:none}
+  .product-card{flex:0 0 248px;scroll-snap-align:start;display:grid;grid-template-columns:72px 1fr;background:rgba(255,255,255,.96);border-radius:12px;min-height:86px;overflow:hidden;box-shadow:0 10px 24px rgba(0,0,0,.22);cursor:pointer}
+  .product-card .photo{height:100%;min-height:86px;background:center/cover no-repeat #ddd;position:relative}
+  .product-card .photo:after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,0) 45%,rgba(0,0,0,.34) 100%)}
+  .product-card .badge{position:absolute;left:6px;bottom:6px;z-index:1;height:19px;padding:0 6px;border-radius:6px;background:rgba(0,0,0,.48);backdrop-filter:blur(8px);color:#fff;font-size:9.5px;font-weight:750;letter-spacing:-.005em;display:flex;align-items:center}
+  .product-card .pcopy{padding:9px 10px;display:flex;flex-direction:column;gap:4px}
+  .product-card .pname{font-size:13.5px;font-weight:800;color:#0a0a0a;line-height:1.18;letter-spacing:-.014em;display:-webkit-box;-webkit-line-clamp:1;-webkit-box-orient:vertical;overflow:hidden;min-height:auto}
+  .product-card .pbenefit{font-size:11px;color:#737373;line-height:1.28;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:140px}
+  .product-card .prow{display:flex;align-items:flex-end;justify-content:space-between;gap:8px;margin-top:3px}
+  .product-card .pprice{font-size:15.5px;font-weight:800;letter-spacing:-.02em;color:#0a0a0a;line-height:1}
+  .product-card .pprice .cur{font-size:10.5px;margin-right:1px;color:#333}
+  .product-card .pstrike{font-size:10.5px;color:#a3a3a3;text-decoration:line-through;line-height:1;margin-top:2px}
+  .product-card .buy{height:26px;padding:0 10px;border-radius:7px;background:#0a0a0a;color:#fff;font-size:11.5px;font-weight:800;display:flex;align-items:center;justify-content:center;flex:0 0 auto}
+
+  /* F&B vertical native feed overrides */
+  .viewport[data-strategy="s4"] .native-feed .v.b1 .pic{background-image:url("../assets/images/img_1495474472287-4d71bcdd2085.jpg")}
+  .viewport[data-strategy="s4"] .native-feed .v.b2 .pic{background-image:url("../assets/images/img_1495474472287-4d71bcdd2085.jpg")}
+  .viewport[data-strategy="s4"] .native-feed .v.b3 .pic{background-image:url("../assets/images/img_1495474472287-4d71bcdd2085.jpg")}
+  .viewport[data-strategy="s4"] .native-feed .v.b4 .pic{background-image:url("../assets/images/img_1495474472287-4d71bcdd2085.jpg")}
 </style></head>
 <body>
 <div class="iphone"><div class="ios">
@@ -228,7 +218,7 @@
     <span class="back"><svg width="11" height="18" viewBox="0 0 11 18" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M9 2 2 9l7 7"/></svg></span>
     <div class="input">
       <svg class="magnify" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
-      <span class="text">Bangkok Marriott Marquis City Star</span>
+      <span class="text">Starbucks Grand Indonesia</span>
       <span class="clear">×</span>
     </div>
     <span class="more"><svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><circle cx="5" cy="12" r="2"/><circle cx="12" cy="12" r="2"/><circle cx="19" cy="12" r="2"/></svg></span>
@@ -240,15 +230,14 @@
       <div class="bg"></div>
       <div class="inner">
 
-        <!-- POI hotel-context header + view details ghost button -->
+        <!-- POI header -->
         <div class="head">
-          <div class="th cover hotel-hero"></div>
+          <div class="th fnb-logo-tile"></div>
           <div class="body">
-            <div class="nm">Bangkok Marriott Marquis</div>
+            <div class="nm">Starbucks Grand Indonesia</div>
             <div class="meta">
-              <span class="star">4.5</span><span>(1,288)</span>
-              <span class="dot"></span><span>5-star</span>
-              <span class="dot"></span><span>1.2 km</span>
+              <span class="star">4.7</span><span>(8,642)</span>
+              <span class="dot"></span><span>1.1 km</span>
             </div>
           </div>
           <span class="view-details" id="viewDetails">View details
@@ -258,75 +247,148 @@
 
         <div class="head-divider"></div>
 
-        <!-- Capsule toggle: Official | What people say (水平居中) -->
+        <!-- Capsule toggle -->
         <div class="toggle-wrap">
           <div class="toggle">
-            <span class="seg on" data-mode="ugc">What people say</span>
-            <span class="seg" data-mode="official">Official</span>
+            <span class="seg on" data-mode="ugc">Creator picks</span>
+            <span class="seg" data-mode="official">Menu official</span>
           </div>
         </div>
 
         <!-- Horizontal swipe video carousel -->
         <div class="swipe" id="swipe">
-          <div class="card c1" data-bg="assets/images/img_1578683010236-d716f9a3f461.jpg">
-            <div class="bg-img" style="background-image:url('assets/images/img_1578683010236-d716f9a3f461.jpg')"></div>
-            <span class="badge brand">Updated recently</span>
+          <div class="card c1" data-bg="../assets/images/img_1495474472287-4d71bcdd2085.jpg">
+            <div class="bg-img" style="background-image:url('../assets/images/img_1495474472287-4d71bcdd2085.jpg')"></div>
             <span class="dur">0:48</span>
+            <span class="sound" data-sound="on"></span>
             <div class="play"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></div>
+            <div class="progress"></div>
             <div class="meta">
               <div class="who">
                 <span class="av cover creator-2"></span>
-                <span class="nm">@aurelia.bkk</span>
+                <span class="nm">@nadia.jkt</span>
                 <span class="heart">12.4k</span>
               </div>
-              <div class="cap">Rooftop pool + city skyline — Marriott Marquis worth every dollar ✦</div>
+              <div class="cap">Iced latte + croissant voucher — easiest lunch break save</div>
             </div>
           </div>
-          <div class="card c2" data-bg="assets/images/img_1590490360182-c33d57733427.jpg">
-            <div class="bg-img" style="background-image:url('assets/images/img_1590490360182-c33d57733427.jpg')"></div>
+          <div class="card c2" data-bg="../assets/images/img_1495474472287-4d71bcdd2085.jpg">
+            <div class="bg-img" style="background-image:url('../assets/images/img_1495474472287-4d71bcdd2085.jpg')"></div>
             <span class="dur">1:24</span>
+            <span class="sound" data-sound="on"></span>
             <div class="play"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></div>
+            <div class="progress"></div>
             <div class="meta">
               <div class="who">
                 <span class="av cover creator-3"></span>
-                <span class="nm">@bangkok.staycation</span>
+                <span class="nm">@rio.coffee</span>
                 <span class="heart">8.2k</span>
               </div>
-              <div class="cap">3-night honest stay tour · suite + breakfast included</div>
+              <div class="cap">2 Grande drinks bundle — perfect for sharing with a friend</div>
             </div>
           </div>
-          <div class="card c3" data-bg="assets/images/img_1560448204-e02f11c3d0e2.jpg">
-            <div class="bg-img" style="background-image:url('assets/images/img_1560448204-e02f11c3d0e2.jpg')"></div>
+          <div class="card c3" data-bg="../assets/images/img_1495474472287-4d71bcdd2085.jpg">
+            <div class="bg-img" style="background-image:url('../assets/images/img_1495474472287-4d71bcdd2085.jpg')"></div>
             <span class="dur">0:52</span>
+            <span class="sound" data-sound="on"></span>
             <div class="play"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></div>
+            <div class="progress"></div>
             <div class="meta">
               <div class="who">
                 <span class="av cover creator-4"></span>
-                <span class="nm">@thaitravel.diaries</span>
+                <span class="nm">@maya.s</span>
                 <span class="heart">5.7k</span>
               </div>
-              <div class="cap">Inside the executive lounge — high tea and the skyline view</div>
+              <div class="cap">Caramel Frappuccino extra shot — my after-work ritual</div>
+            </div>
+          </div>
+          <div class="card c4 photo" data-bg="../assets/images/img_1495474472287-4d71bcdd2085.jpg">
+            <div class="bg-img" style="background-image:url('../assets/images/img_1495474472287-4d71bcdd2085.jpg')"></div>
+            <span class="dur">8 photos</span>
+            <span class="sound" data-sound="on"></span>
+            <div class="play"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></div>
+            <div class="progress"></div>
+            <div class="meta">
+              <div class="who">
+                <span class="av cover creator-5"></span>
+                <span class="nm">@dika.food</span>
+                <span class="heart">4.9k</span>
+              </div>
+              <div class="cap">Lunch set review — turkey sandwich + americano under Rp80k</div>
+            </div>
+          </div>
+          <div class="card c5" data-bg="../assets/images/img_1495474472287-4d71bcdd2085.jpg">
+            <div class="bg-img" style="background-image:url('../assets/images/img_1495474472287-4d71bcdd2085.jpg')"></div>
+            <span class="dur">2:11</span>
+            <span class="sound" data-sound="on"></span>
+            <div class="play"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></div>
+            <div class="progress"></div>
+            <div class="meta">
+              <div class="who">
+                <span class="av cover creator-6"></span>
+                <span class="nm">@lina.jkt</span>
+                <span class="heart">4.3k</span>
+              </div>
+              <div class="cap">QR redemption walkthrough — so much faster than ordering</div>
+            </div>
+          </div>
+          <div class="card c6" data-bg="../assets/images/img_1495474472287-4d71bcdd2085.jpg">
+            <div class="bg-img" style="background-image:url('../assets/images/img_1495474472287-4d71bcdd2085.jpg')"></div>
+            <span class="dur">0:36</span>
+            <span class="sound" data-sound="on"></span>
+            <div class="play"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></div>
+            <div class="progress"></div>
+            <div class="meta">
+              <div class="who">
+                <span class="av cover creator-7"></span>
+                <span class="nm">@arif.coffee</span>
+                <span class="heart">3.8k</span>
+              </div>
+              <div class="cap">Study spot vibe — quiet corner with outlets and fast Wi-Fi</div>
+            </div>
+          </div>
+          <div class="card c7" data-bg="../assets/images/img_1495474472287-4d71bcdd2085.jpg">
+            <div class="bg-img" style="background-image:url('../assets/images/img_1495474472287-4d71bcdd2085.jpg')"></div>
+            <span class="dur">1:42</span>
+            <span class="sound" data-sound="on"></span>
+            <div class="play"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></div>
+            <div class="progress"></div>
+            <div class="meta">
+              <div class="who">
+                <span class="av cover creator-8"></span>
+                <span class="nm">@sari.drinks</span>
+                <span class="heart">3.5k</span>
+              </div>
+              <div class="cap">Matcha latte vs caramel — which one is worth your voucher?</div>
+            </div>
+          </div>
+          <div class="card c8" data-bg="../assets/images/img_1495474472287-4d71bcdd2085.jpg">
+            <div class="bg-img" style="background-image:url('../assets/images/img_1495474472287-4d71bcdd2085.jpg')"></div>
+            <span class="dur">0:58</span>
+            <span class="sound" data-sound="on"></span>
+            <div class="play"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></div>
+            <div class="progress"></div>
+            <div class="meta">
+              <div class="who">
+                <span class="av cover creator-9"></span>
+                <span class="nm">@yoga.morning</span>
+                <span class="heart">3.1k</span>
+              </div>
+              <div class="cap">Morning routine — grab & go croissant + coffee before work</div>
             </div>
           </div>
         </div>
-
         <div class="dots" id="dots">
-          <span class="d on"></span><span class="d"></span><span class="d"></span>
+          <span class="d on"></span>          <span class="d"></span>          <span class="d"></span>          <span class="d"></span>          <span class="d"></span>          <span class="d"></span>          <span class="d"></span>          <span class="d"></span>
         </div>
 
-        <!-- POI mount — 单条供应商（左 OTA 头像/名 · 右 价格 · CTA） -->
+        <!-- F&B product shelf (horizontal swipe cards, same as S1/S2/S3) -->
         <div class="mount-wrap">
-          <div class="mount">
-            <div class="ota tv">tv</div>
-            <div class="info">
-              <div class="nm">Traveloka</div>
-              <div class="benefit">Free cancellation · Breakfast · Pay at hotel</div>
-            </div>
-            <div class="price">
-              <span class="from">From</span>
-              <span class="now">Rp1,299,000</span>
-            </div>
-            <div class="cta" id="bookCta">Book</div>
+          <div class="product-shelf" style="padding-top:12px">
+            <div class="product-card"><div class="photo" style="background-image:url('../assets/images/img_1495474472287-4d71bcdd2085.jpg')"><span class="badge">Combo voucher</span></div><div class="pcopy"><div class="pname">Iced Latte + Croissant</div><div class="pbenefit">Instant QR · Dine-in / takeaway</div><div class="prow"><div><div class="pprice"><span class="cur">Rp</span>59,000</div><div class="pstrike">Rp82,000</div></div><span class="buy">Buy</span></div></div></div>
+            <div class="product-card"><div class="photo" style="background-image:url('../assets/images/img_1495474472287-4d71bcdd2085.jpg')"><span class="badge">Shareable set</span></div><div class="pcopy"><div class="pname">2 Grande Drinks Bundle</div><div class="pbenefit">Instant QR · Dine-in / takeaway</div><div class="prow"><div><div class="pprice"><span class="cur">Rp</span>99,000</div><div class="pstrike">Rp138,000</div></div><span class="buy">Buy</span></div></div></div>
+            <div class="product-card"><div class="photo" style="background-image:url('../assets/images/img_1495474472287-4d71bcdd2085.jpg')"><span class="badge">Best seller</span></div><div class="pcopy"><div class="pname">Caramel Frappuccino</div><div class="pbenefit">Instant QR · Dine-in / takeaway</div><div class="prow"><div><div class="pprice"><span class="cur">Rp</span>48,000</div><div class="pstrike">Rp65,000</div></div><span class="buy">Buy</span></div></div></div>
+            <div class="product-card"><div class="photo" style="background-image:url('../assets/images/img_1495474472287-4d71bcdd2085.jpg')"><span class="badge">Lunch set</span></div><div class="pcopy"><div class="pname">Turkey Sandwich + Coffee</div><div class="pbenefit">Instant QR · Dine-in / takeaway</div><div class="prow"><div><div class="pprice"><span class="cur">Rp</span>78,000</div><div class="pstrike">Rp105,000</div></div><span class="buy">Buy</span></div></div></div>
           </div>
         </div>
       </div>
@@ -334,75 +396,75 @@
 
     <div class="native-feed">
       <div class="v b1">
-        <div class="pic">
+        <div class="pic" style="background-image:url('../assets/images/img_1495474472287-4d71bcdd2085.jpg')">
           <span class="top-liked">Top liked</span>
-          <span class="dur">3:03</span>
+          <span class="dur">2:47</span>
         </div>
         <div class="info">
-          <div class="cap">Skyline-view <b>rooftop pool</b> at Marriott Marquis — golden hour magic</div>
+          <div class="cap">Barista <b>pour-over latte</b> art beside the mall window</div>
           <div class="row">
             <div class="who">
               <span class="av cover creator-2"></span>
               <div class="col">
-                <div class="nm-row"><span class="nm">Aurelia</span><span class="vbadge"></span></div>
+                <div class="nm-row"><span class="nm">Nadia</span><span class="vbadge"></span></div>
                 <span class="date">Jul 20, 2024</span>
               </div>
             </div>
-            <span class="like">7.3K</span>
+            <span class="like">8.1K</span>
           </div>
         </div>
       </div>
       <div class="v b2">
-        <div class="pic">
-          <span class="dur">1:24</span>
+        <div class="pic" style="background-image:url('../assets/images/img_1495474472287-4d71bcdd2085.jpg')">
+          <span class="dur">1:52</span>
         </div>
         <div class="info">
-          <div class="cap">Inside the <b>executive lounge</b> — high tea with city views</div>
+          <div class="cap">Voucher <b>QR redemption</b> — 10 seconds flat at the counter</div>
           <div class="row">
             <div class="who">
               <span class="av cover creator-3"></span>
               <div class="col">
-                <div class="nm-row"><span class="nm">JesseLiu</span><span class="vbadge"></span></div>
+                <div class="nm-row"><span class="nm">Rizki</span><span class="vbadge"></span></div>
                 <span class="date">Jul 18, 2024</span>
               </div>
             </div>
-            <span class="like">5.7K</span>
+            <span class="like">6.4K</span>
           </div>
         </div>
       </div>
       <div class="v b3">
-        <div class="pic">
-          <span class="dur">0:36</span>
+        <div class="pic" style="background-image:url('../assets/images/img_1495474472287-4d71bcdd2085.jpg')">
+          <span class="dur">0:58</span>
         </div>
         <div class="info">
-          <div class="cap"><b>Lobby walkthrough</b> — marble entrance feels like a movie set</div>
+          <div class="cap"><b>Caramel Frappuccino</b> extra shot — my after-work ritual</div>
           <div class="row">
             <div class="who">
-              <span class="av cover creator-7"></span>
+              <span class="av cover creator-1"></span>
               <div class="col">
-                <div class="nm-row"><span class="nm">lobby.lover</span><span class="vbadge"></span></div>
+                <div class="nm-row"><span class="nm">Maya</span><span class="vbadge"></span></div>
                 <span class="date">Jul 16, 2024</span>
               </div>
             </div>
-            <span class="like">4.4K</span>
+            <span class="like">5.2K</span>
           </div>
         </div>
       </div>
       <div class="v b4">
-        <div class="pic">
-          <span class="dur">1:42</span>
+        <div class="pic" style="background-image:url('../assets/images/img_1495474472287-4d71bcdd2085.jpg')">
+          <span class="dur">1:24</span>
         </div>
         <div class="info">
-          <div class="cap">Pool <b>cabana stay</b> — private deck, king bed, full villa feel</div>
+          <div class="cap">Lunch <b>turkey sandwich</b> set — perfect between meetings</div>
           <div class="row">
             <div class="who">
-              <span class="av cover creator-8"></span>
+              <span class="av cover creator-4"></span>
               <div class="col">
-                <div class="nm-row"><span class="nm">suitelife</span><span class="vbadge"></span></div>
+                <div class="nm-row"><span class="nm">Dika</span><span class="vbadge"></span></div>
                 <span class="date">Jul 14, 2024</span>
               </div>
             </div>
-            <span class="like">3.6K</span>
+            <span class="like">3.8K</span>
           </div>
         </div>
       </div>
@@ -413,47 +475,54 @@
   const bg=document.querySelector('.vshow .bg');
   const swipe=document.getElementById('swipe');
   const dots=document.getElementById('dots');
-  const cards=[...document.querySelectorAll('.swipe .card')];
 
-  // 数据：UGC vs Official（切换胶囊时替换轨道内容；每个 set ≥10 条）
+  // 数据：Creator picks vs Menu official
   const sets={
     ugc:[
-      {bg:'assets/images/img_1551024709-8f23befc6f87.jpg',badge:'Updated recently',dur:'0:48',av:'creator-2',nm:'@aurelia.bkk',like:'12.4k',cap:'Rooftop pool + city skyline — Marriott Marquis worth every dollar ✦'},
-      {bg:'assets/images/img_1522798514-97ceb8c4f1c8.jpg',badge:'',dur:'1:24',av:'creator-3',nm:'@bangkok.staycation',like:'8.2k',cap:'3-night honest stay tour · suite + breakfast included'},
-      {bg:'assets/images/img_1495474472287-4d71bcdd2085.jpg',badge:'',dur:'0:52',av:'creator-4',nm:'@thaitravel.diaries',like:'5.7k',cap:'Inside the executive lounge — high tea and the skyline view'},
-      {bg:'assets/images/img_1522798514-97ceb8c4f1c8.jpg',badge:'',dur:'8 photos',av:'creator-5',nm:'@nick.travel',like:'4.9k',cap:'Late-night rooftop bar — live jazz till 1am, must visit',photo:true},
-      {bg:'assets/images/img_1596394516093-501ba68a0ba6.jpg',badge:'',dur:'2:11',av:'creator-6',nm:'@spa.diaries',like:'4.3k',cap:'Honest spa review — couples massage at the wellness floor'},
-      {bg:'assets/images/img_1582719478250-c89cae4dc85b.jpg',badge:'',dur:'0:36',av:'creator-7',nm:'@lobby.lover',like:'3.8k',cap:'Lobby vibes — the marble entrance feels like a movie set'},
-      {bg:'assets/images/img_1566665797739-1674de7a421a.jpg',badge:'',dur:'1:42',av:'creator-8',nm:'@suitelife',like:'3.5k',cap:'Corner suite tour · panoramic city view from the bathtub'},
-      {bg:'assets/images/img_1535827841776-24afc1e255ac.jpg',badge:'',dur:'0:58',av:'creator-9',nm:'@bangkok.nights',like:'3.1k',cap:'Bangkok at night from the 36th floor — golden hour to neon'},
-      {bg:'assets/images/img_1611892440504-42a792e24d32.jpg',badge:'',dur:'2:42',av:'creator-10',nm:'@foodie.bkk',like:'2.7k',cap:'Breakfast deep dive — Thai noodles, dim sum & egg station'},
-      {bg:'assets/images/img_1596436889106-be35e843f974.jpg',badge:'',dur:'12 photos',av:'creator-11',nm:'@checkin.review',like:'2.4k',cap:'Check-in to checkout · everything you need to know',photo:true},
-      {bg:'assets/images/img_1498804103079-a6351b050096.jpg',badge:'',dur:'1:18',av:'creator-12',nm:'@rooftop.guide',like:'2.1k',cap:'Best rooftop bars near Marquis — walking distance edition'}
+      {bg:'../assets/images/img_1495474472287-4d71bcdd2085.jpg',badge:'Voucher',dur:'0:48',av:'creator-2',nm:'@nadia.jkt',like:'12.4k',cap:'Iced latte + croissant voucher — easiest lunch break save at Grand Indonesia'},
+      {bg:'../assets/images/img_1495474472287-4d71bcdd2085.jpg',badge:'',dur:'1:24',av:'creator-3',nm:'@rio.coffee',like:'8.2k',cap:'2 Grande drinks bundle — perfect for sharing with a friend'},
+      {bg:'../assets/images/img_1495474472287-4d71bcdd2085.jpg',badge:'',dur:'0:52',av:'creator-4',nm:'@maya.s',like:'5.7k',cap:'Caramel Frappuccino extra shot — my after-work ritual'},
+      {bg:'../assets/images/img_1495474472287-4d71bcdd2085.jpg',badge:'',dur:'8 photos',av:'creator-5',nm:'@dika.food',like:'4.9k',cap:'Lunch set review — turkey sandwich + americano under Rp80k',photo:true},
+      {bg:'../assets/images/img_1495474472287-4d71bcdd2085.jpg',badge:'',dur:'2:11',av:'creator-6',nm:'@lina.jkt',like:'4.3k',cap:'QR redemption walkthrough — so much faster than ordering'},
+      {bg:'../assets/images/img_1495474472287-4d71bcdd2085.jpg',badge:'',dur:'0:36',av:'creator-7',nm:'@arif.coffee',like:'3.8k',cap:'Study spot vibe — quiet corner with outlets and fast Wi-Fi'},
+      {bg:'../assets/images/img_1495474472287-4d71bcdd2085.jpg',badge:'',dur:'1:42',av:'creator-8',nm:'@sari.drinks',like:'3.5k',cap:'Matcha latte vs caramel — which one is worth your voucher?'},
+      {bg:'../assets/images/img_1495474472287-4d71bcdd2085.jpg',badge:'',dur:'0:58',av:'creator-9',nm:'@yoga.morning',like:'3.1k',cap:'Morning routine — grab & go croissant + coffee before work'},
+      {bg:'../assets/images/img_1495474472287-4d71bcdd2085.jpg',badge:'',dur:'2:42',av:'creator-10',nm:'@rara.weekend',like:'2.7k',cap:'Mocha cookie crumble — the ultimate weekend indulgence'},
+      {bg:'../assets/images/img_1495474472287-4d71bcdd2085.jpg',badge:'',dur:'12 photos',av:'creator-11',nm:'@budi.hacks',like:'2.4k',cap:'Voucher hack — save 30% on every visit with these bundles',photo:true},
+      {bg:'../assets/images/img_1495474472287-4d71bcdd2085.jpg',badge:'',dur:'1:18',av:'creator-12',nm:'@wulan.date',like:'2.1k',cap:'Date night at Starbucks — cozy ambience + shared dessert'}
     ],
     official:[
-      {bg:'assets/images/img_1584132915807-fd1f5fbc078f.jpg',badge:'Official',dur:'1:12',av:'hotel-hero',nm:'Marriott Marquis',like:'',cap:'Tour the rooftop pool, suites and dining — Marriott Marquis Bangkok'},
-      {bg:'assets/images/img_1568084680786-a84f91d1153c.jpg',badge:'Official',dur:'15 photos',av:'hotel-hero',nm:'Marriott Marquis',like:'',cap:'Newly renovated executive suites with skyline view',photo:true},
-      {bg:'assets/images/img_1573047330191-fb342b1be381.jpg',badge:'Official',dur:'0:36',av:'hotel-hero',nm:'Marriott Marquis',like:'',cap:'Lobby experience — welcome to Bangkok Marriott Marquis'},
-      {bg:'assets/images/img_1572987669554-0ba2ba9aee1f.jpg',badge:'Official',dur:'0:54',av:'hotel-hero',nm:'Marriott Marquis',like:'',cap:'Rooftop pool — designed for the Bangkok skyline'},
-      {bg:'assets/images/img_1566073771259-6a8506099945.jpg',badge:'Official',dur:'1:02',av:'hotel-hero',nm:'Marriott Marquis',like:'',cap:'Sky bar & lounge — signature cocktails and small plates'},
-      {bg:'assets/images/img_1566073771259-6a8506099945.jpg',badge:'Official',dur:'0:48',av:'hotel-hero',nm:'Marriott Marquis',like:'',cap:'Quan Spa — six treatment suites for couples and singles'},
-      {bg:'assets/images/img_1566073771259-6a8506099945.jpg',badge:'Official',dur:'0:30',av:'hotel-hero',nm:'Marriott Marquis',like:'',cap:'Panoramic city view — every Tower room faces the skyline'},
-      {bg:'assets/images/img_1566073771259-6a8506099945.jpg',badge:'Official',dur:'0:46',av:'hotel-hero',nm:'Marriott Marquis',like:'',cap:'Suite walk-through — separate living, dining and bath'},
-      {bg:'assets/images/img_1566073771259-6a8506099945.jpg',badge:'Official',dur:'1:24',av:'hotel-hero',nm:'Marriott Marquis',like:'',cap:'M Club Lounge — high tea, evening canapés and open bar'},
-      {bg:'assets/images/img_1566073771259-6a8506099945.jpg',badge:'Official',dur:'0:38',av:'hotel-hero',nm:'Marriott Marquis',like:'',cap:'Fitness center — open 24/7 for in-house guests'},
-      {bg:'assets/images/img_1566073771259-6a8506099945.jpg',badge:'Official',dur:'0:52',av:'hotel-hero',nm:'Marriott Marquis',like:'',cap:'Marriott Marquis at night — your gateway to Sukhumvit'}
+      {bg:'../assets/images/img_1495474472287-4d71bcdd2085.jpg',badge:'Official',dur:'1:12',av:'creator-1',nm:'Starbucks Indonesia',like:'',cap:'Iced Latte + Croissant combo — available now via voucher'},
+      {bg:'../assets/images/img_1495474472287-4d71bcdd2085.jpg',badge:'Official',dur:'15 photos',av:'creator-1',nm:'Starbucks Indonesia',like:'',cap:'2 Grande Drinks Bundle — share the joy with a friend',photo:true},
+      {bg:'../assets/images/img_1495474472287-4d71bcdd2085.jpg',badge:'Official',dur:'0:36',av:'creator-1',nm:'Starbucks Indonesia',like:'',cap:'Caramel Frappuccino — the classic favorite, now on voucher'},
+      {bg:'../assets/images/img_1495474472287-4d71bcdd2085.jpg',badge:'Official',dur:'0:54',av:'creator-1',nm:'Starbucks Indonesia',like:'',cap:'Lunch sets — perfect for your midday break at the mall'},
+      {bg:'../assets/images/img_1495474472287-4d71bcdd2085.jpg',badge:'Official',dur:'1:02',av:'creator-1',nm:'Starbucks Indonesia',like:'',cap:'How to redeem — scan QR at counter in 10 seconds'},
+      {bg:'../assets/images/img_1495474472287-4d71bcdd2085.jpg',badge:'Official',dur:'0:48',av:'creator-1',nm:'Starbucks Indonesia',like:'',cap:'Store ambience — your third place between home and office'},
+      {bg:'../assets/images/img_1495474472287-4d71bcdd2085.jpg',badge:'Official',dur:'0:30',av:'creator-1',nm:'Starbucks Indonesia',like:'',cap:'New summer menu — try the limited-time offerings'},
+      {bg:'../assets/images/img_1495474472287-4d71bcdd2085.jpg',badge:'Official',dur:'0:46',av:'creator-1',nm:'Starbucks Indonesia',like:'',cap:'Breakfast combos — start your day right with our bundles'},
+      {bg:'../assets/images/img_1495474472287-4d71bcdd2085.jpg',badge:'Official',dur:'1:24',av:'creator-1',nm:'Starbucks Indonesia',like:'',cap:'Happy hour — special prices every weekday 3-6pm'},
+      {bg:'../assets/images/img_1495474472287-4d71bcdd2085.jpg',badge:'Official',dur:'0:38',av:'creator-1',nm:'Starbucks Indonesia',like:'',cap:'Voucher value — save up to 35% vs counter prices'},
+      {bg:'../assets/images/img_1495474472287-4d71bcdd2085.jpg',badge:'Official',dur:'0:52',av:'creator-1',nm:'Starbucks Indonesia',like:'',cap:'Grand Indonesia store — your neighborhood Starbucks'}
     ]
   };
 
   const SOUND_ON_SVG=`<svg class="ic-on" viewBox="0 0 20 20" fill="currentColor"><path d="M1.66663 7.918C1.66663 7.22765 2.22627 6.668 2.91663 6.668H4.64754C4.89 6.668 5.12045 6.5624 5.27875 6.37874L8.95208 2.1171C9.45646 1.53194 10.4166 1.88864 10.4166 2.66118V17.4727C10.4166 18.2287 9.49074 18.594 8.97448 18.0417L5.27645 14.0851C5.11887 13.9165 4.89842 13.8208 4.66764 13.8208H2.91663C2.22627 13.8208 1.66663 13.2611 1.66663 12.5708V7.918Z"/><path d="M12.9291 7.65933C12.7853 7.47966 12.7832 7.21713 12.946 7.05441L13.5352 6.46516C13.6979 6.30244 13.9631 6.30146 14.1129 6.47613C15.8299 8.47801 15.8299 11.5234 14.1129 13.5253C13.9631 13.6999 13.6979 13.6989 13.5352 13.5362L12.946 12.947C12.7832 12.7843 12.7853 12.5217 12.9291 12.3421C14.0108 10.9905 14.0108 9.01093 12.9291 7.65933Z"/><path d="M15.5976 15.5986C15.4349 15.4359 15.4358 15.1728 15.5893 15.0014C18.1047 12.1917 18.1047 7.80973 15.5893 5.00001C15.4358 4.82855 15.4349 4.56548 15.5976 4.40276L16.1869 3.81351C16.3496 3.65079 16.6142 3.65017 16.7694 3.82007C19.9249 7.27438 19.9249 12.727 16.7694 16.1813C16.6142 16.3512 16.3496 16.3506 16.1869 16.1879L15.5976 15.5986Z"/></svg>`;
   const SOUND_OFF_SVG=`<svg class="ic-off" viewBox="0 0 20 20" fill="currentColor"><path d="M1.25 7.918C1.25 7.22765 1.80964 6.668 2.5 6.668H4.23091C4.47338 6.668 4.70382 6.5624 4.86212 6.37874L8.53546 2.1171C9.03983 1.53194 10 1.88864 10 2.66118V17.4727C10 18.2287 9.07412 18.594 8.55785 18.0417L4.85983 14.0851C4.70224 13.9165 4.4818 13.8208 4.25102 13.8208H2.5C1.80964 13.8208 1.25 13.2611 1.25 12.5708V7.918Z"/><path d="M12.2054 7.55061L14.6549 10.0001L12.2054 12.4495C12.0427 12.6122 12.0427 12.876 12.2054 13.0388L12.7947 13.628C12.9574 13.7907 13.2212 13.7907 13.3839 13.628L15.8334 11.1786L18.2828 13.628C18.4456 13.7907 18.7094 13.7907 18.8721 13.628L19.4614 13.0388C19.6241 12.8761 19.6241 12.6122 19.4614 12.4495L17.0119 10.0001L19.4614 7.55061C19.6241 7.38789 19.6241 7.12408 19.4614 6.96136L18.8721 6.3721C18.7094 6.20938 18.4456 6.20938 18.2828 6.3721L15.8334 8.82155L13.3839 6.3721C13.2212 6.20938 12.9574 6.20938 12.7947 6.3721L12.2054 6.96136C12.0427 7.12408 12.0427 7.3879 12.2054 7.55061Z"/></svg>`;
 
+  // 注入 sound SVG 到所有 sound 按钮
+  document.querySelectorAll('.swipe .card .sound').forEach(btn=>{
+    btn.innerHTML=SOUND_ON_SVG+SOUND_OFF_SVG;
+  });
+
+  function updateBg(bgUrl){
+    const bg=document.querySelector('.vshow .bg');
+    if(bg && bgUrl) bg.style.backgroundImage='url('+bgUrl+')';
+  }
   function renderSwipe(mode){
     const data=sets[mode];
     swipe.innerHTML=data.map((d,i)=>`
       <div class="card c${i+1}${d.photo?' photo':''}" data-bg="${d.bg}">
-        <div class="bg-img" style="background-image: url('${d.bg}');"></div>
-        ${d.badge?`<span class="badge ${mode==='ugc'?'brand':''}">${d.badge}</span>`:''}
+        <div class="bg-img" style="background-image:url('${d.bg}')"></div>
         <span class="dur">${d.dur}</span>
         <span class="sound" data-sound="on">${SOUND_ON_SVG}${SOUND_OFF_SVG}</span>
         <div class="play"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></div>
@@ -469,7 +538,7 @@
       </div>
     `).join('');
     dots.innerHTML=data.map((_,i)=>`<span class="d ${i===0?'on':''}"></span>`).join('');
-    bg.style.backgroundImage=`url('${data[0].bg}')`;
+    if(data.length>0) updateBg(data[0].bg);
     bindCards();
     setupAutoPlay();
     swipe.scrollLeft=0;
@@ -489,7 +558,7 @@
     });
   }
 
-  // 自动播放：当卡片在 swipe 容器中 ≥95% 露出时进入 .playing；10s 循环 progress
+  // 自动播放
   let autoObserver=null;
   function setupAutoPlay(){
     if(autoObserver) autoObserver.disconnect();
@@ -504,42 +573,59 @@
     },{root:swipe,threshold:[0,.5,.95,1]});
     document.querySelectorAll('.swipe .card').forEach(c=>autoObserver.observe(c));
   }
-  // 首屏直接渲染 UGC 全量列表（≥10 条）
-  renderSwipe('ugc');
+  // 首屏直接渲染
+  setupAutoPlay();
 
-  // 横滑 → indicator 联动 + 毛玻璃底图跟随当前激活卡
+  // 横滑 → indicator 联动
+  let bgScrollTimer=null;
   swipe.addEventListener('scroll',()=>{
+    clearTimeout(bgScrollTimer);
+    bgScrollTimer=setTimeout(()=>{
+      const cs=[...swipe.querySelectorAll('.card')];
+      const cardW=cs[0]?.offsetWidth||240;
+      const idx=Math.round(swipe.scrollLeft/(cardW+10));
+      const mode=document.querySelector('.toggle .seg.on')?.dataset.mode||'ugc';
+      const data=sets[mode];
+      if(data && data[idx]) updateBg(data[idx].bg);
+    },100);
     const cs=[...swipe.querySelectorAll('.card')];
     const cardW=cs[0]?.offsetWidth||240;
     const idx=Math.round(swipe.scrollLeft/(cardW+10));
     [...dots.children].forEach((d,i)=>d.classList.toggle('on',i===idx));
-    const url=cs[idx]?.dataset.bg;
-    if(url) bg.style.backgroundImage=`url('${url}')`;
   });
 
-  // 胶囊切换（联动轨道内容 + indicator + 毛玻璃）
+  // 胶囊切换
   document.querySelectorAll('.toggle .seg').forEach(s=>{
     s.addEventListener('click',()=>{
       document.querySelectorAll('.toggle .seg').forEach(x=>x.classList.remove('on'));
       s.classList.add('on');
-      renderSwipe(s.dataset.mode);
+      const mode=s.dataset.mode;
+      renderSwipe(mode);
     });
   });
 
-  // view details 跳详情
-  document.getElementById('viewDetails').addEventListener('click',()=>alert('Open Bangkok Marriott Marquis · detail page'));
-  // book CTA
-  document.getElementById('bookCta').addEventListener('click',e=>{
-    e.stopPropagation();alert('Book on Traveloka · Rp1,299,000');
+  // product card click
+  document.querySelectorAll('.product-card').forEach((c,i)=>{
+    c.addEventListener('click',e=>{
+      if(e.target.closest('.buy')){
+        e.stopPropagation();
+        const name=c.querySelector('.pname')?.textContent||'voucher';
+        alert('Buy '+name);
+        return;
+      }
+      const name=c.querySelector('.pname')?.textContent||'voucher';
+      alert('Open '+name+' · detail');
+    });
   });
-  // mount 行（除 CTA 外）→ 价格对比
-  document.querySelector('.mount').addEventListener('click',()=>alert('Compare 5 OTAs'));
-  // 双列 native feed
+
+  // 其他点击
+  document.getElementById('viewDetails').addEventListener('click',()=>alert('View details · Starbucks Grand Indonesia'));
   document.querySelectorAll('.native-feed .v').forEach((v,i)=>v.addEventListener('click',()=>alert('Play video #'+(i+1))));
-  // tabs
-  document.querySelectorAll('.tabs .tab').forEach(t=>t.addEventListener('click',()=>{
-    document.querySelectorAll('.tabs .tab').forEach(x=>x.classList.remove('active'));
-    t.classList.add('active');
-  }));
+  document.querySelectorAll('.tabs .tab').forEach(t=>{
+    t.addEventListener('click',()=>{
+      document.querySelectorAll('.tabs .tab').forEach(x=>x.classList.remove('active'));
+      t.classList.add('active');
+    });
+  });
 </script>
 </body></html>

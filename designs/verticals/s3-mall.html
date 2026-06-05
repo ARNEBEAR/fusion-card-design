@@ -1,8 +1,8 @@
 <!doctype html>
 <html lang="en"><head>
 <meta charset="utf-8"><meta name="viewport" content="width=390,initial-scale=1">
-<title>S3·A · Hotel · Decoupled Modules (Google-style)</title>
-<link rel="stylesheet" href="_shared.css">
+<title>S3·A · Shopping Mall</title>
+<link rel="stylesheet" href="../_shared.css">
 <style>
   .viewport{background:#F5F5F5}
 
@@ -118,7 +118,7 @@
   .m1-loc .nav-btn svg{width:12px;height:12px}
   .m1-pad-bottom{height:14px}
 
-  /* ===== M2 · Deals（去掉红色价格 + Best price 标签；加 benefit） ===== */
+  /* ===== M2 · Deals（去掉红色价格 + Food price 标签；加 benefit） ===== */
   .m-deals{padding:0 14px 6px}
   .m-deals .row{
     display:flex;align-items:center;justify-content:space-between;gap:10px;
@@ -140,7 +140,7 @@
     white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
   }
   .m-deals .r{display:flex;align-items:center;gap:4px;flex:0 0 auto;padding-top:0}
-  .m-deals .r .pp{font-weight:800;font-size:14.5px;letter-spacing:-.014em;color:var(--text);line-height:1}
+  .m-deals .r .pp{font-weight:800;font-size:14.7px;letter-spacing:-.014em;color:var(--text);line-height:1}
   .m-deals .r .chev{color:var(--text-4);font-size:18px;line-height:1;margin-left:2px}
   /* 展开/收起额外 OTA 行 */
   .m-deals .row.extra{
@@ -215,8 +215,8 @@
   }
   .m-rev .clip .like::before{
     content:"";width:11px;height:11px;display:inline-block;background:currentColor;
-    -webkit-mask:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12'><path d='M6 10.5S1 7.5 1 4.5C1 3.1 2.1 2 3.5 2 4.5 2 5.4 2.7 6 3.5 6.6 2.7 7.5 2 8.5 2 9.9 2 11 3.1 11 4.5 11 7.5 6 10.5 6 10.5z'/></svg>") center/contain no-repeat;
-            mask:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12'><path d='M6 10.5S1 7.5 1 4.5C1 3.1 2.1 2 3.5 2 4.5 2 5.4 2.7 6 3.5 6.6 2.7 7.5 2 8.5 2 9.9 2 11 3.1 11 4.5 11 7.5 6 10.5 6 10.5z'/></svg>") center/contain no-repeat;
+    -webkit-mask:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12'><path d='M6 10.5S1 7.5 1 4.7C1 3.1 2.1 2 3.5 2 4.7 2 5.4 2.7 6 3.5 6.6 2.7 7.5 2 8.5 2 9.9 2 11 3.1 11 4.7 11 7.5 6 10.5 6 10.5z'/></svg>") center/contain no-repeat;
+            mask:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12'><path d='M6 10.5S1 7.5 1 4.7C1 3.1 2.1 2 3.5 2 4.7 2 5.4 2.7 6 3.5 6.6 2.7 7.5 2 8.5 2 9.9 2 11 3.1 11 4.7 11 7.5 6 10.5 6 10.5z'/></svg>") center/contain no-repeat;
   }
   .m-rev .reviews{margin-top:14px;display:flex;flex-direction:column;gap:14px}
   /* review 文本列表 —— 对齐 figma 7536:38297：身份+评分一行 + 正文 max 2 行 + 右侧可选 44 方缩略图 */
@@ -285,29 +285,56 @@
   .m-ymal .it .meta .dot{width:2px;height:2px;border-radius:50%;background:var(--text-4)}
   .m-ymal .it .pp{margin-top:3px;font-size:13px;font-weight:800;color:var(--text);letter-spacing:-.012em}
 
-  /* covers for ymal（差异化，避免与上面 swipe / clip 重复） */
-  .cv-h1{background-image:url("assets/images/img_1566073771259-6a8506099945.jpg")}
-  .cv-h2{background-image:url("assets/images/img_1582719508461-905c673771fd.jpg")}
-  .cv-h3{background-image:url("assets/images/img_1520250497591-112f2f40a3f4.jpg")}
-  .cv-h4{background-image:url("assets/images/img_1571896349842-33c89424de2d.jpg")}
-
-  /* 模块间穿插的双列 feed slice：1 行 2 张，无底部多余 padding */
+    /* 模块间穿插的双列 feed slice：1 行 2 张，无底部多余 padding */
   .viewport[data-strategy="s3"] .native-feed.weave{
     padding:6px 4px 4px;background:transparent;
   }
   .viewport[data-strategy="s3"] .native-feed.weave .v{margin-top:0}
   .viewport[data-strategy="s3"] .native-feed.tail{padding:6px 4px 16px}
+
+  /* Mall vertical native feed overrides */
+  .viewport[data-strategy="s3"] .native-feed .v.b1 .pic{background-image:url("../assets/images/img_1528825871115-3581a5387919.jpg")}
+  .viewport[data-strategy="s3"] .native-feed .v.b2 .pic{background-image:url("../assets/images/img_1555529733-0e670560f7e1.jpg")}
+  .viewport[data-strategy="s3"] .native-feed .v.b3 .pic{background-image:url("../assets/images/img_1567449303183-ae0d6ed1498e.jpg")}
+  .viewport[data-strategy="s3"] .native-feed .v.b4 .pic{background-image:url("../assets/images/img_1580913428735-bd3c269d6a82.jpg")}
+
+  /* ===== F&B 产品货架 ===== */
+  .product-shelf{display:flex;gap:10px;overflow-x:auto;scroll-snap-type:x mandatory;padding:0 14px 14px;scrollbar-width:none}
+  .product-shelf::-webkit-scrollbar{display:none}
+  .product-card{flex:0 0 156px;scroll-snap-align:start;background:#fff;border-radius:12px;overflow:hidden;border:1px solid rgba(0,0,0,.06);box-shadow:0 1px 3px rgba(0,0,0,.04);cursor:pointer}
+  .product-card .photo{height:104px;background:center/cover no-repeat #ddd;position:relative}
+  .product-card .photo:after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,0) 45%,rgba(0,0,0,.34) 100%)}
+  .product-card .badge{position:absolute;left:8px;bottom:8px;z-index:1;height:22px;padding:0 8px;border-radius:6px;background:rgba(0,0,0,.48);backdrop-filter:blur(8px);color:#fff;font-size:10.5px;font-weight:750;letter-spacing:-.005em;display:flex;align-items:center}
+  .product-card .pcopy{padding:9px 10px 10px;display:flex;flex-direction:column;gap:4px}
+  .product-card .pname{font-size:13.5px;font-weight:800;color:#0a0a0a;line-height:1.18;letter-spacing:-.014em;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;min-height:32px}
+  .product-card .pbenefit{font-size:11px;color:#737373;line-height:1.28;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .product-card .prow{display:flex;align-items:flex-end;justify-content:space-between;gap:8px;margin-top:2px}
+  .product-card .pprice{font-size:15.5px;font-weight:800;letter-spacing:-.02em;color:#0a0a0a;line-height:1}
+  .product-card .pprice .cur{font-size:10.5px;margin-right:1px;color:#333}
+  .product-card .pstrike{font-size:10.5px;color:#a3a3a3;text-decoration:line-through;line-height:1;margin-top:2px}
+  .product-card .buy{height:28px;padding:0 10px;border-radius:7px;background:#0a0a0a;color:#fff;font-size:11.5px;font-weight:800;display:flex;align-items:center;justify-content:center;flex:0 0 auto}
+
+  /* ===== 全宽 CTA ===== */
+  .cta-wrap{padding:0 12px 12px}
+  .cta-wrap .cta-full{
+    display:flex;align-items:center;justify-content:center;
+    height:44px;border-radius:8px;background:rgba(0,0,0,.05);color:#000;
+    font-size:14px;font-weight:500;letter-spacing:-.005em;cursor:pointer;
+    transition:background-color .15s,transform .1s;
+  }
+  .cta-wrap .cta-full:active{background:rgba(0,0,0,.08);transform:scale(.995)}
+  .cta-wrap .cta-full .more{margin-left:8px;color:rgba(0,0,0,.55);font-weight:500;font-size:13px}
 </style></head>
 <body>
 <div class="iphone"><div class="ios">
   <div class="statusbar"><span>9:41</span><div class="right">
     <svg width="18" height="11" viewBox="0 0 18 11" fill="currentColor"><rect x="0" y="6" width="3" height="5" rx="1"/><rect x="5" y="3.5" width="3" height="7.5" rx="1"/><rect x="10" y="1.5" width="3" height="9.5" rx="1"/><rect x="15" y="0" width="3" height="11" rx="1"/></svg>
-    <svg width="16" height="11" viewBox="0 0 16 11" fill="currentColor"><path d="M8 2.5c2.4 0 4.6.93 6.27 2.45l-1.42 1.42A6.6 6.6 0 0 0 8 4.5a6.6 6.6 0 0 0-4.85 1.87L1.73 4.95A8.6 8.6 0 0 1 8 2.5z"/></svg>
+    <svg width="16" height="11" viewBox="0 0 16 11" fill="currentColor"><path d="M8 2.5c2.4 0 4.6.93 6.27 2.45l-1.42 1.42A6.6 6.6 0 0 0 8 4.7a6.6 6.6 0 0 0-4.85 1.87L1.73 4.95A8.6 8.6 0 0 1 8 2.5z"/></svg>
     <svg width="26" height="12" viewBox="0 0 26 12" fill="none" stroke="currentColor"><rect x="1" y="1" width="22" height="10" rx="2.5"/><rect x="3" y="3" width="17" height="6" rx="1" fill="currentColor"/><rect x="24" y="4" width="1.5" height="4" rx=".75" fill="currentColor"/></svg>
   </div></div>
   <div class="searchbar">
     <span class="back"><svg width="11" height="18" viewBox="0 0 11 18" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M9 2 2 9l7 7"/></svg></span>
-    <div class="input"><svg class="magnify" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg><span class="text">Bangkok Marriott Marquis City Star</span><span class="clear">×</span></div>
+    <div class="input"><svg class="magnify" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg><span class="text">Grand Indonesia Mall</span><span class="clear">×</span></div>
     <span class="more"><svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><circle cx="5" cy="12" r="2"/><circle cx="12" cy="12" r="2"/><circle cx="19" cy="12" r="2"/></svg></span>
   </div>
   <div class="tabs"><span class="tab active">Top</span><span class="tab">Users</span><span class="tab">Videos</span><span class="tab">Sounds</span><span class="tab">Shop</span><span class="tab">LIVE</span></div>
@@ -317,25 +344,25 @@
     <!-- M1 · Identity (name + meta + swipe 4:3 + map entry) -->
     <div class="mod">
       <div class="m1-head">
-        <div class="ttl">Bangkok Marriott Marquis City Star</div>
+        <div class="ttl">Grand Indonesia Mall</div>
         <div class="meta">
-          <span class="star">4.5</span><span>(1,288)</span>
-          <span class="dot"></span><span>5-star</span>
-          <span class="dot"></span><span>1.2 km away</span>
+          <span class="star">4.7</span><span>(8,642)</span>
+          <span class="dot"></span><span>Shopping mall</span>
+          <span class="dot"></span><span>1.1 km away</span>
         </div>
       </div>
       <div class="m1-swipe" id="m1Swipe">
-        <div class="it cover hotel-hero"><span class="dur">1:12</span></div>
-        <div class="it cover hotel-pool"></div>
-        <div class="it cover hotel-room photo"><span class="dur">12 photos</span></div>
-        <div class="it cover hotel-suite"></div>
-        <div class="it cover hotel-bar"></div>
+        <div class="it" style="background-image:url('../assets/images/img_1601598851547-4302969d0614.jpg')"><span class="dur">1:12</span></div>
+        <div class="it" style="background-image:url('../assets/images/img_1581622558667-3419a8dc5f83.jpg')"></div>
+        <div class="it photo" style="background-image:url('../assets/images/img_1441986300917-64674bd600d8.jpg')"><span class="dur">12 photos</span></div>
+        <div class="it" style="background-image:url('../assets/images/img_1483985988355-763728e1935b.jpg')"></div>
+        <div class="it" style="background-image:url('../assets/images/img_1555529771-835f59fc5efe.jpg')"></div>
       </div>
       <div class="m1-loc">
         <div class="map-mini"></div>
         <div class="info">
-          <div class="addr">199 Sukhumvit Soi 22, Khlong Toei, Bangkok 10110</div>
-          <div class="sub"><b>1.2 km</b> from Bangkok city center</div>
+          <div class="addr">Grand Indonesia East Mall, Ground Floor, Central Jakarta</div>
+          <div class="sub"><b>1.1 km</b> from Jakarta city center</div>
         </div>
         <span class="nav-btn">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="m9 6 6 6-6 6"/></svg>
@@ -347,12 +374,12 @@
     <!-- weave-1 · 双列穿插 -->
     <div class="native-feed weave">
       <div class="v b1">
-        <div class="pic cover clip-pool">
+        <div class="pic" style="background-image:url('../assets/images/img_1482049016688-2d3e1b311543.jpg')">
           <span class="top-liked">Top liked</span>
           <span class="dur">3:03</span>
         </div>
         <div class="info">
-          <div class="cap">Skyline-view <b>rooftop pool</b> at Marriott Marquis — golden hour magic</div>
+          <div class="cap">Barista <b>pour-over latte</b> art beside the mall window</div>
           <div class="row">
             <div class="who">
               <span class="av cover creator-2"></span>
@@ -366,11 +393,11 @@
         </div>
       </div>
       <div class="v b2">
-        <div class="pic cover clip-bar">
+        <div class="pic" style="background-image:url('../assets/images/img_1580913428706-c311e67898b3.jpg')">
           <span class="dur">1:24</span>
         </div>
         <div class="info">
-          <div class="cap">Inside the <b>executive lounge</b> — high tea with city views</div>
+          <div class="cap">Voucher <b>QR redemption</b> — 10 seconds flat at the counter</div>
           <div class="row">
             <div class="who">
               <span class="av cover creator-3"></span>
@@ -385,37 +412,31 @@
       </div>
     </div>
 
-    <!-- M2 · Deals -->
+    <!-- M2 · Menu vouchers -->
     <div class="mod">
       <div class="ctx">
-        <div class="ttl">Prices</div>
-        <span class="ct">5 OTAs · from Rp1,299,000</span>
+        <div class="ttl">Menu vouchers</div>
+        <span class="ct">12 items · from Rp85,000</span>
         <div class="more"></div>
       </div>
-      <div class="m-deals">
-        <div class="row"><div class="l"><span class="brand-mark tv">tv</span><div class="col"><span class="nm">Traveloka</span><span class="benefit">Free cancellation · Breakfast · Pay at hotel</span></div></div><div class="r"><span class="pp">Rp1,299,000</span><span class="chev">›</span></div></div>
-        <div class="row"><div class="l"><span class="brand-mark tp">Trip</span><div class="col"><span class="nm">Trip.com</span><span class="benefit">Free cancellation · Member price</span></div></div><div class="r"><span class="pp">Rp1,345,000</span><span class="chev">›</span></div></div>
-        <div class="row"><div class="l"><span class="brand-mark ag">A</span><div class="col"><span class="nm">Agoda</span><span class="benefit">Pay later · Breakfast included</span></div></div><div class="r"><span class="pp">Rp1,405,000</span><span class="chev">›</span></div></div>
-        <div class="row extra"><div class="l"><span class="brand-mark bk">B</span><div class="col"><span class="nm">Booking.com</span><span class="benefit">No prepayment · Free cancellation</span></div></div><div class="r"><span class="pp">Rp1,422,000</span><span class="chev">›</span></div></div>
-        <div class="row extra"><div class="l"><span class="brand-mark kk">K</span><div class="col"><span class="nm">Klook</span><span class="benefit">App-only · Breakfast · Late checkout</span></div></div><div class="r"><span class="pp">Rp1,488,000</span><span class="chev">›</span></div></div>
-        <div class="foot see-more-row" id="m3SeeMore">
-          <span class="av-stack" aria-hidden="true">
-            <span class="av bk">B</span><span class="av kk">K</span>
-          </span>
-          <span class="lbl">See more (2)</span>
-          <span class="ch"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg></span>
-        </div>
+      <div class="product-shelf">
+        <div class="product-card"><div class="photo" style="background-image:url('../assets/images/img_1556909114-f6e7ad7d3136.jpg')"><span class="badge">Parking</span></div><div class="pcopy"><div class="pname">VIP Parking Voucher</div><div class="pbenefit">Instant QR · Valet service · 12hr validity</div><div class="prow"><div><div class="pprice"><span class="cur">Rp</span>59,000</div><div class="pstrike">Rp100,000</div></div><span class="buy">Buy</span></div></div></div>
+        <div class="product-card"><div class="photo" style="background-image:url('../assets/images/img_1581622558663-b2e33377dfb2.jpg')"><span class="badge">Fashion</span></div><div class="pcopy"><div class="pname">Fashion Voucher Rp500k</div><div class="pbenefit">Instant QR · Valet service · 12hr validity</div><div class="prow"><div><div class="pprice"><span class="cur">Rp</span>99,000</div><div class="pstrike">Rp500,000</div></div><span class="buy">Buy</span></div></div></div>
+        <div class="product-card"><div class="photo" style="background-image:url('../assets/images/img_1505693416388-ac5ce068fe85.jpg')"><span class="badge">Food</span></div><div class="pcopy"><div class="pname">Food Court Voucher</div><div class="pbenefit">Instant QR · Valet service · 12hr validity</div><div class="prow"><div><div class="pprice"><span class="cur">Rp</span>48,000</div><div class="pstrike">Rp100,000</div></div><span class="buy">Buy</span></div></div></div>
+      </div>
+      <div class="cta-wrap">
+        <a class="cta-full">View all</a>
       </div>
     </div>
 
     <!-- weave-2 · 双列穿插 -->
     <div class="native-feed weave">
       <div class="v b3">
-        <div class="pic cover clip-rooftop">
+        <div class="pic" style="background-image:url('../assets/images/img_1480455624313-e29b44bbfde1.jpg')">
           <span class="dur">0:48</span>
         </div>
         <div class="info">
-          <div class="cap">Sunset cocktails at the <b>rooftop bar</b> — best skyline seat</div>
+          <div class="cap">Hidden <b>VIP lounge</b> — free coffee and charging stations</div>
           <div class="row">
             <div class="who">
               <span class="av cover creator-5"></span>
@@ -429,11 +450,11 @@
         </div>
       </div>
       <div class="v b4">
-        <div class="pic cover clip-bf">
+        <div class="pic" style="background-image:url('../assets/images/img_1504280390367-361c6d9f38f4.jpg')">
           <span class="dur">2:42</span>
         </div>
         <div class="info">
-          <div class="cap">Reviewing the <b>breakfast spread</b> — fresh pho, eggs Benedict & dim sum</div>
+          <div class="cap">Luxury <b>brand tour</b> — all 12 flagship stores in 5 minutes</div>
           <div class="row">
             <div class="who">
               <span class="av cover creator-1"></span>
@@ -456,14 +477,14 @@
         <div class="more"></div>
       </div>
       <div class="m-rev">
-        <div class="top"><span class="big">4.5</span><span class="ct">/ 5 · <b>1,288</b> reviews · 142 with video</span></div>
+        <div class="top"><span class="big">4.7</span><span class="ct">/ 5 · <b>1,288</b> reviews · 142 with video</span></div>
         <div class="clip-rail" id="clipRail">
-          <div class="clip cover clip-pool"><span class="who"><span class="av cover creator-2"></span><span class="nm">Aurelia</span></span><span class="like">12.4k</span></div>
-          <div class="clip cover clip-suite"><span class="who"><span class="av cover creator-1"></span><span class="nm">Sasi</span></span><span class="like">9.8k</span></div>
-          <div class="clip cover clip-bar photo"><span class="who"><span class="av cover creator-3"></span><span class="nm">JesseL</span></span><span class="like">7.2k</span></div>
-          <div class="clip cover clip-view"><span class="who"><span class="av cover creator-4"></span><span class="nm">Mira</span></span><span class="like">5.6k</span></div>
-          <div class="clip cover clip-spa"><span class="who"><span class="av cover creator-5"></span><span class="nm">Nick</span></span><span class="like">4.3k</span></div>
-          <div class="clip cover clip-night"><span class="who"><span class="av cover creator-6"></span><span class="nm">Lila</span></span><span class="like">3.1k</span></div>
+          <div class="clip" style="background-image:url('../assets/images/img_1504280390367-361c6d9f38f4.jpg')"><span class="who"><span class="av cover creator-2"></span><span class="nm">Aurelia</span></span><span class="like">12.4k</span></div>
+          <div class="clip" style="background-image:url('../assets/images/img_1566665797739-1674de7a421a.jpg')"><span class="who"><span class="av cover creator-1"></span><span class="nm">Sasi</span></span><span class="like">9.8k</span></div>
+          <div class="clip photo" style="background-image:url('../assets/images/img_1551024709-8f23befc6f87.jpg')"><span class="who"><span class="av cover creator-3"></span><span class="nm">JesseL</span></span><span class="like">7.2k</span></div>
+          <div class="clip" style="background-image:url('../assets/images/img_1511920170033-f8396924c348.jpg')"><span class="who"><span class="av cover creator-4"></span><span class="nm">Mira</span></span><span class="like">5.6k</span></div>
+          <div class="clip" style="background-image:url('../assets/images/img_1514432324607-a09d9b4aefdd.jpg')"><span class="who"><span class="av cover creator-5"></span><span class="nm">Nick</span></span><span class="like">4.3k</span></div>
+          <div class="clip" style="background-image:url('../assets/images/img_1512568400610-62da28bc8a13.jpg')"><span class="who"><span class="av cover creator-6"></span><span class="nm">Lila</span></span><span class="like">3.1k</span></div>
         </div>
         <div class="reviews">
           <div class="rv">
@@ -475,8 +496,8 @@
               <span class="stars"><span class="s"></span><span class="s"></span><span class="s"></span><span class="s"></span><span class="s"></span></span>
             </div>
             <div class="row">
-              <div class="body">"Quiet, spacious rooms — the rooftop pool with skyline view at sunset is unreal. Staff at the executive lounge upgraded us to a corner suite."</div>
-              <div class="thumb cover hotel-pool"></div>
+              <div class="body">"VIP parking voucher is a game changer — skipped 30min queue on Saturday. Valet service was fast and professional."</div>
+              <div class="thumb" style="background-image:url('../assets/images/img_1504674900247-0877df9cc836.jpg')"></div>
             </div>
           </div>
           <div class="rv">
@@ -487,7 +508,7 @@
               <span class="stars"><span class="s"></span><span class="s"></span><span class="s"></span><span class="s"></span><span class="s off"></span></span>
             </div>
             <div class="row">
-              <div class="body">"Location is unbeatable — 5 min walk to BTS Asok. Breakfast spread is huge. Only nitpick: pool can get crowded on weekends."</div>
+              <div class="body">"Fashion voucher saved me Rp75k at LV store. The QR redemption took 10 seconds at the information desk."</div>
             </div>
           </div>
           <div class="rv">
@@ -499,8 +520,8 @@
               <span class="stars"><span class="s"></span><span class="s"></span><span class="s"></span><span class="s"></span><span class="s off"></span></span>
             </div>
             <div class="row">
-              <div class="body">"Newly renovated tower rooms feel modern and clean. The high tea at executive lounge is the highlight of our stay."</div>
-              <div class="thumb cover hotel-room"></div>
+              <div class="body">"Food Court Voucher is always consistent here. Voucher QR redemption takes 10 seconds flat. Highly recommend!"</div>
+              <div class="thumb" style="background-image:url('../assets/images/img_1482049016688-2d3e1b311543.jpg')"></div>
             </div>
           </div>
         </div>
@@ -511,11 +532,11 @@
     <!-- weave-3 · 双列穿插 -->
     <div class="native-feed weave">
       <div class="v b1">
-        <div class="pic cover hotel-spa">
+        <div class="pic" style="background-image:url('../assets/images/img_1520250497591-112f2f40a3f4.jpg')">
           <span class="dur">1:38</span>
         </div>
         <div class="info">
-          <div class="cap">Spa day at the <b>Quan spa</b> — Thai massage walkthrough</div>
+          <div class="cap">Hidden <b>study corner</b> — best spot with outlets and fast Wi-Fi</div>
           <div class="row">
             <div class="who">
               <span class="av cover creator-4"></span>
@@ -529,11 +550,11 @@
         </div>
       </div>
       <div class="v b2">
-        <div class="pic cover hotel-suite">
+        <div class="pic" style="background-image:url('../assets/images/img_1520250497591-112f2f40a3f4.jpg')">
           <span class="dur">2:11</span>
         </div>
         <div class="info">
-          <div class="cap">Corner suite tour — <b>floor-to-ceiling</b> Bangkok skyline</div>
+          <div class="cap">Coffee <b>tasting flight</b> — single origin vs house blend</div>
           <div class="row">
             <div class="who">
               <span class="av cover creator-6"></span>
@@ -548,38 +569,38 @@
       </div>
     </div>
 
-    <!-- M4 · You may like (similar hotels horizontal swipe) -->
+    <!-- M4 · You may also like (similar coffee shops) -->
     <div class="mod">
       <div class="ctx">
         <div class="ttl">You may also like</div>
-        <span class="ct">Sukhumvit · 4 hotels</span>
+        <span class="ct">Central Jakarta · 4 malls</span>
         <div class="more"></div>
       </div>
       <div class="m-ymal">
         <div class="rail" id="ymalRail">
           <div class="it">
-            <div class="pic cv-h1"><span class="fav"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s-7-4.5-7-10a4.5 4.5 0 0 1 7-3.7A4.5 4.5 0 0 1 19 11c0 5.5-7 10-7 10z"/></svg></span></div>
-            <div class="nm">Park Hyatt Bangkok</div>
-            <div class="meta"><span class="star">4.7</span><span class="dot"></span><span>0.8 km</span></div>
-            <div class="pp">Rp2,150,000</div>
+            <div class="pic" style="background-image:url('../assets/images/img_1572987669554-0ba2ba9aee1f.jpg')"></div>
+            <div class="nm">Plaza Indonesia</div>
+            <div class="meta"><span class="star">4.6</span><span class="dot"></span><span>0.6 km</span></div>
+            <div class="pp">Rp250,000</div>
           </div>
           <div class="it">
-            <div class="pic cv-h2"><span class="fav"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s-7-4.5-7-10a4.5 4.5 0 0 1 7-3.7A4.5 4.5 0 0 1 19 11c0 5.5-7 10-7 10z"/></svg></span></div>
-            <div class="nm">The Okura Prestige</div>
-            <div class="meta"><span class="star">4.6</span><span class="dot"></span><span>1.0 km</span></div>
-            <div class="pp">Rp1,890,000</div>
+            <div class="pic" style="background-image:url('../assets/images/img_1572987669554-0ba2ba9aee1f.jpg')"></div>
+            <div class="nm">Pacific Place</div>
+            <div class="meta"><span class="star">4.7</span><span class="dot"></span><span>0.9 km</span></div>
+            <div class="pp">Rp300,000</div>
           </div>
           <div class="it">
-            <div class="pic cv-h3"><span class="fav"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s-7-4.5-7-10a4.5 4.5 0 0 1 7-3.7A4.5 4.5 0 0 1 19 11c0 5.5-7 10-7 10z"/></svg></span></div>
-            <div class="nm">Sindhorn Midtown</div>
-            <div class="meta"><span class="star">4.4</span><span class="dot"></span><span>1.5 km</span></div>
-            <div class="pp">Rp1,120,000</div>
+            <div class="pic" style="background-image:url('../assets/images/img_1572987669554-0ba2ba9aee1f.jpg')"></div>
+            <div class="nm">Pondok Indah Mall</div>
+            <div class="meta"><span class="star">4.4</span><span class="dot"></span><span>1.2 km</span></div>
+            <div class="pp">Rp180,000</div>
           </div>
           <div class="it">
-            <div class="pic cv-h4"><span class="fav"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s-7-4.5-7-10a4.5 4.5 0 0 1 7-3.7A4.5 4.5 0 0 1 19 11c0 5.5-7 10-7 10z"/></svg></span></div>
-            <div class="nm">Carlton Bangkok Sukhumvit</div>
-            <div class="meta"><span class="star">4.3</span><span class="dot"></span><span>1.8 km</span></div>
-            <div class="pp">Rp980,000</div>
+            <div class="pic" style="background-image:url('../assets/images/img_1572987669554-0ba2ba9aee1f.jpg')"></div>
+            <div class="nm">Kota Kasablanka</div>
+            <div class="meta"><span class="star">4.3</span><span class="dot"></span><span>1.5 km</span></div>
+            <div class="pp">Rp220,000</div>
           </div>
         </div>
       </div>
@@ -588,12 +609,12 @@
     <!-- Bottom 2-up native feed · 4 张（页面底部 +1 行） -->
     <div class="native-feed tail">
       <div class="v b1">
-        <div class="pic cover hotel-lobby">
+        <div class="pic" style="background-image:url('../assets/images/img_1520250497591-112f2f40a3f4.jpg')">
           <span class="top-liked">Top liked</span>
           <span class="dur">3:03</span>
         </div>
         <div class="info">
-          <div class="cap">Skyline-view <b>rooftop pool</b> at Marriott Marquis — golden hour magic</div>
+          <div class="cap">Barista <b>pour-over latte</b> art beside the mall window</div>
           <div class="row">
             <div class="who">
               <span class="av cover creator-7"></span>
@@ -607,11 +628,11 @@
         </div>
       </div>
       <div class="v b2">
-        <div class="pic cover hotel-hero">
+        <div class="pic" style="background-image:url('../assets/images/img_1520250497591-112f2f40a3f4.jpg')">
           <span class="dur">1:24</span>
         </div>
         <div class="info">
-          <div class="cap">Inside the <b>executive lounge</b> — high tea with city views</div>
+          <div class="cap">Voucher <b>QR redemption</b> — 10 seconds flat at the counter</div>
           <div class="row">
             <div class="who">
               <span class="av cover creator-8"></span>
@@ -625,11 +646,11 @@
         </div>
       </div>
       <div class="v b3">
-        <div class="pic cover hotel-pool">
+        <div class="pic" style="background-image:url('../assets/images/img_1520250497591-112f2f40a3f4.jpg')">
           <span class="dur">0:54</span>
         </div>
         <div class="info">
-          <div class="cap">Behind the scenes at the <b>Marquis Lobby</b> — orchid arrangements daily</div>
+          <div class="cap">Behind the scenes — <b>mall operations</b> tour with the center manager</div>
           <div class="row">
             <div class="who">
               <span class="av cover creator-9"></span>
@@ -643,11 +664,11 @@
         </div>
       </div>
       <div class="v b4">
-        <div class="pic cover hotel-bar">
+        <div class="pic" style="background-image:url('../assets/images/img_1520250497591-112f2f40a3f4.jpg')">
           <span class="dur">1:56</span>
         </div>
         <div class="info">
-          <div class="cap">Late-night <b>room service</b> — pad thai & mango sticky rice review</div>
+          <div class="cap">Late-night <b>shopping spree</b> — midnight sale best deals</div>
           <div class="row">
             <div class="who">
               <span class="av cover creator-10"></span>
@@ -677,13 +698,6 @@
       alert('Open '+nm+' offer');
     });
   });
-  document.querySelector('.m-deals .foot')?.addEventListener('click',e=>{
-    const foot=e.currentTarget;
-    const open=foot.classList.toggle('open');
-    document.querySelectorAll('.m-deals .row.extra').forEach(r=>r.classList.toggle('shown',open));
-    const lbl=foot.querySelector('.lbl');
-    if(lbl) lbl.textContent=open?'Show less':'See more (2)';
-  });
   // M3 clip rail
   document.querySelectorAll('#clipRail .clip').forEach((c,i)=>{
     c.addEventListener('click',e=>{
@@ -711,6 +725,17 @@
   }));
   // 双列 native feed
   document.querySelectorAll('.native-feed .v').forEach((v,i)=>v.addEventListener('click',()=>alert('Play video #'+(i+1))));
+  // product cards
+  document.querySelectorAll('.product-card').forEach((c,i)=>{
+    c.addEventListener('click',()=>{
+      const name=c.querySelector('.pname')?.textContent||'Product';
+      alert('Open '+name+' booking');
+    });
+  });
+  // cta
+  document.querySelector('.cta-full')?.addEventListener('click',()=>{
+    alert('View all vouchers');
+  });
   // tabs
   document.querySelectorAll('.tabs .tab').forEach(t=>t.addEventListener('click',()=>{
     document.querySelectorAll('.tabs .tab').forEach(x=>x.classList.remove('active'));
